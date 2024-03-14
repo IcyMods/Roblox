@@ -2,4 +2,4 @@ local key=[[1]];mZJrRIEDZYWJUVIZggkJKtDeESGqvXZvEGXJEzXTgDeaMBEQaQbMxsqAvslLHrzh
 
 -- Obsucated By Yasu
 
-Hide and Seek script is here!
+--Hide and Seek script is here!
