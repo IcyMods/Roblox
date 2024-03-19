@@ -8,3 +8,6 @@ Hide And Seek - Collect all Coins, Find All Players (Requires IT), Teleport to S
 Legends Of Speed - Teleport all orbs to you, Teleport all Hoops to you.
 
 Impossible Squid game Obby - Green and Red colored (glass) indicator that allows to see if its safe or danger
+
+
+The Legend of The Bone Sword RPG - Get Coins, Teleport Enemies to you (May take damage) + more coming soon
