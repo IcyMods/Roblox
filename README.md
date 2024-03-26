@@ -5,4 +5,4 @@
 
 ` These are the current games that im working on + more coming soon `
 
-ill be adding scripts soon since my computer is dead rn
+ill be adding scripts soon since my computer is broken rn
