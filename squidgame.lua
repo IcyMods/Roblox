@@ -11,7 +11,7 @@ local category = gui:CreateCategory("Impossible Squid Game! Glass Bridge 2", POS
 
 local section = category:CreateSection("Game")
 
-local label = section:CreateTextLabel("v1.0.6")
+local label = section:CreateTextLabel("v1.0.8")
 
 local function showPath()
         print("showing path")
@@ -141,21 +141,36 @@ local function autoFarmV2()
         print("Humanoid not found")
         return
     end
+
+    -- Ensure the character is floating
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(400000, 400000, 400000)  -- High force to override gravity
+    bodyVelocity.Velocity = Vector3.new(0, 0, 0)  -- Start with no initial movement
+    bodyVelocity.Parent = character.HumanoidRootPart  -- Attach the velocity to the HumanoidRootPart
     
-    local glideSpeed = 50  -- You can adjust this speed to control how fast the glide happens
+    local glideSpeed = 50  -- Speed at which the player glides (can be adjusted)
 
     -- Auto-farm loop: Will run as long as switchActive is true
     while switchActive do
         if currentState == false then
-            print("Moving to finish position...")
+            print("Gliding to finish position...")
 
-            -- Move the character smoothly towards the finish position using MoveTo
-            humanoid:MoveTo(finish.Position)
+            -- Calculate the direction towards the finish position
+            local direction = (finish.Position - character.HumanoidRootPart.Position).unit
 
-            -- Wait for the move to complete (this might need adjustment depending on MoveTo)
-            humanoid.MoveToFinished:Wait()
+            -- Apply velocity towards the finish position
+            bodyVelocity.Velocity = direction * glideSpeed  -- Move towards the chest
 
-            task.wait(1)  -- Wait for 1 second after the move completes
+            -- Wait until the character reaches the chest
+            local distance = (finish.Position - character.HumanoidRootPart.Position).Magnitude
+            while distance > 2 do  -- Adjust threshold as needed for when to stop
+                distance = (finish.Position - character.HumanoidRootPart.Position).Magnitude
+                task.wait(0.1)
+            end
+
+            -- Stop the glide once the target is reached
+            bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+            task.wait(1)  -- Wait after reaching the chest
             currentState = true
         elseif currentState == true then
             print("Waiting before switching state back to false.")
@@ -166,8 +181,12 @@ local function autoFarmV2()
         task.wait(2)  -- Small wait to prevent the loop from being too resource-intensive
     end
 
+    -- Remove the body velocity when the process is finished
+    bodyVelocity:Destroy()
+
     print("Auto-farm stopped.")
 end
+
 
 
 local function onSliderChange(newValue)
