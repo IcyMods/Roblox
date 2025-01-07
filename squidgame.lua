@@ -124,8 +124,9 @@ local function autoFarm()
 end
 
 local currentState = false  -- Make currentState global
-local switchActive = false  -- Control flag to determine if auto-farming should continue
+local switchActive = false  -- Flag to control the state of the switch
 
+-- Function that controls the auto-farm process
 local function autoFarmV2()
     local finish = game.Workspace.Finish.Chest
     local character = game.Players.LocalPlayer.Character
@@ -137,8 +138,8 @@ local function autoFarmV2()
 
     local currentState = false
 
-    -- Auto-farm loop
-    while switchActive do  -- Loop will run as long as switch is active
+    -- Auto-farm loop: Will run as long as switchActive is true
+    while switchActive do
         if currentState == false then
             print("Moving to finish position...")
             -- Move the character to the finish position (Position, not CFrame)
@@ -157,6 +158,7 @@ local function autoFarmV2()
 
     print("Auto-farm stopped.")
 end
+
 
 local function onSliderChange(newValue)
     print("Slider value changed to: " .. newValue)
@@ -184,9 +186,10 @@ section:CreateSwitch('Auto Farm V2', function(value)
     if switchActive then
         -- Start the auto-farm when the switch is turned on
         print("Starting auto-farm...")
-        autoFarmV2()  -- Call the autoFarmV2 function
+        -- Start auto-farm in a new thread to avoid blocking the switch's OnChanged callback
+        spawn(autoFarmV2)  
     else
-        -- If the switch is turned off, stop auto-farming
+        -- If the switch is turned off, auto-farm will stop
         print("Auto-farm turned off.")
     end
 end, false)
