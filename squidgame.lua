@@ -136,22 +136,39 @@ local function autoFarmV2()
     end
 
     local currentState = false
+    local switchActive = false  -- Used to control whether the auto-farm loop should continue
 
-    while true do
-        if currentState == false then
-            print("Moving to finish position...")
-            -- Move the character to the finish position (Position, not CFrame)
-            character.HumanoidRootPart.Position = finish.Position
-            task.wait(1)  -- Wait for the character to reach the chest
-
-            -- After reaching the chest, switch state
-            print("Arrived at finish. Switching state to true.")
-            currentState = true
-        elseif currentState == true then
-            print("Waiting before switching state back to false.")
-            task.wait(0.55)  -- Wait before switching back to false
-            currentState = false
+    -- Listen for the switch toggle state
+    switch.OnChanged:Connect(function(value)
+        switchActive = value
+        if not switchActive then
+            print("Auto-farm turned off.")
         end
+    end)
+
+    -- Auto-farm loop
+    while true do
+        -- If switch is active, execute the auto-farm logic
+        if switchActive then
+            if currentState == false then
+                print("Moving to finish position...")
+                -- Move the character to the finish position (Position, not CFrame)
+                character.HumanoidRootPart.Position = finish.Position
+                task.wait(1)  -- Wait for the character to reach the chest
+
+                currentState = true
+            elseif currentState == true then
+                print("Waiting before switching state back to false.")
+                task.wait(0.55)  -- Wait before switching back to false
+                currentState = false
+            end
+        else
+            -- If switch is turned off, break the loop
+            print("Auto-farm stopped.")
+            break
+        end
+
+        task.wait(0.1)  -- Small wait to prevent the loop from being too resource-intensive
     end
 end
 
