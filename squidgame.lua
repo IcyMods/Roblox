@@ -136,17 +136,26 @@ local function autoFarmV2()
         return
     end
 
-    local currentState = false
+    local humanoid = character:FindFirstChild("Humanoid")
+    if not humanoid then
+        print("Humanoid not found")
+        return
+    end
+    
+    local glideSpeed = 50  -- You can adjust this speed to control how fast the glide happens
 
     -- Auto-farm loop: Will run as long as switchActive is true
     while switchActive do
         if currentState == false then
             print("Moving to finish position...")
-            -- Move the character to the finish position (Position, not CFrame)
-            character.HumanoidRootPart.Position = finish.Position
 
-            task.wait(3)  -- Wait for the character to reach the chest
+            -- Move the character smoothly towards the finish position using MoveTo
+            humanoid:MoveTo(finish.Position)
 
+            -- Wait for the move to complete (this might need adjustment depending on MoveTo)
+            humanoid.MoveToFinished:Wait()
+
+            task.wait(1)  -- Wait for 1 second after the move completes
             currentState = true
         elseif currentState == true then
             print("Waiting before switching state back to false.")
@@ -159,6 +168,7 @@ local function autoFarmV2()
 
     print("Auto-farm stopped.")
 end
+
 
 local function onSliderChange(newValue)
     print("Slider value changed to: " .. newValue)
