@@ -113,7 +113,7 @@ local function autoFarm()
         end
 
         -- Short wait before moving to the next segment
-        task.wait(0.05)
+        task.wait(0.15)
 
         -- Stop after a certain number of iterations to avoid infinite loops
         iterationCount = iterationCount + 1
