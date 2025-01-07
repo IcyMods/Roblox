@@ -253,8 +253,8 @@ local slider = section:CreateSlider(
 )
 
 end
-  print("Hello World!")
  ]===],
+ print(obfuscator),
  "Taurus_", --// Custom Variable
  "Protected" --// WaterMark
 )
