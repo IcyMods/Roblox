@@ -153,7 +153,7 @@ local function autoFarmV2()
         bodyVelocity.Parent = character.HumanoidRootPart  -- Attach the velocity to the HumanoidRootPart
     end
 
-    local glideSpeed = 225  -- Speed at which the player glides (can be adjusted)
+    local glideSpeed = 325  -- Speed at which the player glides (can be adjusted)
 
     -- Auto-farm loop: Will run as long as switchActive is true
     while switchActive do
