@@ -11,7 +11,7 @@ local category = gui:CreateCategory("Impossible Squid Game! Glass Bridge 2", POS
 
 local section = category:CreateSection("Main")
 
-local label = section:CreateTextLabel("v1.0.6")
+local label = section:CreateTextLabel("v1.0.8")
 local label = section:CreateTextLabel("Made by Vortex Services - avvexyy")
 
 local function showPath()
