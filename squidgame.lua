@@ -123,6 +123,28 @@ local function autoFarm()
     end
 end
 
+local function autoFarmV2()
+
+    local finish = game.Workspace.Finish.Chest
+
+    local character = game.Players.LocalPlayer.Character
+    local tp = character.HumanoidRootPart
+
+    local currentState = false
+
+    if currentState == false then
+            tp.CFrame = CFrame.new(finish.CFrame)
+            task.wait(1)
+
+            task.wait(0.55)
+            currentState = true
+        elseif currentState == true then
+            
+            task.wait(0.55)
+            currentState = false
+    end
+end
+
 local function onSliderChange(newValue)
     print("Slider value changed to: " .. newValue)
     
@@ -136,11 +158,14 @@ local function onSliderChange(newValue)
     end
 end
 
-local label = section:CreateTextLabel("enable show path to auto farm")
+local label = section:CreateTextLabel("enable Show Path to Auto Farm")
 
 local button = section:CreateButton("Show Path", showPath)
 
 local button = section:CreateButton("Auto Farm", autoFarm)
+
+local switch = section:CreateSwitch('Auto Farm V2', autoFarmV2, false)
+
 
 -- Create the slider
 local slider = section:CreateSlider(
