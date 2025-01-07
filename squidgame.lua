@@ -123,25 +123,27 @@ local function autoFarm()
     end
 end
 
+local currentState = false  -- Make currentState global
+
 local function autoFarmV2()
-
     local finish = game.Workspace.Finish.Chest
-
     local character = game.Players.LocalPlayer.Character
     local HumanoidRootPart = character.HumanoidRootPart
 
-    local currentState = false
-
-    if currentState == false then
+    -- Run continuously in the background
+    while true do
+        if currentState == false then
+            -- Move the character to the finish chest
             HumanoidRootPart.CFrame = CFrame.new(finish.CFrame)
-            task.wait(1)
+            task.wait(1)  -- Wait for the character to reach the chest
 
-            task.wait(0.55)
+            -- Toggle state after waiting
             currentState = true
         elseif currentState == true then
-
+            -- Wait before toggling again
             task.wait(0.55)
             currentState = false
+        end
     end
 end
 
