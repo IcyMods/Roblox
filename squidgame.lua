@@ -153,7 +153,7 @@ local function autoFarmV2()
             currentState = false
         end
 
-        task.wait(0.1)  -- Small wait to prevent the loop from being too resource-intensive
+        task.wait(2.5)  -- Small wait to prevent the loop from being too resource-intensive
     end
 
     print("Auto-farm stopped.")
