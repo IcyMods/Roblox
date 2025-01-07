@@ -125,6 +125,7 @@ end
 
 local currentState = false  -- Make currentState global
 
+
 local function autoFarmV2()
     local finish = game.Workspace.Finish.Chest
     local character = game.Players.LocalPlayer.Character
@@ -140,7 +141,7 @@ local function autoFarmV2()
         if currentState == false then
             print("Moving to finish position...")
             -- Move the character to the finish position (Position, not CFrame)
-            character.HumanoidRootPart.Position = CFrame.new(finish.Position)
+            character.HumanoidRootPart.Position = finish.Position
             task.wait(1)  -- Wait for the character to reach the chest
 
             -- After reaching the chest, switch state
