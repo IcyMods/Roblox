@@ -144,6 +144,8 @@ local function autoFarmV2()
             print("Moving to finish position...")
             -- Move the character to the finish position (Position, not CFrame)
             character.HumanoidRootPart.CFrame = CFrame.new(finish.CFrame)
+            
+            print(character.HumanoidRootPart.CFrame)
             task.wait(3)  -- Wait for the character to reach the chest
 
             currentState = true
