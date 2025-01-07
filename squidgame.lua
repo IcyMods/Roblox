@@ -125,7 +125,6 @@ end
 
 local currentState = false  -- Make currentState global
 
-
 local function autoFarmV2()
     local finish = game.Workspace.Finish.Chest
     local character = game.Players.LocalPlayer.Character
@@ -136,19 +135,15 @@ local function autoFarmV2()
     end
 
     local currentState = false
-    local switchActive = false  -- Used to control whether the auto-farm loop should continue
+    local switchActive = false  -- Control flag to determine if auto-farming should continue
 
-    -- Listen for the switch toggle state
-    switch.OnChanged:Connect(function(value)
-        switchActive = value
-        if not switchActive then
-            print("Auto-farm turned off.")
-        end
-    end)
+    -- Create a switch for enabling/disabling auto-farming
+    local switch = section:CreateSwitch('Auto Farm V2', function(value)
+        switchActive = value  -- Update the switch state when toggled
+    end, false)
 
     -- Auto-farm loop
     while true do
-        -- If switch is active, execute the auto-farm logic
         if switchActive then
             if currentState == false then
                 print("Moving to finish position...")
@@ -163,14 +158,21 @@ local function autoFarmV2()
                 currentState = false
             end
         else
-            -- If switch is turned off, break the loop
-            print("Auto-farm stopped.")
+            -- If switch is turned off, exit the loop
+            print("Auto-farm turned off.")
             break
         end
 
         task.wait(0.1)  -- Small wait to prevent the loop from being too resource-intensive
     end
 end
+
+-- This should be the single toggle:
+section:CreateSwitch('Auto Farm V2', function(value)
+    -- Only this switch controls the state of auto-farming
+    switchActive = value
+end, false)
+
 
 local function onSliderChange(newValue)
     print("Slider value changed to: " .. newValue)
@@ -190,8 +192,6 @@ local label = section:CreateTextLabel("enable Show Path to Auto Farm")
 local button = section:CreateButton("Show Path", showPath)
 
 local button = section:CreateButton("Auto Farm", autoFarm)
-
-local switch = section:CreateSwitch('Auto Farm V2', autoFarmV2, false)
 
 
 -- Create the slider
