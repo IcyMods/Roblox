@@ -9,9 +9,10 @@ local gui = loadstring(game:HttpGet("https://gitlab.com/0x45.xyz/droplib/-/raw/m
 
 local category = gui:CreateCategory("Impossible Squid Game! Glass Bridge 2", POSITION)
 
-local section = category:CreateSection("Game")
+local section = category:CreateSection("Main")
 
-local label = section:CreateTextLabel("v1.0.8")
+local label = section:CreateTextLabel("v1.0.6")
+local label = section:CreateTextLabel("Made by Vortex Services - avvexyy")
 
 local function showPath()
         print("showing path")
@@ -126,6 +127,8 @@ end
 local currentState = false  -- Make currentState global
 local switchActive = false  -- Flag to control the state of the switch
 
+local bodyVelocity = nil  -- Store reference to BodyVelocity to be able to remove it later
+
 -- Function that controls the auto-farm process
 local function autoFarmV2()
     local finish = game.Workspace.Finish.Chest
@@ -143,12 +146,14 @@ local function autoFarmV2()
     end
 
     -- Ensure the character is floating
-    local bodyVelocity = Instance.new("BodyVelocity")
-    bodyVelocity.MaxForce = Vector3.new(400000, 400000, 400000)  -- High force to override gravity
-    bodyVelocity.Velocity = Vector3.new(0, 0, 0)  -- Start with no initial movement
-    bodyVelocity.Parent = character.HumanoidRootPart  -- Attach the velocity to the HumanoidRootPart
-    
-    local glideSpeed = 50  -- Speed at which the player glides (can be adjusted)
+    if not bodyVelocity then
+        bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.MaxForce = Vector3.new(400000, 400000, 400000)  -- High force to override gravity
+        bodyVelocity.Velocity = Vector3.new(0, 0, 0)  -- Start with no initial movement
+        bodyVelocity.Parent = character.HumanoidRootPart  -- Attach the velocity to the HumanoidRootPart
+    end
+
+    local glideSpeed = 175  -- Speed at which the player glides (can be adjusted)
 
     -- Auto-farm loop: Will run as long as switchActive is true
     while switchActive do
@@ -181,13 +186,15 @@ local function autoFarmV2()
         task.wait(2)  -- Small wait to prevent the loop from being too resource-intensive
     end
 
-    -- Remove the body velocity when the process is finished
-    bodyVelocity:Destroy()
+    -- Remove the body velocity when the process is finished or when the switch is off
+    if bodyVelocity then
+        bodyVelocity.Velocity = Vector3.new(0, 0, 0)  -- Stop the glide immediately
+        bodyVelocity:Destroy()  -- Remove BodyVelocity to restore normal movement
+        bodyVelocity = nil  -- Reset the reference
+    end
 
     print("Auto-farm stopped.")
 end
-
-
 
 local function onSliderChange(newValue)
     print("Slider value changed to: " .. newValue)
@@ -220,6 +227,12 @@ section:CreateSwitch('Auto Farm V2', function(value)
     else
         -- If the switch is turned off, auto-farm will stop
         print("Auto-farm turned off.")
+        -- When switched off, we ensure to stop the glide and restore normal movement
+        if bodyVelocity then
+            bodyVelocity.Velocity = Vector3.new(0, 0, 0)  -- Stop any ongoing movement
+            bodyVelocity:Destroy()  -- Remove BodyVelocity to restore normal movement
+            bodyVelocity = nil  -- Reset reference to ensure it's not reused
+        end
     end
 end, false)
 
