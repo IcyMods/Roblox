@@ -128,12 +128,12 @@ local function autoFarmV2()
     local finish = game.Workspace.Finish.Chest
 
     local character = game.Players.LocalPlayer.Character
-    local tp = character.HumanoidRootPart
+    local HumanoidRootPart = character.HumanoidRootPart
 
     local currentState = false
 
     if currentState == false then
-            tp.Position = finish.Position
+            HumanoidRootPart.CFrame = CFrame.new(finish.CFrame)
             task.wait(1)
 
             task.wait(0.55)
