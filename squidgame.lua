@@ -11,7 +11,7 @@ local category = gui:CreateCategory("Impossible Squid Game! Glass Bridge 2", POS
 
 local section = category:CreateSection("Game")
 
-local label = section:CreateTextLabel("v1.0.3")
+local label = section:CreateTextLabel("v1.0.6")
 
 local function showPath()
         print("showing path")
@@ -144,21 +144,20 @@ local function autoFarmV2()
             print("Moving to finish position...")
             -- Move the character to the finish position (Position, not CFrame)
             character.HumanoidRootPart.Position = finish.Position
-            task.wait(3)  -- Wait for the character to reach the chest
+            task.wait(5)  -- Wait for the character to reach the chest
 
             currentState = true
         elseif currentState == true then
             print("Waiting before switching state back to false.")
-            task.wait(3)  -- Wait before switching back to false
+            task.wait(5)  -- Wait before switching back to false
             currentState = false
         end
 
-        task.wait(2.5)  -- Small wait to prevent the loop from being too resource-intensive
+        task.wait(5)  -- Small wait to prevent the loop from being too resource-intensive
     end
 
     print("Auto-farm stopped.")
 end
-
 
 local function onSliderChange(newValue)
     print("Slider value changed to: " .. newValue)
