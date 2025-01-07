@@ -124,6 +124,7 @@ local function autoFarm()
 end
 
 local currentState = false  -- Make currentState global
+local switchActive = false  -- Control flag to determine if auto-farming should continue
 
 local function autoFarmV2()
     local finish = game.Workspace.Finish.Chest
@@ -135,44 +136,27 @@ local function autoFarmV2()
     end
 
     local currentState = false
-    local switchActive = false  -- Control flag to determine if auto-farming should continue
-
-    -- Create a switch for enabling/disabling auto-farming
-    local switch = section:CreateSwitch('Auto Farm V2', function(value)
-        switchActive = value  -- Update the switch state when toggled
-    end, false)
 
     -- Auto-farm loop
-    while true do
-        if switchActive then
-            if currentState == false then
-                print("Moving to finish position...")
-                -- Move the character to the finish position (Position, not CFrame)
-                character.HumanoidRootPart.Position = finish.Position
-                task.wait(1)  -- Wait for the character to reach the chest
+    while switchActive do  -- Loop will run as long as switch is active
+        if currentState == false then
+            print("Moving to finish position...")
+            -- Move the character to the finish position (Position, not CFrame)
+            character.HumanoidRootPart.Position = finish.Position
+            task.wait(1)  -- Wait for the character to reach the chest
 
-                currentState = true
-            elseif currentState == true then
-                print("Waiting before switching state back to false.")
-                task.wait(0.55)  -- Wait before switching back to false
-                currentState = false
-            end
-        else
-            -- If switch is turned off, exit the loop
-            print("Auto-farm turned off.")
-            break
+            currentState = true
+        elseif currentState == true then
+            print("Waiting before switching state back to false.")
+            task.wait(0.55)  -- Wait before switching back to false
+            currentState = false
         end
 
         task.wait(0.1)  -- Small wait to prevent the loop from being too resource-intensive
     end
+
+    print("Auto-farm stopped.")
 end
-
--- This should be the single toggle:
-section:CreateSwitch('Auto Farm V2', function(value)
-    -- Only this switch controls the state of auto-farming
-    switchActive = value
-end, false)
-
 
 local function onSliderChange(newValue)
     print("Slider value changed to: " .. newValue)
@@ -192,6 +176,20 @@ local label = section:CreateTextLabel("enable Show Path to Auto Farm")
 local button = section:CreateButton("Show Path", showPath)
 
 local button = section:CreateButton("Auto Farm", autoFarm)
+
+-- Create the switch to enable/disable auto-farming
+section:CreateSwitch('Auto Farm V2', function(value)
+    switchActive = value  -- Update the switch state
+
+    if switchActive then
+        -- Start the auto-farm when the switch is turned on
+        print("Starting auto-farm...")
+        autoFarmV2()  -- Call the autoFarmV2 function
+    else
+        -- If the switch is turned off, stop auto-farming
+        print("Auto-farm turned off.")
+    end
+end, false)
 
 
 -- Create the slider
