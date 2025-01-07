@@ -134,7 +134,7 @@ local function autoFarmV2()
     while true do
         if currentState == false then
             -- Move the character to the finish chest
-            HumanoidRootPart.CFrame = CFrame.new(finish.CFrame)
+            HumanoidRootPart.CFrame = CFrame.new(finish.Position)
             task.wait(1)  -- Wait for the character to reach the chest
 
             -- Toggle state after waiting
