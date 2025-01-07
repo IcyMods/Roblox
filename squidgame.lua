@@ -133,13 +133,13 @@ local function autoFarmV2()
     local currentState = false
 
     if currentState == false then
-            tp.CFrame = CFrame.new(finish.CFrame)
+            tp.Position = finish.Position
             task.wait(1)
 
             task.wait(0.55)
             currentState = true
         elseif currentState == true then
-            
+
             task.wait(0.55)
             currentState = false
     end
