@@ -422,12 +422,12 @@ local Window = Rayfield:CreateWindow({
     },
  
     Discord = {
-       Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+       Enabled = true, -- Prompt the user to join your Discord server if their executor supports it
        Invite = "discord.gg/kXKWckcr3y", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
        RememberJoins = true -- Set this to false to make them join the discord every time they load it up
     },
  
-    KeySystem = false, -- Set this to true to use our key system
+    KeySystem = true, -- Set this to true to use our key system
     KeySettings = {
        Title = "Key System",
        Subtitle = "Vortex's Key System",
