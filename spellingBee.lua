@@ -415,7 +415,7 @@ local Window = Rayfield:CreateWindow({
         Enabled = true,
         FileName = "Big Hub"
     },
-    KeySystem = true,
+    KeySystem = false,
     KeySettings = {
         Title = "Key System",
         Key = {"Hello"}
