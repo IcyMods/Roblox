@@ -1,10 +1,3 @@
-local env = game.Workspace
-local segments = env.segmentSystem.Segments
-
-local id = 16993432698
-
-if game.PlaceId == id then
-
 local obfuscator = loadstring(game:HttpGet("https://raw.githubusercontent.com/GhostDuckyy/RBXLuaObfuscator/main/source.lua"))()
 
 obfuscator(
@@ -254,9 +247,6 @@ local slider = section:CreateSlider(
 
 end
  ]===],
- print(obfuscator),
  "Taurus_", --// Custom Variable
  "Protected" --// WaterMark
 )
-
-end
