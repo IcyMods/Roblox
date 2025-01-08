@@ -432,11 +432,11 @@ local function updateLabel(soundId)
     if soundId ~= lastSound then
         local word = wordlist[soundId]
         if word then
-            Label:Set("Current word: " .. word)
+            Label:Set("Current word: " .. word, 4483362458, Color3.fromRGB(255, 255, 255), false)
             lastSound = soundId
             lastword = word
         else
-            Label:Set("Current word: None")
+            Label:Set("Current word: None", 4483362458, Color3.fromRGB(255, 255, 255), false)
             lastSound = nil
             lastword = "None"
         end
