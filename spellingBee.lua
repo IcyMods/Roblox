@@ -402,11 +402,11 @@ local wordlist = {
 local lastSound = nil
 local lastword = "None"
 
--- Rayfield library
+--- Rayfield library
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Spelling Bee",
+    Name = "[🚀 SPACE] Spelling Bee!",
     Icon = 0,
     LoadingTitle = "Made by Vortex Services - @Avexy",
     LoadingSubtitle = "by Sirius",
@@ -427,42 +427,41 @@ local MainTab = Window:CreateTab("Main", 4483362458)
 -- Create a label to display the current word
 local Label = MainTab:CreateLabel("Current word: None", 4483362458, Color3.fromRGB(255, 255, 255), false)
 
--- Function to update the label
+-- Function to update the label when a sound is playing
 local function updateLabel(soundId)
-    local word = wordlist[soundId]
-    if word then
-        Label:Set("Current word: " .. word)
-    else
-        Label:Set("Current word: None")
+    if soundId ~= lastSound then
+        local word = wordlist[soundId]
+        if word then
+            Label:Set("Current word: " .. word)
+            lastSound = soundId
+            lastword = word
+        else
+            Label:Set("Current word: None")
+            lastSound = nil
+            lastword = "None"
+        end
     end
 end
 
--- Function to check if a sound is playing
+-- Function to check sounds inside the "8121" folder
 local function checkSounds()
     local soundsFolder = game.Workspace.Temporary:FindFirstChild("8121")
     if not soundsFolder then return end
 
-    local activeSound = nil
-
-    -- Check each Sound in the folder
     for _, sound in ipairs(soundsFolder:GetChildren()) do
         if sound:IsA("Sound") and sound.IsPlaying then
-            if activeSound then
-                -- If more than one sound is playing, stop all
-                sound:Stop()
-            else
-                activeSound = sound
-            end
+            updateLabel(sound.SoundId)
+            return
         end
     end
 
-    -- Update label if a sound is playing
-    if activeSound then
-        updateLabel(activeSound.SoundId)
-    else
-        updateLabel(nil)
+    -- If no sound is playing, reset the label only if it's not already "None"
+    if lastSound ~= nil then
+        Label:Set("Current word: None")
+        lastSound = nil
+        lastword = "None"
     end
 end
 
--- Connect to sound events
+-- Keep checking for sounds on a loop
 game:GetService("RunService").Heartbeat:Connect(checkSounds)
