@@ -445,7 +445,7 @@ end
 
 -- Function to check sounds inside the "8121" folder
 local function checkSounds()
-    local soundsFolder = game.Workspace.Temporary:FindFirstChild("8121")
+    local soundsFolder = game.Workspace.Microphone:FindFirstChild("13lx7a")
     if not soundsFolder then return end
 
     for _, sound in ipairs(soundsFolder:GetChildren()) do
