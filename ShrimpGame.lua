@@ -85,13 +85,13 @@ local Button = FirstGameTab:CreateButton({
 
 local Section = FirstGameTab:CreateSection("Dalgona 🍪")
 
-local UserInputService = game:GetService("UserInputService")
+local VirtualUser = game:GetService("VirtualUser")
+local camera = game.Workspace.CurrentCamera
 
-local Button = FirstGameTab:CreateButton({
+local Button = SecondGameTab:CreateButton({
     Name = "Complete Cookie",
     Callback = function()
-        local camera = game.Workspace.CurrentCamera
-        local needlePart = camera:FindFirstChild("Needle") -- Needle part inside Camera
+        local needlePart = camera:FindFirstChild("Needle")
 
         if not needlePart then
             warn("Needle part not found in the Camera!")
@@ -100,38 +100,31 @@ local Button = FirstGameTab:CreateButton({
 
         print("Button clicked!")
 
-        -- List of shapes (models) and their names
         local shapeNames = {"Umbrella", "Triangle", "Circle", "Star", "MonaLisa"}
 
-        -- Function to find the correct shape (cookie) model inside the Camera
         local function findShapeModel(shapeName)
-            return camera:FindFirstChild(shapeName)  -- Search inside the Camera
+            return camera:FindFirstChild(shapeName)
         end
 
-        -- Function to teleport the needle to each LineSegment part
         local function teleportNeedleToSegment(segment)
             print("Teleporting needle to segment: " .. segment.Name)
             needlePart.CFrame = segment.CFrame
 
             -- Simulate MouseButton1Click
-            UserInputService:InputBegan({ UserInputType = Enum.UserInputType.MouseButton1 })
-            wait(0.1) -- Delay between clicks
-            UserInputService:InputEnded({ UserInputType = Enum.UserInputType.MouseButton1 })
+            VirtualUser:CaptureController()
+            VirtualUser:ClickButton1()
+            wait(0.1)
         end
 
-        -- Function to start drawing a specific shape
         local function drawShape(shapeName)
             print("Starting to draw shape: " .. shapeName)
 
             local shapeModel = findShapeModel(shapeName)
-            
-            -- Check if the model exists
             if not shapeModel then
                 warn(shapeName .. " model not found!")
                 return
             end
 
-            -- Find the CutPart folder inside the model
             local cutPartFolder = shapeModel:FindFirstChild("CutPart")
             if not cutPartFolder then
                 warn("No 'CutPart' folder found in " .. shapeName .. "!")
@@ -139,38 +132,33 @@ local Button = FirstGameTab:CreateButton({
             end
 
             print("Found 'CutPart' folder in " .. shapeName)
-
-            -- Get all the LineSegment parts inside the CutPart folder
             local lineSegments = cutPartFolder:GetChildren()
 
-            -- Start the auto-click loop
             while #lineSegments > 0 do
                 for i, segment in pairs(lineSegments) do
                     if segment:IsA("Part") and segment.Name == "LineSegment" then
                         teleportNeedleToSegment(segment)
-                        segment:Destroy() -- Remove the segment after clicking
+                        segment:Destroy()
                     end
                 end
-
-                -- Update the lineSegments list to check remaining segments
                 lineSegments = cutPartFolder:GetChildren()
-                wait(0.1) -- Short delay to avoid infinite loop issues
+                wait(0.1)
             end
 
             print(shapeName .. " drawing completed!")
         end
 
-        -- Loop through each shape name and try to find the corresponding model
         for _, shapeName in pairs(shapeNames) do
             local shapeModel = findShapeModel(shapeName)
             if shapeModel then
                 print("Found shape: " .. shapeName)
-                drawShape(shapeName)  -- Start drawing if the shape is found
-                break  -- Stop after finding and drawing the first model
+                drawShape(shapeName)
+                break
             end
         end
     end,
 })
+
 
 local RunService = game:GetService("RunService")
 
