@@ -61,6 +61,7 @@ local Button = FirstGameTab:CreateButton({
 })
 
 local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")  -- To handle mouse button down events
 local Button = SecondGameTab:CreateButton({
     Name = "Finish Cookie",
     Callback = function()
@@ -73,7 +74,7 @@ local Button = SecondGameTab:CreateButton({
 
         -- List of shapes (models) and their names
         local shapeNames = {"Umbrella", "Triangle", "Circle", "Star"}
-        
+
         -- Function to find the correct shape (cookie) model inside the Camera
         local function findShapeModel(shapeName)
             print("Searching for shape: " .. shapeName)
@@ -141,10 +142,36 @@ local Button = SecondGameTab:CreateButton({
         local selectedShape = shapeNames[math.random(1, #shapeNames)]  -- Randomly select one shape
         print("Selected Shape: " .. selectedShape)  -- Log the selected shape
 
-        -- Start the drawing process for the randomly selected shape
-        drawShape(selectedShape)
+        -- Wait for the mouse to be pressed down and held
+        local isMousePressed = false
+
+        -- Start drawing when the mouse button is held
+        UserInputService.InputBegan:Connect(function(input, gameProcessed)
+            if not gameProcessed then
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then  -- Mouse Left Button
+                    isMousePressed = true
+                    print("Mouse button pressed, starting drawing.")
+                    -- Start the drawing process for the selected shape when clicked
+                    drawShape(selectedShape)
+                end
+            end
+        end)
+
+        -- Stop drawing when the mouse button is released
+        UserInputService.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                isMousePressed = false
+                print("Mouse button released, stopping drawing.")
+            end
+        end)
+
+        -- Ensure that the drawing process stops if the mouse is not pressed (can be customized)
+        while isMousePressed do
+            wait(0.1)  -- Check if the mouse is still being held
+        end
     end,
 })
+
 
 local UserInputService = game:GetService("UserInputService")
 
@@ -160,8 +187,7 @@ local Toggle = SecondGameTab:CreateToggle({
         local mouse = player:GetMouse()
 
         -- Set MouseIconEnabled to the toggle value
-        UserInputService.MouseIconEnabled = Value
-        UserInputService.MouseEnabled = Value
+        mouse.IconEnabled = Value -- This is what should control the mouse visibility
         print("Mouse icon visibility set to: " .. tostring(Value))  -- Show the result of the toggle
     end,
 })
@@ -169,6 +195,6 @@ local Toggle = SecondGameTab:CreateToggle({
 local Button = ThirdGameTab:CreateButton({
     Name = "Teleport to safe zone",
     Callback = function()
-    local mouse = game:GetMouse()
+
     end,
 })
