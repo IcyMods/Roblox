@@ -62,6 +62,7 @@ local Button = FirstGameTab:CreateButton({
 
 local TweenService = game:GetService("TweenService")
 
+
 -- Add a button that can handle all four shapes (Umbrella, Triangle, Circle, Star)
 local Button = SecondGameTab:CreateButton({
     Name = "Finish Cookie",
@@ -105,16 +106,23 @@ local Button = SecondGameTab:CreateButton({
                 return
             end
 
-            -- Get all the LineSegment parts inside the model
+            -- Find the CutPart folder inside the model
+            local cutPartFolder = shapeModel:FindFirstChild("CutPart")
+            if not cutPartFolder then
+                warn("No 'CutPart' folder found in " .. shapeName .. "!")
+                return
+            end
+
+            -- Get all the LineSegment parts inside the CutPart folder
             local lineSegments = {}
-            for _, part in pairs(shapeModel:GetChildren()) do
+            for _, part in pairs(cutPartFolder:GetChildren()) do
                 if part.Name == "LineSegment" then
                     table.insert(lineSegments, part)
                 end
             end
 
             if #lineSegments == 0 then
-                warn("No LineSegment parts found inside " .. shapeName .. "!")
+                warn("No LineSegment parts found inside 'CutPart' in " .. shapeName .. "!")
                 return
             end
 
@@ -139,9 +147,6 @@ local Button = SecondGameTab:CreateButton({
         end
     end,
 })
-
-
-
 local Button = ThirdGameTab:CreateButton({
     Name = "Teleport to safe zone",
     Callback = function()
