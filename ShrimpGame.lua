@@ -1,6 +1,6 @@
 gameID = 7606564092
 
-if game.PlaceId == gameID then
+if game.PlaceId == gameID or game.PlaceId ~= gameID then
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
