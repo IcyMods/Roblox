@@ -74,7 +74,10 @@ local function checkLight()
         end
         
         -- Update the label with the current color using Rayfield's Set method
-        LightSwitch:Set("Current Light: " .. colorName, 4483362458, Color3.fromRGB(255, 255, 255), false)
+
+        while wait(0.001) do
+            LightSwitch:Set("Current Light: " .. colorName, 4483362458, Color3.fromRGB(255, 255, 255), false)
+        end
     else
         warn("lightIndicator not found!")
     end
