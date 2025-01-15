@@ -84,12 +84,18 @@ local Button = FirstGameTab:CreateButton({
 })
 
 local Section = FirstGameTab:CreateSection("Dalgona 🍪")
-local camera = game.Workspace.CurrentCamera
+
+local UserInputService = game:GetService("UserInputService")
+local camera = workspace.CurrentCamera
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
 
 local Button = FirstGameTab:CreateButton({
     Name = "Complete Cookie",
     Callback = function()
+
         print("Button clicked!")
+        local NeedlePart = camera:WaitForChild("Needle")
 
         local shapeNames = {"Umbrella", "Triangle", "Circle", "Star", "MonaLisa"}
 
@@ -98,13 +104,21 @@ local Button = FirstGameTab:CreateButton({
             return camera:FindFirstChild(shapeName)
         end
 
-        -- Simulated click handler
+        -- Simulate clicking and moving the needle part
         local function simulateClickOnPart(targetPart)
             if targetPart then
                 print("Simulating click on: " .. targetPart.Name)
 
-                -- Trigger actions as if the user clicked it (e.g., making it green)
-                targetPart.BrickColor = BrickColor.new("Bright green")
+                -- Move Needle to the segment (LineSegment)
+                NeedlePart.CFrame = targetPart.CFrame * CFrame.new(0, 0, 2)  -- Adjust the offset to ensure it's in position
+
+                -- Trigger actions that would normally occur during a click
+                targetPart.BrickColor = BrickColor.new("Bright green")  -- Example action on click
+                -- More actions can be triggered here like animations, sound effects, etc.
+
+                -- Destroy the segment after it's drawn
+                targetPart:Destroy()
+                print("Destroyed segment: " .. targetPart.Name)
             else
                 print("No target part found to simulate click on.")
             end
@@ -138,7 +152,7 @@ local Button = FirstGameTab:CreateButton({
 
             -- Simulate clicking each line segment
             for _, segment in pairs(lineSegments) do
-                -- Simulate clicking the segment
+                -- Move the needle to the segment and simulate a click
                 simulateClickOnPart(segment)
                 wait(0.5)  -- Simulate delay between clicks, adjust as necessary
             end
