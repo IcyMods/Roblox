@@ -169,8 +169,9 @@ local Toggle = SecondGameTab:CreateToggle({
         -- Print the current mouse behavior state
         print("Current Mouse Behavior: " .. tostring(UserInputService.MouseBehavior))
 
-        -- Only toggle mouse visibility when the input mode is not locked (i.e., the user can interact with the mouse)
+        -- Check if the mouse is in Default behavior (free to move around)
         if UserInputService.MouseBehavior == Enum.MouseBehavior.Default then
+            -- Set mouse visibility based on toggle value
             UserInputService.MouseIconEnabled = Value
             print("Mouse icon visibility set to: " .. tostring(Value))  -- Show the result of the toggle
         else
@@ -179,6 +180,7 @@ local Toggle = SecondGameTab:CreateToggle({
         end
     end,
 })
+
 
 local Button = ThirdGameTab:CreateButton({
     Name = "Teleport to safe zone",
