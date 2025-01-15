@@ -90,9 +90,6 @@ local Button = FirstGameTab:CreateButton({
     end,
 })
 
-
-checkLight()
-
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
@@ -196,3 +193,5 @@ local Button = ThirdGameTab:CreateButton({
 
     end,
 })
+
+checkLight()
