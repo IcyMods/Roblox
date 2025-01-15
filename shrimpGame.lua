@@ -48,3 +48,25 @@ local SixthGameTab = Window:CreateTab("Squid Game", 4483362458) -- Title, Image
 
 local SeventhGameTab = Window:CreateTab("Mingle", 4483362458) -- Title, Image
 
+local Button = FirstGameTab:CreateButton({
+    Name = "TP to end",
+    Callback = function()
+    local endPart = game.Workspace
+    local character = game.Players.LocalPlayer.Character
+
+    character.CFrame = endPart.CFrame
+    end,
+ })
+
+ local Slider = Tab:CreateSlider({
+    Name = "Set Walkspeed",
+    Range = {14, 250},
+    Increment = 1,
+    Suffix = "ws",
+    CurrentValue = 14,
+    Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+    -- The function that takes place when the slider changes
+    -- The variable (Value) is a number which correlates to the value the slider is currently at
+    end,
+ })
