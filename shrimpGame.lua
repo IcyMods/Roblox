@@ -66,119 +66,90 @@ local Button = FirstGameTab:CreateButton({
 })
 
 local TweenService = game:GetService("TweenService")
-local UserInputService = game:GetService("UserInputService")  -- To handle mouse button down events
-local Button = SecondGameTab:CreateButton({
-    Name = "Finish Cookie",
-    Callback = function()
-        local player = game.Players.LocalPlayer
-        local camera = game.Workspace.CurrentCamera
-        local needlePart = camera:FindFirstChild("Needle") -- Needle part inside Camera
+local camera = game.Workspace.CurrentCamera
+local needlePart = camera:FindFirstChild("Needle") -- Needle part inside Camera
 
-        if not needlePart then
-            warn("Needle part not found in the Camera!")
-            return
+if not needlePart then
+    warn("Needle part not found in the Camera!")
+    return
+end
+
+print("Button clicked!")
+
+-- List of shapes (models) and their names
+local shapeNames = {"Umbrella", "Triangle", "Circle", "Star"}
+
+-- Function to find the correct shape (cookie) model inside the Camera
+local function findShapeModel(shapeName)
+    print("Searching for shape: " .. shapeName)
+    -- Ensure the shape is inside the Camera's direct children (or adjust location as needed)
+    return camera:FindFirstChild(shapeName)  -- Search inside the Camera
+end
+
+-- Function to move the needle to each LineSegment
+local function moveNeedleToSegment(segment)
+    print("Moving needle to segment: " .. segment.Name)
+    -- Tween the needle to the segment's position
+    local targetCFrame = segment.CFrame
+    local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+    local goal = { CFrame = targetCFrame }
+    local tween = TweenService:Create(needlePart, tweenInfo, goal)
+    tween:Play()
+end
+
+-- Function to start drawing a specific shape
+local function drawShape(shapeName)
+    print("Starting to draw shape: " .. shapeName)
+
+    local shapeModel = findShapeModel(shapeName)
+    
+    -- Check if the model exists
+    if not shapeModel then
+        warn(shapeName .. " model not found!")
+        return
+    end
+
+    -- Find the CutPart folder inside the model
+    local cutPartFolder = shapeModel:FindFirstChild("CutPart")
+    if not cutPartFolder then
+        warn("No 'CutPart' folder found in " .. shapeName .. "!")
+        return
+    end
+
+    print("Found 'CutPart' folder in " .. shapeName)
+
+    -- Get all the LineSegment parts inside the CutPart folder
+    local lineSegments = {}
+    for _, part in pairs(cutPartFolder:GetChildren()) do
+        if part.Name == "LineSegment" then
+            table.insert(lineSegments, part)
+            print("Found LineSegment part: " .. part.Name)
         end
+    end
 
-        print("Button clicked!")
+    if #lineSegments == 0 then
+        warn("No LineSegment parts found inside 'CutPart' in " .. shapeName .. "!")
+        return
+    end
 
-        -- List of shapes (models) and their names
-        local shapeNames = {"Umbrella", "Triangle", "Circle", "Star"}
+    print("Found " .. #lineSegments .. " LineSegment parts.")
 
-        -- Function to find the correct shape (cookie) model inside the Camera
-        local function findShapeModel(shapeName)
-            print("Searching for shape: " .. shapeName)
-            -- Ensure the shape is inside the Camera's direct children (or adjust location as needed)
-            return camera:FindFirstChild(shapeName)  -- Search inside the Camera
-        end
+    -- Automatically draw the shape
+    for _, segment in pairs(lineSegments) do
+        moveNeedleToSegment(segment) -- Move needle to each segment
+        wait(0.5)  -- Adjust time for smooth drawing
+    end
 
-        -- Function to move the needle to each LineSegment
-        local function moveNeedleToSegment(segment)
-            print("Moving needle to segment: " .. segment.Name)
-            -- Tween the needle to the segment's position
-            local targetCFrame = segment.CFrame
-            local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
-            local goal = { CFrame = targetCFrame }
-            local tween = TweenService:Create(needlePart, tweenInfo, goal)
-            tween:Play()
-        end
+    print(shapeName .. " drawing completed!")
+end
 
-        -- Function to start drawing a specific shape
-        local function drawShape(shapeName)
-            print("Starting to draw shape: " .. shapeName)
+-- Randomly select a shape from the list (only one shape will be selected)
+local selectedShape = shapeNames[math.random(1, #shapeNames)]  -- Randomly select one shape
+print("Selected Shape: " .. selectedShape)  -- Log the selected shape
 
-            local shapeModel = findShapeModel(shapeName)
-            
-            -- Check if the model exists
-            if not shapeModel then
-                warn(shapeName .. " model not found!")
-                return
-            end
+-- Start drawing automatically without user input
+drawShape(selectedShape)
 
-            -- Find the CutPart folder inside the model
-            local cutPartFolder = shapeModel:FindFirstChild("CutPart")
-            if not cutPartFolder then
-                warn("No 'CutPart' folder found in " .. shapeName .. "!")
-                return
-            end
-
-            print("Found 'CutPart' folder in " .. shapeName)
-
-            -- Get all the LineSegment parts inside the CutPart folder
-            local lineSegments = {}
-            for _, part in pairs(cutPartFolder:GetChildren()) do
-                if part.Name == "LineSegment" then
-                    table.insert(lineSegments, part)
-                    print("Found LineSegment part: " .. part.Name)
-                end
-            end
-
-            if #lineSegments == 0 then
-                warn("No LineSegment parts found inside 'CutPart' in " .. shapeName .. "!")
-                return
-            end
-
-            print("Found " .. #lineSegments .. " LineSegment parts.")
-
-            -- Start drawing the shape
-            local isMousePressed = false
-            UserInputService.InputBegan:Connect(function(input, gameProcessed)
-                if not gameProcessed then
-                    if input.UserInputType == Enum.UserInputType.MouseButton1 then  -- Mouse Left Button
-                        isMousePressed = true
-                        print("Mouse button pressed, starting drawing.")
-                        
-                        -- Start the drawing process for the selected shape when clicked
-                        for _, segment in pairs(lineSegments) do
-                            if isMousePressed then
-                                moveNeedleToSegment(segment) -- Move needle to each segment
-                                wait(0.5)  -- Adjust time for smooth drawing
-                            else
-                                break  -- Stop if mouse is not pressed
-                            end
-                        end
-                        
-                        print(shapeName .. " drawing completed!")
-                    end
-                end
-            end)
-
-            -- Stop drawing when the mouse button is released
-            UserInputService.InputEnded:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    isMousePressed = false
-                    print("Mouse button released, stopping drawing.")
-                end
-            end)
-        end
-
-        -- Randomly select a shape from the list (only one shape will be selected)
-        local selectedShape = shapeNames[math.random(1, #shapeNames)]  -- Randomly select one shape
-        print("Selected Shape: " .. selectedShape)  -- Log the selected shape
-
-        -- Start drawing if shape is found
-        drawShape(selectedShape)
-    end,
-})
 
 
 local Button = ThirdGameTab:CreateButton({
