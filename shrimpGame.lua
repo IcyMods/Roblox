@@ -69,7 +69,7 @@ local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
 local Button = SecondGameTab:CreateButton({
-    Name = "Finish Cookie",
+    Name = "Auto Finish Cookie",
     Callback = function()
         local camera = game.Workspace.CurrentCamera
         local needlePart = camera:FindFirstChild("Needle") -- Needle part inside Camera
