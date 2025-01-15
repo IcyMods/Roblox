@@ -5,7 +5,7 @@ if game.PlaceId == gameID then
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "[🪖GUARD] Shrimp Game",
+    Name = "[🪖GUARD] Shrimp Game | v1.0.9",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
     LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.9",
     LoadingSubtitle = "by @avvexxy",
