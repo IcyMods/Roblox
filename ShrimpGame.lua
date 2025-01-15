@@ -88,7 +88,7 @@ local Section = FirstGameTab:CreateSection("Dalgona 🍪")
 local VirtualUser = game:GetService("VirtualUser")
 local camera = game.Workspace.CurrentCamera
 
-local Button = SecondGameTab:CreateButton({
+local Button = FirstGameTab:CreateButton({
     Name = "Complete Cookie",
     Callback = function()
         local needlePart = camera:FindFirstChild("Needle")
