@@ -63,8 +63,6 @@ local Button = FirstGameTab:CreateButton({
 
 local TweenService = game:GetService("TweenService")
 
-local TweenService = game:GetService("TweenService")
-
 -- Add a button that can handle all four shapes (Umbrella, Triangle, Circle, Star)
 local Button = SecondGameTab:CreateButton({
     Name = "Finish Cookie",
