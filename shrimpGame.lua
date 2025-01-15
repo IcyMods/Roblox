@@ -3,8 +3,8 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
     Name = "[🪖GUARD] Shrimp Game",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "made by vortex services | avvexyy",
-    LoadingSubtitle = "by vortex",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.5",
+    LoadingSubtitle = "by @avvexxy",
     Theme = "Serenity ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
     DisableRayfieldPrompts = false,
