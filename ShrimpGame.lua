@@ -5,9 +5,9 @@ if game.PlaceId == gameID or game.PlaceId ~= gameID then
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "[🪖GUARD] Shrimp Game | v1.0.9",
+    Name = "[🪖GUARD] Shrimp Game | v1.1.1",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.9",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.1.1",
     LoadingSubtitle = "by @avvexxy",
     Theme = "Dark Blue ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
@@ -75,9 +75,7 @@ local function checkLight()
         
         -- Update the label with the current color using Rayfield's Set method
 
-        while wait(0.001) do
-            LightSwitch:Set("Current Light: " .. colorName, 4483362458, Color3.fromRGB(255, 255, 255), false)
-        end
+        LightSwitch:Set("Current Light: " .. colorName, 4483362458, Color3.fromRGB(255, 255, 255), false)
     else
         warn("lightIndicator not found!")
     end
@@ -123,7 +121,7 @@ local Button = SecondGameTab:CreateButton({
             print("Moving needle to segment: " .. segment.Name)
             -- Tween the needle to the segment's position
             local targetCFrame = segment.CFrame
-            local tweenInfo = TweenInfo.new(0.8, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+            local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
             local goal = { CFrame = targetCFrame }
             local tween = TweenService:Create(needlePart, tweenInfo, goal)
             tween:Play()
@@ -195,6 +193,8 @@ local Button = ThirdGameTab:CreateButton({
     end,
 })
 
-checkLight()
+local RunService = game:GetService("RunService")
+
+RunService.RenderStepped:Connect(checkLight)
 
 end
