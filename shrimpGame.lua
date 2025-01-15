@@ -64,16 +64,16 @@ local function checkLight()
         
         -- Determine the color based on BackgroundColor3 (only checking for Red and Green)
         local colorName
-        if currentColor == Color3.fromRGB(0, 255, 0) then
+        if currentColor == BackgroundColor3.fromRGB(0, 255, 0) then
             colorName = "Green"
-        elseif currentColor == Color3.fromRGB(255, 0, 0) then
+        elseif currentColor == BackgroundColor3.fromRGB(196, 40, 28) then
             colorName = "Red"
         else
             colorName = "Unknown"
         end
         
         -- Update the label with the current color
-        Label:Set("Current Light: " .. currentColor)  -- Update the text of the label
+        Label:Set("Current Light: " .. colorName)  -- Update the text of the label
     else
         warn("lightIndicator not found!")
     end
