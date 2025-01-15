@@ -91,12 +91,6 @@ local Button = SecondGameTab:CreateButton({
             tween:Play()
         end
 
-        -- Function to update the needle position based on mouse
-        local function updateNeedlePosition()
-            local mousePos = mouse.Hit.p
-            needlePart.CFrame = CFrame.new(mousePos)
-        end
-
         -- Function to start drawing a specific shape
         local function drawShape(shapeName)
             print("Starting to draw shape: " .. shapeName)
@@ -143,7 +137,7 @@ local Button = SecondGameTab:CreateButton({
             print(shapeName .. " drawing completed!")
         end
 
-        -- Randomly select a shape from the list
+        -- Randomly select a shape from the list (only one shape will be selected)
         local selectedShape = shapeNames[math.random(1, #shapeNames)]  -- Randomly select one shape
         print("Selected Shape: " .. selectedShape)  -- Log the selected shape
 
@@ -151,8 +145,6 @@ local Button = SecondGameTab:CreateButton({
         drawShape(selectedShape)
     end,
 })
-
-
 
 local UserInputService = game:GetService("UserInputService")
 
@@ -169,6 +161,7 @@ local Toggle = SecondGameTab:CreateToggle({
 
         -- Set MouseIconEnabled to the toggle value
         UserInputService.MouseIconEnabled = Value
+        UserInputService.MouseEnabled = Value
         print("Mouse icon visibility set to: " .. tostring(Value))  -- Show the result of the toggle
     end,
 })
