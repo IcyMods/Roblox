@@ -5,9 +5,9 @@ if game.PlaceId == gameID or game.PlaceId ~= gameID then
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "[🪖GUARD] Shrimp Game | v1.1.2",
+    Name = "[🪖GUARD] Shrimp Game | v1.1.1",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.1.2",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.1.1",
     LoadingSubtitle = "by @avvexxy",
     Theme = "Dark Blue ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
@@ -84,73 +84,73 @@ local Button = FirstGameTab:CreateButton({
 })
 
 local Section = FirstGameTab:CreateSection("Dalgona 🍪")
-
-local VirtualUser = game:GetService("VirtualUser")
 local camera = game.Workspace.CurrentCamera
 
 local Button = FirstGameTab:CreateButton({
     Name = "Complete Cookie",
     Callback = function()
-        local needlePart = camera:FindFirstChild("Needle")
-
-        if not needlePart then
-            warn("Needle part not found in the Camera!")
-            return
-        end
-
         print("Button clicked!")
 
         local shapeNames = {"Umbrella", "Triangle", "Circle", "Star", "MonaLisa"}
 
+        -- Function to find the shape model
         local function findShapeModel(shapeName)
             return camera:FindFirstChild(shapeName)
         end
 
-        local function teleportNeedleToSegment(segment)
-            print("Teleporting needle to segment: " .. segment.Name)
-            needlePart.CFrame = segment.CFrame
-            VirtualUser:CaptureController()
-            VirtualUser:ClickButton1()
+        -- Simulated click handler
+        local function simulateClickOnPart(targetPart)
+            if targetPart then
+                print("Simulating click on: " .. targetPart.Name)
+
+                -- Trigger actions as if the user clicked it (e.g., making it green)
+                targetPart.BrickColor = BrickColor.new("Bright green")
+            else
+                print("No target part found to simulate click on.")
+            end
         end
 
+        -- Function to automatically draw the shape and simulate clicking
         local function drawShape(shapeName)
             print("Starting to draw shape: " .. shapeName)
 
             local shapeModel = findShapeModel(shapeName)
+
             if not shapeModel then
                 warn(shapeName .. " model not found!")
                 return
             end
 
+            -- Find the CutPart folder
             local cutPartFolder = shapeModel:FindFirstChild("CutPart")
             if not cutPartFolder then
                 warn("No 'CutPart' folder found in " .. shapeName .. "!")
                 return
             end
 
-            print("Found 'CutPart' folder in " .. shapeName)
-            local lineSegments = cutPartFolder:GetChildren()
-
-            while #lineSegments > 0 do
-                for _, segment in pairs(lineSegments) do
-                    if segment:IsA("Part") and segment.Name == "LineSegment" then
-                        teleportNeedleToSegment(segment)
-                        segment:Destroy()
-                    end
+            -- Find LineSegment parts in CutPart folder
+            local lineSegments = {}
+            for _, part in pairs(cutPartFolder:GetChildren()) do
+                if part.Name == "LineSegment" then
+                    table.insert(lineSegments, part)
                 end
-                lineSegments = cutPartFolder:GetChildren()
-                wait(0.1)
             end
 
-            print(shapeName .. " drawing completed!")
+            -- Simulate clicking each line segment
+            for _, segment in pairs(lineSegments) do
+                -- Simulate clicking the segment
+                simulateClickOnPart(segment)
+                wait(0.5)  -- Simulate delay between clicks, adjust as necessary
+            end
         end
 
+        -- Loop through shapes and simulate clicking on parts
         for _, shapeName in pairs(shapeNames) do
             local shapeModel = findShapeModel(shapeName)
             if shapeModel then
                 print("Found shape: " .. shapeName)
                 drawShape(shapeName)
-                break
+                break  -- Draw the first shape found
             end
         end
     end,
