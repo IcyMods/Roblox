@@ -73,7 +73,7 @@ local function checkLight()
         end
         
         -- Update the label with the current color
-        Label:SetText("Current Light: " .. colorName)  -- Update the text of the label
+        Label:Set("Current Light: " .. colorName)  -- Update the text of the label
     else
         warn("lightIndicator not found!")
     end
