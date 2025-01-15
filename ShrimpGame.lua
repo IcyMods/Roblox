@@ -123,7 +123,7 @@ local Button = SecondGameTab:CreateButton({
             print("Moving needle to segment: " .. segment.Name)
             -- Tween the needle to the segment's position
             local targetCFrame = segment.CFrame
-            local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+            local tweenInfo = TweenInfo.new(0.8, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
             local goal = { CFrame = targetCFrame }
             local tween = TweenService:Create(needlePart, tweenInfo, goal)
             tween:Play()
