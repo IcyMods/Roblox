@@ -49,11 +49,39 @@ local SixthGameTab = Window:CreateTab("Squid Game", 4483362458) -- Title, Image
 local SeventhGameTab = Window:CreateTab("Mingle", 4483362458) -- Title, Image
 
 
-local function checkLight()
+-- Create a Label for displaying the current light color
+local Label = FirstGameTab:CreateLabel("Current Light: ", 4483362458, Color3.fromRGB(255, 255, 255), false)
 
+-- Function to check the light indicator's background color and update the label text
+local function checkLight()
+    local player = game.Players.LocalPlayer
+    local lightIndicator = player.PlayerGui:FindFirstChild("lightIndicator")
+    
+    -- Ensure the lightIndicator exists
+    if lightIndicator then
+        -- Get the current background color of the lightIndicator
+        local currentColor = lightIndicator.BackgroundColor3
+        
+        -- Determine the color based on BackgroundColor3 (only checking for Red and Green)
+        local colorName
+        if currentColor == Color3.fromRGB(0, 255, 0) then
+            colorName = "Green"
+        elseif currentColor == Color3.fromRGB(255, 0, 0) then
+            colorName = "Red"
+        else
+            colorName = "Unknown"
+        end
+        
+        -- Update the label with the current color
+        Label:SetText("Current Light: " .. colorName)  -- Update the text of the label
+    else
+        warn("lightIndicator not found!")
+    end
 end
 
-local Label = FirstGameTab:CreateLabel("Current Light: ", 4483362458, Color3.fromRGB(255, 255, 255), false) -- Title, Icon, Color, IgnoreTheme
+-- Call checkLight to check the current light color and update the label text
+checkLight()
+
 
 local Button = FirstGameTab:CreateButton({
     Name = "TP to end",
