@@ -3,7 +3,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
     Name = "[🪖GUARD] Shrimp Game",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.3",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.5",
     LoadingSubtitle = "by @avvexxy",
     Theme = "Serenity ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
@@ -155,10 +155,19 @@ local Toggle = SecondGameTab:CreateToggle({
     CurrentValue = false,
     Flag = "Toggle1", 
     Callback = function(Value)
+        -- Ensure the player is not in a locked camera mode before setting MouseIconEnabled
+        local player = game.Players.LocalPlayer
+        local mouse = player:GetMouse()
 
-    UserInputService.MouseIconEnabled = Value
+        -- Only toggle mouse visibility when the input mode is not locked (i.e., the user can interact with the mouse)
+        if UserInputService.MouseBehavior == Enum.MouseBehavior.Default then
+            UserInputService.MouseIconEnabled = Value
+        else
+            warn("Cannot toggle mouse visibility while in locked camera mode.")
+        end
     end,
 })
+
 
 
 local Button = ThirdGameTab:CreateButton({
