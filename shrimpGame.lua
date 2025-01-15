@@ -5,7 +5,7 @@ local Window = Rayfield:CreateWindow({
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
     LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.5",
     LoadingSubtitle = "by @avvexxy",
-    Theme = "Serenity ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+    Theme = "Dark Blue ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
     DisableRayfieldPrompts = false,
     DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
