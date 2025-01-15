@@ -151,7 +151,6 @@ local Button = SecondGameTab:CreateButton({
         drawShape(selectedShape)
     end,
 })
-
 local UserInputService = game:GetService("UserInputService")
 
 local Toggle = SecondGameTab:CreateToggle({
@@ -162,25 +161,14 @@ local Toggle = SecondGameTab:CreateToggle({
         -- Print the current state of the toggle value
         print("Toggle value: " .. tostring(Value))
 
-        -- Ensure the player is not in a locked camera mode before setting MouseIconEnabled
         local player = game.Players.LocalPlayer
         local mouse = player:GetMouse()
 
-        -- Print the current mouse behavior state
-        print("Current Mouse Behavior: " .. tostring(UserInputService.MouseBehavior))
-
-        -- Check if the mouse is in Default behavior (free to move around)
-        if UserInputService.MouseBehavior == Enum.MouseBehavior.Default then
-            -- Set mouse visibility based on toggle value
-            UserInputService.MouseIconEnabled = Value
-            print("Mouse icon visibility set to: " .. tostring(Value))  -- Show the result of the toggle
-        else
-            warn("Cannot toggle mouse visibility while in locked camera mode.")
-            print("Mouse is in locked camera mode, cannot toggle visibility.")
-        end
+        -- Set MouseIconEnabled to the toggle value
+        mouse.IconEnabled = Value
+        print("Mouse icon visibility set to: " .. tostring(Value))  -- Show the result of the toggle
     end,
 })
-
 
 local Button = ThirdGameTab:CreateButton({
     Name = "Teleport to safe zone",
