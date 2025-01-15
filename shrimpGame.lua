@@ -53,7 +53,7 @@ local SeventhGameTab = Window:CreateTab("Mingle", 4483362458) -- Title, Image
 local Button = FirstGameTab:CreateButton({
     Name = "TP to end",
     Callback = function()
-    local endPart = game.Workspace
+    local endPart = game.Workspace.LightGameBlocker
     local character = game.Players.LocalPlayer.Character
 
     character.Position = endPart.Position
@@ -62,6 +62,13 @@ local Button = FirstGameTab:CreateButton({
 
 local Button = SecondGameTab:CreateButton({
     Name = "Finish Cookie",
+    Callback = function()
+    local mouse = game:GetMouse()
+    end,
+})
+
+local Button = ThirdGameTab:CreateButton({
+    Name = "Teleport to safe zone",
     Callback = function()
     local mouse = game:GetMouse()
     end,
