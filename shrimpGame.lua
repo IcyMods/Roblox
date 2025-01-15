@@ -78,6 +78,7 @@ local Button = SecondGameTab:CreateButton({
         -- Function to find the correct shape (cookie) model inside the Camera
         local function findShapeModel(shapeName)
             print("Searching for shape: " .. shapeName)
+            -- Ensure the shape is inside the Camera's direct children (or adjust location as needed)
             return camera:FindFirstChild(shapeName)  -- Search inside the Camera
         end
 
@@ -172,8 +173,6 @@ local Button = SecondGameTab:CreateButton({
     end,
 })
 
-
-local UserInputService = game:GetService("UserInputService")
 
 local Toggle = SecondGameTab:CreateToggle({
     Name = "Show Cursor / Mouse",
