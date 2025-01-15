@@ -5,9 +5,9 @@ if game.PlaceId == gameID or game.PlaceId ~= gameID then
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "[🪖GUARD] Shrimp Game | v1.1.1",
+    Name = "[🪖GUARD] Shrimp Game | v1.1.2",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.1.1",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.1.2",
     LoadingSubtitle = "by @avvexxy",
     Theme = "Dark Blue ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
@@ -109,11 +109,8 @@ local Button = FirstGameTab:CreateButton({
         local function teleportNeedleToSegment(segment)
             print("Teleporting needle to segment: " .. segment.Name)
             needlePart.CFrame = segment.CFrame
-
-            -- Simulate MouseButton1Click
             VirtualUser:CaptureController()
             VirtualUser:ClickButton1()
-            wait(0.1)
         end
 
         local function drawShape(shapeName)
@@ -135,7 +132,7 @@ local Button = FirstGameTab:CreateButton({
             local lineSegments = cutPartFolder:GetChildren()
 
             while #lineSegments > 0 do
-                for i, segment in pairs(lineSegments) do
+                for _, segment in pairs(lineSegments) do
                     if segment:IsA("Part") and segment.Name == "LineSegment" then
                         teleportNeedleToSegment(segment)
                         segment:Destroy()
@@ -158,6 +155,7 @@ local Button = FirstGameTab:CreateButton({
         end
     end,
 })
+
 
 
 local RunService = game:GetService("RunService")
