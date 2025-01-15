@@ -56,7 +56,7 @@ local Button = FirstGameTab:CreateButton({
     local endPart = game.Workspace
     local character = game.Players.LocalPlayer.Character
 
-    character.CFrame = endPart.CFrame
+    character.Position = endPart.Position
     end,
 })
 
