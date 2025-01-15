@@ -3,7 +3,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
     Name = "[🪖GUARD] Shrimp Game",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.5",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.3",
     LoadingSubtitle = "by @avvexxy",
     Theme = "Serenity ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
@@ -69,7 +69,7 @@ local Button = SecondGameTab:CreateButton({
     Callback = function()
         local player = game.Players.LocalPlayer
         local mouse = player:GetMouse()
-        local camera = workspace.CurrentCamera
+        local camera = game.Workspace.Camera
         local needlePart = camera:FindFirstChild("Needle") -- Needle part inside Camera
 
         -- List of shapes (models) and their names
@@ -147,6 +147,20 @@ local Button = SecondGameTab:CreateButton({
         end
     end,
 })
+
+local UserInputService = game:GetService("UserInputService")
+
+local Toggle = SecondGameTab:CreateToggle({
+    Name = "Show Cursor / Mouse",
+    CurrentValue = false,
+    Flag = "Toggle1", 
+    Callback = function(Value)
+
+    UserInputService.MouseIconEnabled = Value
+    end,
+})
+
+
 local Button = ThirdGameTab:CreateButton({
     Name = "Teleport to safe zone",
     Callback = function()
