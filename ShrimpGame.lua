@@ -51,7 +51,7 @@ local FifthGameTab = Window:CreateTab("Stepping Stones", 4483362458) -- Title, I
 local SixthGameTab = Window:CreateTab("Mingle", 4483362458) -- Title, Image
 
 -- Create a Label for displaying the current light color
-local LightSwitch = FirstGameTab:CreateLabel("Current Light: ", Color3.fromRGB(255, 255, 255), false)
+local LightSwitch = FirstGameTab:CreateLabel("Current Color", 4483362458, Color3.fromRGB(255, 255, 255), false) -- Title, Icon, Color, IgnoreTheme
 
 -- Function to check the light indicator's background color and update the label text
 local function checkLight()
