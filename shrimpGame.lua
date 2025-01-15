@@ -55,7 +55,7 @@ local Label = FirstGameTab:CreateLabel("Current Light: ", Color3.fromRGB(255, 25
 -- Function to check the light indicator's background color and update the label text
 local function checkLight()
     local player = game.Players.LocalPlayer
-    local lightIndicator = player.PlayerGui:FindFirstChild("lightIndicator")
+    local lightIndicator = player.PlayerGui.interface:FindFirstChild("LightIndicator")
     
     -- Ensure the lightIndicator exists
     if lightIndicator then
@@ -73,7 +73,7 @@ local function checkLight()
         end
         
         -- Update the label with the current color
-        Label:Set("Current Light: " .. colorName)  -- Update the text of the label
+        Label:Set("Current Light: " .. currentColor)  -- Update the text of the label
     else
         warn("lightIndicator not found!")
     end
