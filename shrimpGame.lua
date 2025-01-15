@@ -7,7 +7,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
     Name = "[🪖GUARD] Shrimp Game",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.8",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.7",
     LoadingSubtitle = "by @avvexxy",
     Theme = "Dark Blue ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
@@ -54,7 +54,7 @@ local SeventhGameTab = Window:CreateTab("Mingle", 4483362458) -- Title, Image
 
 
 -- Create a Label for displaying the current light color
-local Label = FirstGameTab:CreateLabel("Current Light: ", Color3.fromRGB(255, 255, 255), false)
+local Label = FirstGameTab:CreateLabel("Current Light: ", 4483362458, Color3.fromRGB(255, 255, 255), false)
 
 -- Function to check the light indicator's background color and update the label text
 local function checkLight()
