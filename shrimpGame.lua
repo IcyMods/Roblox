@@ -79,9 +79,6 @@ local function checkLight()
     end
 end
 
--- Call checkLight to check the current light color and update the label text
-checkLight()
-
 
 local Button = FirstGameTab:CreateButton({
     Name = "Complete Red light, Green light",
@@ -92,6 +89,9 @@ local Button = FirstGameTab:CreateButton({
     character.HumanoidRootPart.CFrame = endPart.CFrame
     end,
 })
+
+
+checkLight()
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
