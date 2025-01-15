@@ -7,7 +7,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
     Name = "[🪖GUARD] Shrimp Game",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.7",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.9",
     LoadingSubtitle = "by @avvexxy",
     Theme = "Dark Blue ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
@@ -73,7 +73,7 @@ local function checkLight()
         elseif currentColor == BackgroundColor3.fromRGB(196, 40, 28) then
             colorName = "Red"
         else
-            colorName = "Unknown"
+            colorName = "None"
         end
         
         -- Update the label with the current color
