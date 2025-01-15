@@ -107,7 +107,7 @@ local Button = SecondGameTab:CreateButton({
         print("Button clicked!")
 
         -- List of shapes (models) and their names
-        local shapeNames = {"Umbrella", "Triangle", "Circle", "Star"}
+        local shapeNames = {"Umbrella", "Triangle", "Circle", "Star", "MonaLisa"}
 
         -- Function to find the correct shape (cookie) model inside the Camera
         local function findShapeModel(shapeName)
@@ -120,7 +120,7 @@ local Button = SecondGameTab:CreateButton({
             print("Moving needle to segment: " .. segment.Name)
             -- Tween the needle to the segment's position
             local targetCFrame = segment.CFrame
-            local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+            local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
             local goal = { CFrame = targetCFrame }
             local tween = TweenService:Create(needlePart, tweenInfo, goal)
             tween:Play()
