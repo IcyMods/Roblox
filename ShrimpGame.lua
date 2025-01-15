@@ -172,14 +172,6 @@ local Button = SecondGameTab:CreateButton({
     end,
 })
 
-
-local Button = ThirdGameTab:CreateButton({
-    Name = "Teleport to safe zone",
-    Callback = function()
-
-    end,
-})
-
 local RunService = game:GetService("RunService")
 
 RunService.RenderStepped:Connect(checkLight)
