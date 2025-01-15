@@ -93,11 +93,8 @@ local Button = FirstGameTab:CreateButton({
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
-local TweenService = game:GetService("TweenService")
-local UserInputService = game:GetService("UserInputService")
-
 local Button = SecondGameTab:CreateButton({
-    Name = "Auto Finish Cookie",
+    Name = "Finish Cookie",
     Callback = function()
         local camera = game.Workspace.CurrentCamera
         local needlePart = camera:FindFirstChild("Needle") -- Needle part inside Camera
@@ -186,6 +183,7 @@ local Button = SecondGameTab:CreateButton({
         end
     end,
 })
+
 
 local Button = ThirdGameTab:CreateButton({
     Name = "Teleport to safe zone",
