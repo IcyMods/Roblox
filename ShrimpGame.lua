@@ -73,8 +73,8 @@ local function checkLight()
             colorName = "None"
         end
         
-        -- Update the label with the current color
-        LightSwitch:Set("Current Light: " .. colorName, Color3.fromRGB(255, 255, 255), false)  -- Update the text of the label
+        -- Update the label with the current color using Rayfield's Set method
+        LightSwitch:Set("Current Light: " .. colorName, 4483362458, Color3.fromRGB(255, 255, 255), false)
     else
         warn("lightIndicator not found!")
     end
