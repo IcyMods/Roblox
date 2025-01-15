@@ -49,6 +49,11 @@ local SixthGameTab = Window:CreateTab("Squid Game", 4483362458) -- Title, Image
 local SeventhGameTab = Window:CreateTab("Mingle", 4483362458) -- Title, Image
 
 
+local function checkLight()
+    
+end
+
+local Label = FirstGameTab:CreateLabel("Current Light: ", 4483362458, Color3.fromRGB(255, 255, 255), false) -- Title, Icon, Color, IgnoreTheme
 
 local Button = FirstGameTab:CreateButton({
     Name = "TP to end",
@@ -59,6 +64,8 @@ local Button = FirstGameTab:CreateButton({
     character.HumanoidRootPart.CFrame = endPart.CFrame
     end,
 })
+
+
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")  -- To handle mouse button down events
@@ -170,24 +177,6 @@ local Button = SecondGameTab:CreateButton({
         while isMousePressed do
             wait(0.1)  -- Check if the mouse is still being held
         end
-    end,
-})
-
-
-local Toggle = SecondGameTab:CreateToggle({
-    Name = "Show Cursor / Mouse",
-    CurrentValue = false,
-    Flag = "Toggle1", 
-    Callback = function(Value)
-        -- Print the current state of the toggle value
-        print("Toggle value: " .. tostring(Value))
-
-        local player = game.Players.LocalPlayer
-        local mouse = player:GetMouse()
-
-        -- Set MouseIconEnabled to the toggle value
-        mouse.IconEnabled = Value -- This is what should control the mouse visibility
-        print("Mouse icon visibility set to: " .. tostring(Value))  -- Show the result of the toggle
     end,
 })
 
