@@ -56,16 +56,93 @@ local Button = FirstGameTab:CreateButton({
     local endPart = game.Workspace.LightGameBlocker
     local character = game.Players.LocalPlayer.Character
 
-    character.Position = endPart.Position
+    character.HumanoidRootPart.CFrame = endPart.CFrame
     end,
 })
 
+local TweenService = game:GetService("TweenService")
+
+local TweenService = game:GetService("TweenService")
+
+-- Add a button that can handle all four shapes (Umbrella, Triangle, Circle, Star)
 local Button = SecondGameTab:CreateButton({
     Name = "Finish Cookie",
     Callback = function()
-    local mouse = game:GetMouse()
+        local player = game.Players.LocalPlayer
+        local mouse = player:GetMouse()
+        local camera = workspace.CurrentCamera
+        local needlePart = camera:FindFirstChild("Needle") -- Needle part inside Camera
+
+        -- List of shapes (models) and their names
+        local shapeNames = {"Umbrella", "Triangle", "Circle", "Star"}
+        
+        -- Function to find the correct shape (cookie) model
+        local function findShapeModel(shapeName)
+            return workspace:FindFirstChild(shapeName)
+        end
+
+        -- Function to move the needle to each LineSegment
+        local function moveNeedleToSegment(segment)
+            -- Tween the needle to the segment's position
+            local targetCFrame = segment.CFrame
+            local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+            local goal = { CFrame = targetCFrame }
+            local tween = TweenService:Create(needlePart, tweenInfo, goal)
+            tween:Play()
+        end
+
+        -- Function to update the needle position based on mouse
+        local function updateNeedlePosition()
+            local mousePos = mouse.Hit.p
+            needlePart.CFrame = CFrame.new(mousePos)
+        end
+
+        -- Function to start drawing a specific shape
+        local function drawShape(shapeName)
+            local shapeModel = findShapeModel(shapeName)
+            
+            -- Check if the model exists
+            if not shapeModel then
+                warn(shapeName .. " model not found!")
+                return
+            end
+
+            -- Get all the LineSegment parts inside the model
+            local lineSegments = {}
+            for _, part in pairs(shapeModel:GetChildren()) do
+                if part.Name == "LineSegment" then
+                    table.insert(lineSegments, part)
+                end
+            end
+
+            if #lineSegments == 0 then
+                warn("No LineSegment parts found inside " .. shapeName .. "!")
+                return
+            end
+
+            -- Start drawing the shape
+            for _, segment in pairs(lineSegments) do
+                moveNeedleToSegment(segment) -- Move needle to each segment
+                wait(0.5)  -- Adjust time for smooth drawing
+            end
+
+            print(shapeName .. " drawing completed!")
+        end
+
+        -- Start the drawing process for each shape when the button is pressed
+        Button.Callback = function()
+            local selectedShape = "Umbrella"  -- Choose a shape to draw (change this dynamically if needed)
+            drawShape(selectedShape)  -- Draw the selected shape
+
+            -- Optionally, repeat for other shapes (Umbrella, Triangle, Circle, Star)
+            -- drawShape("Triangle")
+            -- drawShape("Circle")
+            -- drawShape("Star")
+        end
     end,
 })
+
+
 
 local Button = ThirdGameTab:CreateButton({
     Name = "Teleport to safe zone",
