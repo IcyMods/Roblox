@@ -50,7 +50,7 @@ local SeventhGameTab = Window:CreateTab("Mingle", 4483362458) -- Title, Image
 
 
 -- Create a Label for displaying the current light color
-local Label = FirstGameTab:CreateLabel("Current Light: ", 4483362458, Color3.fromRGB(255, 255, 255), false)
+local Label = FirstGameTab:CreateLabel("Current Light: ", Color3.fromRGB(255, 255, 255), false)
 
 -- Function to check the light indicator's background color and update the label text
 local function checkLight()
@@ -84,7 +84,7 @@ checkLight()
 
 
 local Button = FirstGameTab:CreateButton({
-    Name = "TP to end",
+    Name = "Complete Red light, Green light",
     Callback = function()
     local endPart = game.Workspace.LightGameBlocker
     local character = game.Players.LocalPlayer.Character
@@ -92,6 +92,9 @@ local Button = FirstGameTab:CreateButton({
     character.HumanoidRootPart.CFrame = endPart.CFrame
     end,
 })
+
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -115,7 +118,6 @@ local Button = SecondGameTab:CreateButton({
         -- Function to find the correct shape (cookie) model inside the Camera
         local function findShapeModel(shapeName)
             print("Searching for shape: " .. shapeName)
-            -- Ensure the shape is inside the Camera's direct children (or adjust location as needed)
             return camera:FindFirstChild(shapeName)  -- Search inside the Camera
         end
 
@@ -176,16 +178,17 @@ local Button = SecondGameTab:CreateButton({
             print(shapeName .. " drawing completed!")
         end
 
-        -- Randomly select a shape from the list (only one shape will be selected)
-        local selectedShape = shapeNames[math.random(1, #shapeNames)]  -- Randomly select one shape
-        print("Selected Shape: " .. selectedShape)  -- Log the selected shape
-
-        -- Start drawing automatically when the button is clicked
-        drawShape(selectedShape)
+        -- Loop through each shape name and try to find the corresponding model
+        for _, shapeName in pairs(shapeNames) do
+            local shapeModel = findShapeModel(shapeName)
+            if shapeModel then
+                print("Found shape: " .. shapeName)
+                drawShape(shapeName)  -- Start drawing if the shape is found
+                break  -- Stop after finding and drawing the first model
+            end
+        end
     end,
 })
-
-
 
 local Button = ThirdGameTab:CreateButton({
     Name = "Teleport to safe zone",
