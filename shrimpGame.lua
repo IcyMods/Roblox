@@ -50,7 +50,7 @@ local SeventhGameTab = Window:CreateTab("Mingle", 4483362458) -- Title, Image
 
 
 local function checkLight()
-    
+
 end
 
 local Label = FirstGameTab:CreateLabel("Current Light: ", 4483362458, Color3.fromRGB(255, 255, 255), false) -- Title, Icon, Color, IgnoreTheme
@@ -65,17 +65,19 @@ local Button = FirstGameTab:CreateButton({
     end,
 })
 
-
-
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")  -- To handle mouse button down events
 local Button = SecondGameTab:CreateButton({
     Name = "Finish Cookie",
     Callback = function()
         local player = game.Players.LocalPlayer
-        local mouse = player:GetMouse()
         local camera = game.Workspace.CurrentCamera
         local needlePart = camera:FindFirstChild("Needle") -- Needle part inside Camera
+
+        if not needlePart then
+            warn("Needle part not found in the Camera!")
+            return
+        end
 
         print("Button clicked!")
 
@@ -138,47 +140,46 @@ local Button = SecondGameTab:CreateButton({
             print("Found " .. #lineSegments .. " LineSegment parts.")
 
             -- Start drawing the shape
-            for _, segment in pairs(lineSegments) do
-                moveNeedleToSegment(segment) -- Move needle to each segment
-                wait(0.5)  -- Adjust time for smooth drawing
-            end
+            local isMousePressed = false
+            UserInputService.InputBegan:Connect(function(input, gameProcessed)
+                if not gameProcessed then
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 then  -- Mouse Left Button
+                        isMousePressed = true
+                        print("Mouse button pressed, starting drawing.")
+                        
+                        -- Start the drawing process for the selected shape when clicked
+                        for _, segment in pairs(lineSegments) do
+                            if isMousePressed then
+                                moveNeedleToSegment(segment) -- Move needle to each segment
+                                wait(0.5)  -- Adjust time for smooth drawing
+                            else
+                                break  -- Stop if mouse is not pressed
+                            end
+                        end
+                        
+                        print(shapeName .. " drawing completed!")
+                    end
+                end
+            end)
 
-            print(shapeName .. " drawing completed!")
+            -- Stop drawing when the mouse button is released
+            UserInputService.InputEnded:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    isMousePressed = false
+                    print("Mouse button released, stopping drawing.")
+                end
+            end)
         end
 
         -- Randomly select a shape from the list (only one shape will be selected)
         local selectedShape = shapeNames[math.random(1, #shapeNames)]  -- Randomly select one shape
         print("Selected Shape: " .. selectedShape)  -- Log the selected shape
 
-        -- Wait for the mouse to be pressed down and held
-        local isMousePressed = false
-
-        -- Start drawing when the mouse button is held
-        UserInputService.InputBegan:Connect(function(input, gameProcessed)
-            if not gameProcessed then
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then  -- Mouse Left Button
-                    isMousePressed = true
-                    print("Mouse button pressed, starting drawing.")
-                    -- Start the drawing process for the selected shape when clicked
-                    drawShape(selectedShape)
-                end
-            end
-        end)
-
-        -- Stop drawing when the mouse button is released
-        UserInputService.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                isMousePressed = false
-                print("Mouse button released, stopping drawing.")
-            end
-        end)
-
-        -- Ensure that the drawing process stops if the mouse is not pressed (can be customized)
-        while isMousePressed do
-            wait(0.1)  -- Check if the mouse is still being held
-        end
+        -- Start drawing if shape is found
+        drawShape(selectedShape)
     end,
 })
+
 
 local Button = ThirdGameTab:CreateButton({
     Name = "Teleport to safe zone",
