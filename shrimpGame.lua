@@ -3,7 +3,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
     Name = "[🪖GUARD] Shrimp Game",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.6",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.4",
     LoadingSubtitle = "by @avvexxy",
     Theme = "Serenity ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
@@ -61,15 +61,12 @@ local Button = FirstGameTab:CreateButton({
 })
 
 local TweenService = game:GetService("TweenService")
-
-
--- Add a button that can handle all four shapes (Umbrella, Triangle, Circle, Star)
 local Button = SecondGameTab:CreateButton({
     Name = "Finish Cookie",
     Callback = function()
         local player = game.Players.LocalPlayer
         local mouse = player:GetMouse()
-        local camera = game.Workspace.Camera
+        local camera = game.Workspace.CurrentCamera
         local needlePart = camera:FindFirstChild("Needle") -- Needle part inside Camera
 
         -- List of shapes (models) and their names
@@ -135,18 +132,15 @@ local Button = SecondGameTab:CreateButton({
             print(shapeName .. " drawing completed!")
         end
 
-        -- Start the drawing process for each shape when the button is pressed
-        Button.Callback = function()
-            local selectedShape = "Umbrella"  -- Choose a shape to draw (change this dynamically if needed)
-            drawShape(selectedShape)  -- Draw the selected shape
+        -- Randomly select a shape from the list
+        local selectedShape = shapeNames[math.random(1, #shapeNames)]  -- Randomly select one shape
+        print("Selected Shape: " .. selectedShape)  -- Optional: To log which shape was selected
 
-            -- Optionally, repeat for other shapes (Umbrella, Triangle, Circle, Star)
-            -- drawShape("Triangle")
-            -- drawShape("Circle")
-            -- drawShape("Star")
-        end
+        -- Start the drawing process for the randomly selected shape
+        drawShape(selectedShape)
     end,
 })
+
 
 local UserInputService = game:GetService("UserInputService")
 
@@ -162,13 +156,14 @@ local Toggle = SecondGameTab:CreateToggle({
         -- Only toggle mouse visibility when the input mode is not locked (i.e., the user can interact with the mouse)
         if UserInputService.MouseBehavior == Enum.MouseBehavior.Default then
             UserInputService.MouseIconEnabled = Value
+            task.wait(0.001)
         else
             warn("Cannot toggle mouse visibility while in locked camera mode.")
         end
+
+        task.wait(0.001)
     end,
 })
-
-
 
 local Button = ThirdGameTab:CreateButton({
     Name = "Teleport to safe zone",
