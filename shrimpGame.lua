@@ -3,7 +3,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
     Name = "[🪖GUARD] Shrimp Game",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.4",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.0.5",
     LoadingSubtitle = "by @avvexxy",
     Theme = "Serenity ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
@@ -74,10 +74,10 @@ local Button = SecondGameTab:CreateButton({
         -- List of shapes (models) and their names
         local shapeNames = {"Umbrella", "Triangle", "Circle", "Star"}
         
-        -- Function to find the correct shape (cookie) model
+        -- Function to find the correct shape (cookie) model inside the Camera
         local function findShapeModel(shapeName)
             print("Searching for shape: " .. shapeName)
-            return workspace:FindFirstChild(shapeName)
+            return camera:FindFirstChild(shapeName)  -- Search inside the Camera
         end
 
         -- Function to move the needle to each LineSegment
@@ -151,6 +151,9 @@ local Button = SecondGameTab:CreateButton({
         drawShape(selectedShape)
     end,
 })
+
+
+
 local UserInputService = game:GetService("UserInputService")
 
 local Toggle = SecondGameTab:CreateToggle({
@@ -165,7 +168,7 @@ local Toggle = SecondGameTab:CreateToggle({
         local mouse = player:GetMouse()
 
         -- Set MouseIconEnabled to the toggle value
-        mouse.IconEnabled = Value
+        UserInputService.MouseIconEnabled = Value
         print("Mouse icon visibility set to: " .. tostring(Value))  -- Show the result of the toggle
     end,
 })
