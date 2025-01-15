@@ -87,7 +87,7 @@ local Section = FirstGameTab:CreateSection("Dalgona 🍪")
 
 local UserInputService = game:GetService("UserInputService")
 
-local Button = SecondGameTab:CreateButton({
+local Button = FirstGameTab:CreateButton({
     Name = "Complete Cookie",
     Callback = function()
         local camera = game.Workspace.CurrentCamera
