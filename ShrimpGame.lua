@@ -1,7 +1,3 @@
-gameID = 7606564092
-
-if game.PlaceId == gameID or game.PlaceId ~= gameID then
-
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
@@ -175,18 +171,7 @@ local Button = FirstGameTab:CreateButton({
 })
 
 
-local Section = FirstGameTab:CreateSection("Lights out 🔦")
-
-
-local Section = FirstGameTab:CreateSection("Mingle 🎠")
-
-
-local Section = FirstGameTab:CreateSection("Tug Of War")
-
-
 
 local RunService = game:GetService("RunService")
 
 RunService.RenderStepped:Connect(checkLight)
-
-end
