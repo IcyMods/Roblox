@@ -91,7 +91,7 @@ local mouse = player:GetMouse()
 local NeedlePart = camera:WaitForChild("Needle")
 
 -- Button to start the process
-local Button = SecondGameTab:CreateButton({
+local Button = FirstGameTab:CreateButton({
     Name = "Complete Cookie",
     Callback = function()
         print("Button clicked!")
