@@ -181,7 +181,5 @@ local Section = FirstGameTab:CreateSection("Mingle 🎠")
 local Section = FirstGameTab:CreateSection("Tug Of War")
 
 
-
 local RunService = game:GetService("RunService")
-
 RunService.RenderStepped:Connect(checkLight)
