@@ -1,3 +1,4 @@
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
@@ -169,6 +170,15 @@ local Button = FirstGameTab:CreateButton({
         end
     end,
 })
+
+
+local Section = FirstGameTab:CreateSection("Lights out 🔦")
+
+
+local Section = FirstGameTab:CreateSection("Mingle 🎠")
+
+
+local Section = FirstGameTab:CreateSection("Tug Of War")
 
 
 
