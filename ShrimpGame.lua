@@ -5,9 +5,9 @@ if game.PlaceId == gameID or game.PlaceId ~= gameID then
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "[🪖GUARD] Shrimp Game | v1.1.1",
+    Name = "[🪖GUARD] Shrimp Game | v1.1.0",
     Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.1.1",
+    LoadingTitle = "[🪖GUARD] Shrimp Game | v1.1.0",
     LoadingSubtitle = "by @avvexxy",
     Theme = "Dark Blue ", -- Check https://docs.sirius.menu/rayfield/configuration/themes
  
@@ -90,12 +90,14 @@ local camera = workspace.CurrentCamera
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
 
+-- Needle part, now using 'Needle' from the camera
+local NeedlePart = camera:WaitForChild("Needle")
+
+-- Button to start the process
 local Button = FirstGameTab:CreateButton({
     Name = "Complete Cookie",
     Callback = function()
-
         print("Button clicked!")
-        local NeedlePart = camera:WaitForChild("Needle")
 
         local shapeNames = {"Umbrella", "Triangle", "Circle", "Star", "MonaLisa"}
 
@@ -104,7 +106,7 @@ local Button = FirstGameTab:CreateButton({
             return camera:FindFirstChild(shapeName)
         end
 
-        -- Simulate clicking and moving the needle part
+        -- Function to simulate click on a part (LineSegment)
         local function simulateClickOnPart(targetPart)
             if targetPart then
                 print("Simulating click on: " .. targetPart.Name)
@@ -114,11 +116,8 @@ local Button = FirstGameTab:CreateButton({
 
                 -- Trigger actions that would normally occur during a click
                 targetPart.BrickColor = BrickColor.new("Bright green")  -- Example action on click
-                -- More actions can be triggered here like animations, sound effects, etc.
 
-                -- Destroy the segment after it's drawn
-                targetPart:Destroy()
-                print("Destroyed segment: " .. targetPart.Name)
+                -- You can add other actions here as well, such as animations, sound effects, etc.
             else
                 print("No target part found to simulate click on.")
             end
@@ -150,12 +149,17 @@ local Button = FirstGameTab:CreateButton({
                 end
             end
 
-            -- Simulate clicking each line segment
-            for _, segment in pairs(lineSegments) do
-                -- Move the needle to the segment and simulate a click
+            -- Use a while loop to continuously click each segment until all are processed
+            local segmentsProcessed = 0
+            local totalSegments = #lineSegments
+            while segmentsProcessed < totalSegments do
+                local segment = lineSegments[segmentsProcessed + 1]  -- Get the next segment to click on
                 simulateClickOnPart(segment)
-                wait(0.001)  -- Simulate delay between clicks, adjust as necessary
+                segmentsProcessed = segmentsProcessed + 1  -- Increment the counter
+                wait(0.5)  -- Simulate delay between clicks, adjust as necessary
             end
+
+            print("All segments processed!")
         end
 
         -- Loop through shapes and simulate clicking on parts
@@ -169,6 +173,15 @@ local Button = FirstGameTab:CreateButton({
         end
     end,
 })
+
+
+local Section = FirstGameTab:CreateSection("Lights out 🔦")
+
+
+local Section = FirstGameTab:CreateSection("Mingle 🎠")
+
+
+local Section = FirstGameTab:CreateSection("Tug Of War")
 
 
 
