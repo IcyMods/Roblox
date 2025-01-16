@@ -154,7 +154,7 @@ local Button = FirstGameTab:CreateButton({
             for _, segment in pairs(lineSegments) do
                 -- Move the needle to the segment and simulate a click
                 simulateClickOnPart(segment)
-                wait(0.5)  -- Simulate delay between clicks, adjust as necessary
+                wait(0.001)  -- Simulate delay between clicks, adjust as necessary
             end
         end
 
