@@ -91,7 +91,7 @@ local mouse = player:GetMouse()
 local NeedlePart = camera:WaitForChild("Needle")
 
 -- Button to start the process
-local Button = FirstGameTab:CreateButton({
+local Button = SecondGameTab:CreateButton({
     Name = "Complete Cookie",
     Callback = function()
         print("Button clicked!")
@@ -111,8 +111,8 @@ local Button = FirstGameTab:CreateButton({
                 -- Move Needle to the segment (LineSegment)
                 NeedlePart.CFrame = targetPart.CFrame * CFrame.new(0, 0, 2)  -- Adjust the offset to ensure it's in position
 
-                -- Trigger actions that would normally occur during a click
-                targetPart.BrickColor = BrickColor.new("Bright green")  -- Example action on click
+                -- Change the color to bright green (RGB: 0, 255, 0)
+                targetPart.BrickColor = BrickColor.new(Color3.fromRGB(0, 255, 0))
 
                 -- You can add other actions here as well, such as animations, sound effects, etc.
             else
