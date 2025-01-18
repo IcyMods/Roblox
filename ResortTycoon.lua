@@ -56,6 +56,9 @@ local function abbreviateNumber(num)
     return string.format("%.0f%s", num, index > 0 and abbreviations[index] or "")
 end
 
+local Label = Section1:Label({
+	Name = "Cash: " .. abbreviateNumber(Cash.Value),
+})
 
 local Button = Section1:Button({
 	Name = "Button",
