@@ -51,7 +51,7 @@ local function abbreviateNumber(num)
 end
 
 
-local text = Main.TextField(
+local text = Main.Text(
     {
         Text = "Cash: " .. abbreviateNumber(Cash.Value)
     }
