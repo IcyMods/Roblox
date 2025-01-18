@@ -1,7 +1,4 @@
-local id = 18408308077
 
-if game.PlaceId == id then
-    
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Loco-CTO/UI-Library/main/VisionLibV2/source.lua'))()
 
 Window = Library:Create({
@@ -61,7 +58,7 @@ local Label = Section1:Label({
 })
 
 local Button = Section1:Button({
-	Name = "Button",
+	Name = "Money Hack",
 	Callback = function()
         game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
 	end
@@ -99,7 +96,7 @@ local Toggle = Section1:Toggle({
             end
         end
         task.wait(1)
-	end
+    end
 })
 
 local Toggle = Section1:Toggle({
@@ -112,7 +109,7 @@ local Toggle = Section1:Toggle({
             game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RF"):WaitForChild("UpdateSetting"):InvokeServer("AutoPurchase")
             task.wait(0.8)
         end
-	end
+    end
 })
 
 -- money hack
@@ -120,5 +117,3 @@ local Toggle = Section1:Toggle({
 --     game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
 --     wait(0.0001)
 -- end
-
-end
