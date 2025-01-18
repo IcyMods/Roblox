@@ -106,7 +106,7 @@ local Toggle = Section1:Toggle({
 	Name = "Free AutoPurchase gamepass - Temporary",
 	Default = false,
 	Callback = function(Bool) 
-        _G.AutoPurchase = Value
+        _G.AutoPurchase = Bool
 
         while _G.AutoPurchase do    
             game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RF"):WaitForChild("UpdateSetting"):InvokeServer("AutoPurchase")
