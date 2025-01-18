@@ -1,4 +1,3 @@
-
 local id = 18408308077
 
 if game.PlaceId == id then
@@ -13,10 +12,10 @@ Window = Library:Create({
 		Window:TaskBarOnly(true)
 	end,
 
-	KeySystem = false,
-	Key = "123456",
+	KeySystem = true,
+	Key = "6Z2WHxpLXv4Ur5bwYhmtNG3iz",
 	MaxAttempts = 5,
-	DiscordLink = nil,
+	DiscordLink = "https://discord.gg/HVqTMP2UgX",
 	ToggledRelativeYOffset = 0
 })
 
@@ -33,7 +32,11 @@ local CreditTab = Window:Tab({
 })
 
 local Section1 = MainTab:Section({
-	Name = "Panel"
+	Name = "Features"
+})
+
+local Section2 = CreditTab:Section({
+	Name = "Credit Tab"
 })
 
 -- player stuff
@@ -58,7 +61,22 @@ local function abbreviateNumber(num)
 end
 
 local Label = Section1:Label({
+	Name = "Hello, " .. player.Name .. "!",
+})
+
+local Label = Section1:Label({
 	Name = "Cash: " .. abbreviateNumber(Cash.Value),
+})
+
+local Label = Section2:Label({
+	Name = "@Avexy",
+})
+
+local Button = Section2:Button({
+	Name = "Copy discord link",
+	Callback = function()
+        setclipboard("discord.gg/HVqTMP2UgX")
+	end
 })
 
 local Button = Section1:Button({
@@ -117,10 +135,6 @@ local Toggle = Section1:Toggle({
 	end
 })
 
--- money hack
--- while true do
---     game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
---     wait(0.0001)
--- end
+
 
 end
