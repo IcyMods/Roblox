@@ -1,8 +1,8 @@
 local id = 18408308077
 
 if game.PlaceId == id then
-
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/kav"))()
 
 local Window = Library.CreateLib("[⭐NEW] Ultimate Resort Tycoon | made by vortex 🌴☀️", "BloodTheme")
 
@@ -39,33 +39,33 @@ MainTab:NewButton("Money Hack", "gives you a certain amount of money", function(
     game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
 end)
 
--- MainTab:NewToggle("Teleport to buy buttons", "if AutoPurchase is not working properly then toggle this one", function(state)
---     if state then
---     local System = game.Workspace:WaitForChild("Systems")
---     local buttonsFolder = System.Tycoon.Tycoons[userID].Buttons
+MainTab:NewToggle("Teleport to buy buttons", "if AutoPurchase is not working properly then toggle this one", function(state)
+    if state then
+    local System = game.Workspace:WaitForChild("Systems")
+    local buttonsFolder = System.Tycoon.Tycoons[userID].Buttons
 
---     local player = game.Players.LocalPlayer
---     local character = player.Character or player.CharacterAdded:Wait()
---     local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
 
---         -- if lazy then teleport the player to the buttons basically free auto purchase
+        -- if lazy then teleport the player to the buttons basically free auto purchase
 
---             -- Teleport player to each button's PrimaryPart
---         for _, button in ipairs(buttonsFolder:GetChildren()) do
---             if button:IsA("Model") then
---                 local primaryPart = button.PrimaryPart
---                 if primaryPart then
---                     humanoidRootPart.CFrame = primaryPart.CFrame
---                     task.wait(2) -- Wait before moving to the next button
---                 else
---                     warn("Button " .. button.Name .. " is missing a PrimaryPart!")
---                 end
---             end
---         end
---     else
---         print("Toggle Off")
---     end
--- end)
+            -- Teleport player to each button's PrimaryPart
+        for _, button in ipairs(buttonsFolder:GetChildren()) do
+            if button:IsA("Model") then
+                local primaryPart = button.PrimaryPart
+                if primaryPart then
+                    humanoidRootPart.CFrame = primaryPart.CFrame
+                    task.wait(2) -- Wait before moving to the next button
+                else
+                    warn("Button " .. button.Name .. " is missing a PrimaryPart!")
+                end
+            end
+        end
+    else
+        print("Toggle Off")
+    end
+end)
 
 MainTab:NewToggle("Free AutoPurchase Gamepass", "Gives you the AutoPurchase gamepass for free - TEMPORARY", function(state)
     if state then
