@@ -67,39 +67,40 @@ local Button = Section1:Button({
 	end
 })
 
+-- Auto Teleport
 local Toggle = Section1:Toggle({
-	Name = "Teleport to buy buttons",
-	Default = false,
-	Callback = function(Bool) 
+    Name = "Teleport to buy buttons",
+    Default = false,
+    Callback = function(Bool)
         _G.AutoTeleport = Bool
 
         while _G.AutoTeleport do
-
             local System = game.Workspace:WaitForChild("Systems")
-            local buttonsFolder = System.Tycoon.Tycoons[tostring(userID)].Buttons
-        
-            local player = game.Players.LocalPlayer
-            local character = player.Character or player.CharacterAdded:Wait()
-            local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-        
-                -- if lazy then teleport the player to the buttons basically free auto purchase
-        
-                    -- Teleport player to each button's PrimaryPart
-                for _, button in ipairs(buttonsFolder:GetChildren()) do
-                    if button:IsA("Model") and button.PrimaryPart then
-                        local primaryPart = button.PrimaryPart
-                        if primaryPart then
-                            humanoidRootPart.CFrame = primaryPart.CFrame
-                            task.wait(2) -- Wait before moving to the next button
-                        else
-                            warn("Button " .. button.Name .. " is missing a PrimaryPart!")
+            local tycoons = System.Tycoon.Tycoons
+            local tycoon = tycoons[tostring(userID)] -- Convert userID to string
+            
+            if tycoon then
+                local buttonsFolder = tycoon:FindFirstChild("Buttons")
+                if buttonsFolder then
+                    local character = player.Character or player.CharacterAdded:Wait()
+                    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+                    
+                    if humanoidRootPart then
+                        for _, button in ipairs(buttonsFolder:GetChildren()) do
+                            if button:IsA("Model") and button.PrimaryPart then
+                                humanoidRootPart.CFrame = button.PrimaryPart.CFrame
+                                task.wait(2)
+                            end
                         end
                     end
                 end
+            else
+                warn("Tycoon not found for user ID: " .. userID)
             end
+
+            task.wait(1)
         end
-        task.wait(1)
-	end
+    end
 })
 
 local Toggle = Section1:Toggle({
