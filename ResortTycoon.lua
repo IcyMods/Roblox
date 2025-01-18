@@ -36,11 +36,6 @@ local userID = player.UserId
 -- leaderstats to dsiplay on menu
 local Cash = player.leaderstats.Cash
 
--- tabs
-local StatsTab = Window:NewTab("Stats")
-local MainTab = Window:NewTab("Main")
-
-local Section = StatsTab:NewSection("Welcome, " .. player.Name .." here is you're leaderstats!")
 
 -- Function to abbreviate large numbers
 local function abbreviateNumber(num)
@@ -55,12 +50,12 @@ local function abbreviateNumber(num)
     return string.format("%.0f%s", num, index > 0 and abbreviations[index] or "")
 end
 
-Section:NewLabel("Cash: " .. abbreviateNumber(Cash.Value))
 
-
-MainTab:NewButton("Money Hack", "gives you a certain amount of money", function()
-    game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
-end)
+local text = Main.TextField(
+    {
+        Text = "Cash: " .. abbreviateNumber(Cash.Value)
+    }
+)
 
 local MoneyHack =
     Credit.Button(
