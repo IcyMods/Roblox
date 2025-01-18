@@ -34,12 +34,9 @@ end
 
 Section:NewLabel("Cash: " .. abbreviateNumber(Cash.Value))
 
-MainTab:NewToggle("Free AutoPurchase Gamepass", "Gives you the AutoPurchase gamepass for free - TEMPORARY", function(state)
-    if state then
-        game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RF"):WaitForChild("UpdateSetting"):InvokeServer("AutoPurchase")
-    else
-        print("Toggle Off")
-    end
+
+MainTab:NewButton("Money Hack", "gives you a certain amount of money", function()
+    game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
 end)
 
 MainTab:NewToggle("Teleport to buy buttons", "if AutoPurchase is not working properly then toggle this one", function(state)
@@ -52,7 +49,7 @@ MainTab:NewToggle("Teleport to buy buttons", "if AutoPurchase is not working pro
     local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
 
         -- if lazy then teleport the player to the buttons basically free auto purchase
-        
+
             -- Teleport player to each button's PrimaryPart
         for _, button in ipairs(buttonsFolder:GetChildren()) do
             if button:IsA("Model") then
@@ -70,9 +67,12 @@ MainTab:NewToggle("Teleport to buy buttons", "if AutoPurchase is not working pro
     end
 end)
 
-
-MainTab:NewButton("Money Hack", "gives you a certain amount of money", function()
-    game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
+MainTab:NewToggle("Free AutoPurchase Gamepass", "Gives you the AutoPurchase gamepass for free - TEMPORARY", function(state)
+    if state then
+        game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RF"):WaitForChild("UpdateSetting"):InvokeServer("AutoPurchase")
+    else
+        print("Toggle Off")
+    end
 end)
 
 -- money hack
