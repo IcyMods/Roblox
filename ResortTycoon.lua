@@ -1,4 +1,7 @@
+local id = 18408308077
 
+if game.PlaceId == id then
+    
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Loco-CTO/UI-Library/main/VisionLibV2/source.lua'))()
 
 Window = Library:Create({
@@ -73,7 +76,7 @@ local Toggle = Section1:Toggle({
         while _G.AutoTeleport do
 
             local System = game.Workspace:WaitForChild("Systems")
-            local buttonsFolder = System.Tycoon.Tycoons[userID].Buttons
+            local buttonsFolder = System.Tycoon.Tycoons[tostring(userID)].Buttons
         
             local player = game.Players.LocalPlayer
             local character = player.Character or player.CharacterAdded:Wait()
@@ -83,7 +86,7 @@ local Toggle = Section1:Toggle({
         
                     -- Teleport player to each button's PrimaryPart
                 for _, button in ipairs(buttonsFolder:GetChildren()) do
-                    if button:IsA("Model") then
+                    if button:IsA("Model") and button.PrimaryPart then
                         local primaryPart = button.PrimaryPart
                         if primaryPart then
                             humanoidRootPart.CFrame = primaryPart.CFrame
@@ -96,7 +99,7 @@ local Toggle = Section1:Toggle({
             end
         end
         task.wait(1)
-    end
+	end
 })
 
 local Toggle = Section1:Toggle({
@@ -107,9 +110,9 @@ local Toggle = Section1:Toggle({
 
         while _G.AutoPurchase do    
             game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RF"):WaitForChild("UpdateSetting"):InvokeServer("AutoPurchase")
-            task.wait(0.8)
+            task.wait(1)
         end
-    end
+	end
 })
 
 -- money hack
@@ -117,3 +120,5 @@ local Toggle = Section1:Toggle({
 --     game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
 --     wait(0.0001)
 -- end
+
+end
