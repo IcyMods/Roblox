@@ -2,9 +2,32 @@ local id = 18408308077
 
 if game.PlaceId == id then
     
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/kav"))()
+local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/NiceBBMBThai12/NBTScript/main/Gui%20Th%20Edit%20free%2001"))()
 
-local Window = Library.CreateLib("[⭐NEW] Ultimate Resort Tycoon | made by vortex 🌴☀️", "BloodTheme")
+local MainWindow =
+    Material.Load(
+    {
+        Title = "[⭐NEW] Ultimate Resort Tycoon | made by vortex 🌴☀️",
+        Style = 1,
+        SizeX = 400,
+        SizeY = 185,
+        Theme = "Dark"
+    }
+)
+
+local Main =
+    MainWindow.New(
+    {
+        Title = "Main"
+    }
+)
+
+local Credit =
+    MainWindow.New(
+    {
+        Title = "Credit"
+    }
+)
 
 -- player stuff
 local player = game.Players.LocalPlayer
@@ -39,41 +62,71 @@ MainTab:NewButton("Money Hack", "gives you a certain amount of money", function(
     game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
 end)
 
-MainTab:NewToggle("Teleport to buy buttons", "if AutoPurchase is not working properly then toggle this one", function(state)
-    if state then
-    local System = game.Workspace:WaitForChild("Systems")
-    local buttonsFolder = System.Tycoon.Tycoons[userID].Buttons
+local MoneyHack =
+    Credit.Button(
+    {
+        Text = "Money HackE",
+        Callback = function(Value)
+        game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()   
+        --setclipboard("https://discord.gg/4KqkXRDdGE")
+        end,
+        Enabled = false
+    }
+)
 
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+local Teleportation =
+    Main.Toggle(
+    {
+        Text = "Teleport to buy buttons",
+        Callback = function(Value)
+            _G.AutoTeleport = Value
 
-        -- if lazy then teleport the player to the buttons basically free auto purchase
+            while _G.AutoTeleport do
 
-            -- Teleport player to each button's PrimaryPart
-        for _, button in ipairs(buttonsFolder:GetChildren()) do
-            if button:IsA("Model") then
-                local primaryPart = button.PrimaryPart
-                if primaryPart then
-                    humanoidRootPart.CFrame = primaryPart.CFrame
-                    task.wait(2) -- Wait before moving to the next button
-                else
-                    warn("Button " .. button.Name .. " is missing a PrimaryPart!")
+                local System = game.Workspace:WaitForChild("Systems")
+                local buttonsFolder = System.Tycoon.Tycoons[userID].Buttons
+            
+                local player = game.Players.LocalPlayer
+                local character = player.Character or player.CharacterAdded:Wait()
+                local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+            
+                    -- if lazy then teleport the player to the buttons basically free auto purchase
+            
+                        -- Teleport player to each button's PrimaryPart
+                    for _, button in ipairs(buttonsFolder:GetChildren()) do
+                        if button:IsA("Model") then
+                            local primaryPart = button.PrimaryPart
+                            if primaryPart then
+                                humanoidRootPart.CFrame = primaryPart.CFrame
+                                task.wait(2) -- Wait before moving to the next button
+                            else
+                                warn("Button " .. button.Name .. " is missing a PrimaryPart!")
+                            end
+                        end
+                    end
                 end
             end
-        end
-    else
-        print("Toggle Off")
-    end
-end)
+            task.wait(1)
+        end,
+        Enabled = false
+    }
+)
 
-MainTab:NewToggle("Free AutoPurchase Gamepass", "Gives you the AutoPurchase gamepass for free - TEMPORARY", function(state)
-    if state then
-        game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RF"):WaitForChild("UpdateSetting"):InvokeServer("AutoPurchase")
-    else
-        print("Toggle Off")
-    end
-end)
+local Teleportation =
+    Main.Toggle(
+    {
+        Text = "Free AutoPurchase Gamepass - TEMPORARY",
+        Callback = function(Value)
+            _G.AutoPurchase = Value
+
+            while _G.AutoPurchase do    
+                game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RF"):WaitForChild("UpdateSetting"):InvokeServer("AutoPurchase")
+                task.wait(0.8)
+            end
+        end,
+        Enabled = false
+    }
+)
 
 -- money hack
 -- while true do
