@@ -36,7 +36,7 @@ local Section1 = MainTab:Section({
 })
 
 local Section2 = CreditTab:Section({
-	Name = "Credit Tab"
+	Name = "Credits Tab"
 })
 
 -- player stuff
@@ -69,20 +69,55 @@ local Label = Section1:Label({
 })
 
 local Label = Section2:Label({
-	Name = "@Avexy",
+	Name = "@Avexy for programming",
 })
+
+local Keybind = Section2:Keybind({
+	Name = "Keybind",
+	Default = Enum.KeyCode.RightShift,
+	Callback = function()
+		Library:Notify({
+			Name = "Keybind pressed",
+			Text = "",
+			Icon = "rbxassetid://11401835376",
+			Duration = 3,
+		})
+	end,
+	UpdateKeyCallback = function(Key)
+		Library:Notify({
+			Name = "Keybind updated",
+			Text = tostring(Key),
+			Icon = "rbxassetid://11401835376",
+			Duration = 3,
+		})
+	end
+})
+
 
 local Button = Section2:Button({
 	Name = "Copy discord link",
 	Callback = function()
+
+        Library:Notify({
+			Name = "discord link copied!",
+			Text = Text,
+			Icon = "rbxassetid://18810599545",
+			Duration = 3,
+		})
+
         setclipboard("discord.gg/HVqTMP2UgX")
 	end
 })
 
-local Button = Section1:Button({
+local Toggle = Section1:Toggle({
 	Name = "Money Hack",
-	Callback = function()
-        game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
+	Callback = function(Bool)
+        _G.autoGetMoney = Bool
+
+        while _G.autoGetMoney do
+            game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services"):WaitForChild("PlayerService"):WaitForChild("RE"):WaitForChild("GivePlayerRewards"):FireServer()
+            task.wait(0.001)
+        end
 	end
 })
 
