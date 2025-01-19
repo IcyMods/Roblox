@@ -154,8 +154,9 @@ w1:Toggle(
         local giver = tycoon:FindFirstChild("StarterParts").Collector.Givers.Giver
         giver.Transparency = 1
         giver.CanCollide = false
-        
+
         giver.CFrame = character.CFrame
+        task.wait(0.6)
     end
 end
 )
