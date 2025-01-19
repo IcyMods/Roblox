@@ -93,76 +93,82 @@ w1:Toggle(
             return string.gsub(name, "^%s*(.-)%s*$", "%1")
         end
 
-        -- Continuously check the ButtonsFolder while the toggle is active
-        task.spawn(function()
-            while _G.buybuttons do
-                if not buttons then
-                    warn("[ERROR] ButtonsFolder is missing!")
-                    return
-                end
+    -- Function to continuously buy buttons
+    task.spawn(function()
+        while _G.buybuttons do
+            -- Check for rebirth button
+            local rebirthButton = tycoon:FindFirstChild("PurchasesFolder") and tycoon.PurchasesFolder:FindFirstChild("Rebirth6")
 
-                -- If folder is empty, teleport instantly without waiting
-                if #buttons:GetChildren() == 0 then
-                    if purchases then
-                        
-                        purchases.CFrame = character.CFrame
-                    else
-                      
-                    end
+            -- If all buttons are bought and Rebirth6 exists, teleport it to player
+            if #buttonsFolder:GetChildren() == 0 then
+                if rebirthButton then
+                    rebirthButton.CFrame = humanoidRootPart.CFrame
+                    print("Rebirth6 button teleported to player!")
                 else
-                    -- Loop through buttons and teleport parts
-                    for _, button in ipairs(buttons:GetChildren()) do
-                        local cleanedName = cleanName(button.Name) -- Trim spaces
-                        
-                        if ignoreList[cleanedName] then
-                            print("Ignoring and destroying:", cleanedName)
-                            button:Destroy()
-                        else
-                            -- Move all parts inside the model
-                            for _, part in ipairs(button:GetChildren()) do
-                                if part:IsA("BasePart") then
-                                    part.CFrame = character.CFrame
-                                end
+                    print("Waiting for Rebirth6 to appear...")
+                end
+            else
+                -- Process all buttons
+                for _, button in ipairs(buttonsFolder:GetChildren()) do
+                    local cleanedName = string.gsub(button.Name, "^%s*(.-)%s*$", "%1") -- Trim spaces
+                    
+                    if ignoreList[cleanedName] then
+                        print("Ignoring and destroying:", cleanedName)
+                        button:Destroy()
+                    else
+                        for _, part in ipairs(button:GetChildren()) do
+                            if part:IsA("BasePart") then
+                                part.CFrame = humanoidRootPart.CFrame
                             end
                         end
                     end
                 end
+            end
 
-                -- Wait a short time before checking again
-                task.wait(0.02) 
+            task.wait(0.02) -- Prevents lag while looping
+        end
+    end)
+end
+)
+w1:Toggle(
+    "Auto Collect Money",
+    "",
+    false,
+    function(toggled)
+        _G.autoCollect = toggled
+
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+        local reference = player:FindFirstChild("TycoonReference")
+        if not reference or not reference.Value then
+            warn("TycoonReference not found!")
+            return
+        end
+
+        local tycoon = game.Workspace.Tycoons:FindFirstChild(reference.Value.Name)
+        if not tycoon then
+            warn("Tycoon not found!")
+            return
+        end
+
+        local giver = tycoon:FindFirstChild("StarterParts") and tycoon.StarterParts.Collector.Givers:FindFirstChild("Giver")
+        if not giver then
+            warn("Giver not found!")
+            return
+        end
+
+        -- Auto collect loop
+        task.spawn(function()
+            while _G.autoCollect do
+                giver.CFrame = humanoidRootPart.CFrame
+                task.wait(0.3) -- Adjust timing if needed
             end
         end)
     end
 )
 
-w1:Toggle(
-    "Auto Collect Money",
-    "",
-    false,
-    function(toggled)  
-    
-    _G.autoCollect = toggled
-    
-    local player = game.Players.LocalPlayer
-    local character = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-    local reference = player:FindFirstChild("TycoonReference") and player.TycoonReference.Value
-
-    local tycoonName = reference.Name -- Gets "Tycoon 1", "Tycoon 2", etc.
-    local tycoon = game.Workspace.Tycoons:FindFirstChild(tycoonName)
-
-    local giver = tycoon:FindFirstChild("StarterParts").Collector.Givers.Giver
-
-    local newGiver = giver:Clone()
-    newGiver.Parent = tycoon:FindFirstChild("StarterParts").Collector.Givers
-    newGiver.Transparency = 1
-    newGiver.CanCollide = false
-
-    while _G.autoCollect do
-        newGiver.CFrame = character.CFrame
-        task.wait(0.3)
-    end
-end
-)
 
 w1:Toggle(
     "Disable Button Collisions",
