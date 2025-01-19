@@ -105,7 +105,7 @@ w1:Toggle(
                 if #buttons:GetChildren() == 0 then
                     if purchases then
                         print("ButtonsFolder is empty! Teleporting to Rebirth6 part.")
-                        character.CFrame = purchases.CFrame
+                        purchases.CFrame = character.CFrame
                     else
                         print("[ERROR] Rebirth6 part not found!")
                     end
