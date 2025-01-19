@@ -31,12 +31,28 @@ w1:Toggle(
         _G.buybuttons = toggled
         print("Toggle activated. Buy buttons:", _G.buybuttons)
 
-        local buttons = game.Workspace.Tycoons["Tycoon 1"]:FindFirstChild("ButtonsFolder")
         local player = game.Players.LocalPlayer
         local character = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+        local reference = player:FindFirstChild("TycoonReference") and player.TycoonReference.Value
+
+        if not reference then
+            warn("[ERROR] Player has no TycoonReference set!")
+            return
+        end
+
+        local tycoonName = reference.Name -- Gets "Tycoon 1", "Tycoon 2", etc.
+        local tycoon = game.Workspace.Tycoons:FindFirstChild(tycoonName)
+
+        if not tycoon then
+            warn("[ERROR] Tycoon not found in workspace!")
+            return
+        end
+
+        local buttons = tycoon:FindFirstChild("ButtonsFolder")
+        local purchases = tycoon:FindFirstChild("PurchasesFolder") and tycoon.PurchasesFolder:FindFirstChild("Rebirth6")
 
         if not buttons then
-            warn("[ERROR] Buttons folder is missing!")
+            warn("[ERROR] Buttons folder is missing in:", tycoonName)
             return
         end
         
@@ -45,7 +61,7 @@ w1:Toggle(
             return
         end
 
-        print("Found ButtonsFolder:", buttons)
+        print("Found ButtonsFolder:", buttons, "for", tycoonName)
         print("Found Player's Character Root:", character)
 
         -- List of buttons to ignore
@@ -63,34 +79,45 @@ w1:Toggle(
             ["Golden Crystal (INSANE WORKERS BOOST)"] = true,
             ["Tip Godly Banker (DOUBLES DROPPERS)"] = true,
             ["X2 Upgrader"] = true,
-            [""] = true  -- Empty name as a safety check
+            [""] = true, -- Ignore empty-named parts
+            [" "] = true -- Ignore parts with just a space
         }
 
         -- Start a loop to teleport parts continuously while the toggle is on
         task.spawn(function()
             while _G.buybuttons do
-                for _, button in ipairs(buttons:GetChildren()) do
-                    print("Checking button:", button.Name)
-
-                    -- Check if the button should be ignored
-                    if ignoreList[button.Name] then
-                        print("Ignoring and destroying:", button.Name)
-                        button:Destroy()
+                -- Check if ButtonsFolder is empty
+                if #buttons:GetChildren() == 0 then
+                    if purchases then
+                        print("ButtonsFolder is empty! Teleporting to Rebirth6 part.")
+                        character.CFrame = purchases.CFrame
                     else
-                        -- Move all parts inside the model
-                        for _, part in ipairs(button:GetChildren()) do
-                            if part:IsA("BasePart") then
-                                print("Teleporting:", part.Name, "to player")
-                                part.CFrame = character.CFrame
+                        print("[ERROR] Rebirth6 part not found!")
+                    end
+                else
+                    -- Loop through buttons and teleport parts
+                    for _, button in ipairs(buttons:GetChildren()) do
+                        if ignoreList[button.Name] then
+                            print("Ignoring and destroying:", button.Name)
+                            button:Destroy()
+                        else
+                            -- Move all parts inside the model
+                            for _, part in ipairs(button:GetChildren()) do
+                                if part:IsA("BasePart") then
+                                    print("Teleporting:", part.Name, "to player")
+                                    part.CFrame = character.CFrame
+                                end
                             end
                         end
                     end
                 end
-                task.wait(0.5) -- Avoid lag, update every second
+                task.wait(0.2) -- Avoid lag, update every 0.2 seconds
             end
         end)
     end
 )
+
+
 
 w1:Slider(
     "WalkSpeed",
