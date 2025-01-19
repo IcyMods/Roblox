@@ -30,23 +30,41 @@ w1:Toggle(
     function(toggled)      
         _G.buybuttons = toggled
 
-        local buttons = game.Workspace.Tycoons["Tycoon 1"].ButtonsFolder
+        local buttons = game.Workspace.Tycoons["Tycoon 1"]:FindFirstChild("ButtonsFolder")
         local player = game.Players.LocalPlayer
-        local character = player.Character.HumanoidRootPart
+        local character = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+
+        if not buttons or not character then
+            warn("Buttons folder or Character's HumanoidRootPart is missing!")
+            return
+        end
+
+        -- List of buttons to ignore
+        local ignoreList = {
+            "💸 Insane Upgrader - Super fast cash!",
+            "Millionaire Maker - $1M/SECOND!"
+        }
 
         for _, button in ipairs(buttons:GetChildren()) do
-            if button.Name == "💸 Insane Upgrader - Super fast cash!" and button.Name == "💸 Insane Upgrader - Super fast cash!" and button.Name == "Millionaire Maker - $1M/SECOND!" then
-            -- do nothing
-            button:Destroy()
-        else
-            while _G.buybuttons do
-                button.PrimaryPart.CFrame = character.CFrame
-                task.wait(1)
+            -- Check if button should be ignored
+            if table.find(ignoreList, button.Name) then
+                button:Destroy()
+            else
+                -- Ensure button has a PrimaryPart before moving it
+                if button:IsA("Model") and button.PrimaryPart then
+                    task.spawn(function()
+                        while _G.buybuttons do
+                            if button.Parent == nil then break end  -- Stop if button is removed
+                            button.PrimaryPart.CFrame = character.CFrame
+                            task.wait(1)
+                        end
+                    end)
+                end
             end
         end
     end
-end
-) -- Text, Flag, Enabled, Callback, Flag Location (Optional)
+)
+
 
 w1:Slider(
     "WalkSpeed",
@@ -66,7 +84,7 @@ w1:Slider(
     function(value)
         game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
     end,
-    100
+    50
 ) -- Text, Flag, Minimum, Maximum, Callback, Default (Optional), Flag Location (Optional)
 
 -- w1:Toggle(
