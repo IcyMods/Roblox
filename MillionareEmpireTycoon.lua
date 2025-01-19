@@ -121,7 +121,6 @@ w1:Toggle(
                             -- Move all parts inside the model
                             for _, part in ipairs(button:GetChildren()) do
                                 if part:IsA("BasePart") then
-                                    print("Teleporting:", part.Name, "to player")
                                     part.CFrame = character.CFrame
                                 end
                             end
@@ -181,10 +180,10 @@ w1:Toggle(
 w1:Button(
     "Disable UI offer popups",
     function()
-    game.Player.LocalPlayer.PlayerGui.Screen.Floor12Offer:Destroy()
-    game.Player.LocalPlayer.PlayerGui.Screen.Floor3Offer:Destroy()
-    game.Player.LocalPlayer.PlayerGui.Screen.Floor6Offer:Destroy()
-    game.Player.LocalPlayer.PlayerGui.Screen.Floor9Offer:Destroy()
+    game.Players.LocalPlayer.PlayerGui.Screen.Floor12Offer:Destroy()
+    game.Players.LocalPlayer.PlayerGui.Screen.Floor3Offer:Destroy()
+    game.Players.LocalPlayer.PlayerGui.Screen.Floor6Offer:Destroy()
+    game.Players.LocalPlayer.PlayerGui.Screen.Floor9Offer:Destroy()
 end
 )
 
