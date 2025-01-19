@@ -197,12 +197,32 @@ w1:Toggle(
         _G.noclip = toggled
         print("NoClip:", _G.noclip)
 
-        local buttonsFolder = game.Workspace:FindFirstChild("ButtonsFolder")
+        local player = game.Players.LocalPlayer
+        local character = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+        local reference = player:FindFirstChild("TycoonReference") and player.TycoonReference.Value
         
-        if not buttonsFolder then
-            warn("[ERROR] ButtonsFolder not found!")
+        if not reference then
+            warn("[ERROR] Player has no TycoonReference set!")
             return
         end
+        
+        local tycoonName = reference.Name -- Gets "Tycoon 1", "Tycoon 2", etc.
+        local tycoon = game.Workspace.Tycoons:FindFirstChild(tycoonName)
+        
+        if not tycoon then
+            warn("[ERROR] Tycoon not found in workspace!")
+            return
+        end
+        
+        -- Check if ButtonsFolder exists, create it if it doesn't
+        local buttonsFolder = tycoon:FindFirstChild("ButtonsFolder")
+        if not buttonsFolder then
+            warn("[ERROR] ButtonsFolder not found! Creating ButtonsFolder...")
+            buttonsFolder = Instance.new("Folder")
+            buttonsFolder.Name = "ButtonsFolder"
+            buttonsFolder.Parent = tycoon
+            print("ButtonsFolder created in tycoon:", tycoonName)
+        end      
 
         -- Function to update collision state
         local function updateCollisions(state)
