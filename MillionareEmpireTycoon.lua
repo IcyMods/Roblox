@@ -152,7 +152,9 @@ w1:Toggle(
 
     while _G.autoCollect do
         local giver = tycoon:FindFirstChild("StarterParts").Collector.Givers.Giver
-
+        giver.Transparency = 1
+        giver.CanCollide = false
+        
         giver.CFrame = character.CFrame
     end
 end
