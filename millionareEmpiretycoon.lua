@@ -141,45 +141,52 @@ w1:Toggle(
     false,
     function(toggled)
         _G.autoCollect = toggled
+        print("AutoCollect toggled:", _G.autoCollect)
 
         local player = game.Players.LocalPlayer
         local character = player.Character or player.CharacterAdded:Wait()
         local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+        print("Character and HumanoidRootPart found")
 
         local reference = player:FindFirstChild("TycoonReference")
         if not reference or not reference.Value then
             warn("TycoonReference not found!")
             return
         end
+        print("TycoonReference found:", reference.Value.Name)
 
         local tycoon = game.Workspace.Tycoons:FindFirstChild(reference.Value.Name)
         if not tycoon then
             warn("Tycoon not found!")
             return
         end
+        print("Tycoon found:", tycoon.Name)
 
         local giver = tycoon:FindFirstChild("StarterParts") and tycoon.StarterParts.Collector.Givers:FindFirstChild("Giver")
         if not giver then
             warn("Giver not found!")
             return
         end
+        print("Giver found:", giver.Name)
 
         -- Clone the Giver and modify properties
         local clonedGiver = giver:Clone()
         clonedGiver.Parent = tycoon.StarterParts.Collector.Givers
         clonedGiver.Transparency = 1
         clonedGiver.CanCollide = false
+        print("Cloned Giver added to Givers folder with Transparency and CanCollide set")
 
         -- Auto collect loop
         task.spawn(function()
             while _G.autoCollect do
                 clonedGiver.CFrame = humanoidRootPart.CFrame
+                print("Moving clonedGiver to:", humanoidRootPart.CFrame) -- Print the position
                 task.wait(0.3) -- Adjust timing if needed
             end
+            print("Auto collect stopped.")
         end)
     end
 )
-
 
 
 w1:Toggle(
@@ -200,25 +207,33 @@ w1:Toggle(
         -- Function to update collision state
         local function updateCollisions(state)
             for _, button in ipairs(buttonsFolder:GetChildren()) do
-                for _, part in ipairs(button:GetDescendants()) do
-                    if part:IsA("BasePart") then
-                        part.CanCollide = state
+                if button:IsA("Model") then
+                    -- If it's a model, check for PrimaryPart and update all parts inside
+                    if button.PrimaryPart then
+                        button.PrimaryPart.CanCollide = state
                     end
+                    for _, part in ipairs(button:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = state
+                        end
+                    end
+                elseif button:IsA("BasePart") then
+                    -- If it's a direct BasePart, update it
+                    button.CanCollide = state
                 end
             end
             print("Collision set to:", state)
         end
 
-        -- Continuous loop for NoClip mode
-        task.spawn(function()
-            while _G.noclip do
-                updateCollisions(false) -- Disable collisions
-                task.wait(0.5) -- Adjust if needed
-            end
-            updateCollisions(true) -- Re-enable collisions when toggled off
-        end)
+        -- Apply changes once when toggled
+        if _G.noclip then
+            updateCollisions(false) -- Disable collisions
+        else
+            updateCollisions(true) -- Re-enable collisions
+        end
     end
 )
+
 
 
 
