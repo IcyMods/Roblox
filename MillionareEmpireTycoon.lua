@@ -137,10 +137,24 @@ w1:Toggle(
 
 w1:Toggle(
     "Auto Collect Money",
-    "frz",
+    "",
     false,
     function(toggled)  
+    
+    _G.autoCollect = true
+    
+    local player = game.Players.LocalPlayer
+    local character = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    local reference = player:FindFirstChild("TycoonReference") and player.TycoonReference.Value
 
+    local tycoonName = reference.Name -- Gets "Tycoon 1", "Tycoon 2", etc.
+    local tycoon = game.Workspace.Tycoons:FindFirstChild(tycoonName)
+
+    while _G.autoCollect do
+        local giver = tycoon:FindFirstChild("StarterParts").Collector.Givers.Giver
+
+        giver.CFrame = character.CFrame
+    end
 end
 )
 
