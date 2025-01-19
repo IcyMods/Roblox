@@ -29,15 +29,24 @@ w1:Toggle(
     false,
     function(toggled)      
         _G.buybuttons = toggled
+        print("Toggle activated. Buy buttons:", _G.buybuttons)
 
         local buttons = game.Workspace.Tycoons["Tycoon 1"]:FindFirstChild("ButtonsFolder")
         local player = game.Players.LocalPlayer
         local character = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
 
-        if not buttons or not character then
-            warn("Buttons folder or Character's HumanoidRootPart is missing!")
+        if not buttons then
+            warn("[ERROR] Buttons folder is missing!")
             return
         end
+        
+        if not character then
+            warn("[ERROR] Player's HumanoidRootPart is missing!")
+            return
+        end
+
+        print("Found ButtonsFolder:", buttons)
+        print("Found Player's Character Root:", character)
 
         -- List of buttons to ignore
         local ignoreList = {
@@ -46,24 +55,38 @@ w1:Toggle(
         }
 
         for _, button in ipairs(buttons:GetChildren()) do
+            print("Checking button:", button.Name)
+
             -- Check if button should be ignored
             if table.find(ignoreList, button.Name) then
+                print("Ignoring and destroying:", button.Name)
                 button:Destroy()
             else
                 -- Ensure button has a PrimaryPart before moving it
                 if button:IsA("Model") and button.PrimaryPart then
+                    print("Moving button:", button.Name)
+                    
                     task.spawn(function()
                         while _G.buybuttons do
-                            if button.Parent == nil then break end  -- Stop if button is removed
+                            if button.Parent == nil then 
+                                print("Button was removed. Stopping movement:", button.Name)
+                                break 
+                            end
+                            
                             button.PrimaryPart.CFrame = character.CFrame
+                            print("Moved", button.Name, "to character position.")
+
                             task.wait(1)
                         end
                     end)
+                else
+                    print("[WARNING] Button has no PrimaryPart:", button.Name)
                 end
             end
         end
     end
 )
+
 
 
 w1:Slider(
