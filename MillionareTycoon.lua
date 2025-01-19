@@ -17,7 +17,7 @@ w1:Toggle(
     function(toggled)      
         _G.moneyhack = toggled
         while _G.moneyhack do
-            game:GetService("ReplicatedStorage"):WaitForChild("fewjnfejwb3"):FireServer(1000000000000000000)
+            game:GetService("ReplicatedStorage"):WaitForChild("fewjnfejwb3"):FireServer(10000000000000000)
             task.wait(0.0001)
         end
     end
