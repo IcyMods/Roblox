@@ -165,36 +165,46 @@ end
 )
 
 w1:Toggle(
-    "Disable Button Collisons",
+    "Disable Button Collisions",
     "frz",
     false,
     function(toggled)
         _G.noclip = toggled
         print("NoClip:", _G.noclip)
 
-        local player = game.Players.LocalPlayer
-        local character = player.Character or player.CharacterAdded:Wait()
+        local buttonsFolder = game.Workspace:FindFirstChild("ButtonsFolder") -- Change this to your model's location
 
         task.spawn(function()
             while _G.noclip do
-                for _, part in ipairs(character:GetChildren()) do
-                    if part:IsA("BasePart") and part.CanCollide then
-                        part.CanCollide = false -- NoClip ON
+                if buttonsFolder then
+                    for _, button in ipairs(buttonsFolder:GetChildren()) do
+                        if button:IsA("Model") or button:IsA("Part") then
+                            for _, part in ipairs(button:GetDescendants()) do
+                                if part:IsA("BasePart") then
+                                    part.CanCollide = false -- NoClip ON
+                                end
+                            end
+                        end
                     end
                 end
-                task.wait() -- Run every frame
+                task.wait(0.2) -- Prevent lag
             end
 
             -- Restore collision when NoClip is disabled
-            for _, part in ipairs(character:GetChildren()) do
-                if part:IsA("BasePart") then
-                    part.CanCollide = true -- NoClip OFF
+            if buttonsFolder then
+                for _, button in ipairs(buttonsFolder:GetChildren()) do
+                    if button:IsA("Model") or button:IsA("Part") then
+                        for _, part in ipairs(button:GetDescendants()) do
+                            if part:IsA("BasePart") then
+                                part.CanCollide = true -- NoClip OFF
+                            end
+                        end
+                    end
                 end
             end
         end)
     end
 )
-
 
 
 w1:Button(
