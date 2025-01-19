@@ -88,15 +88,20 @@ w1:Toggle(
             [" "] = true -- Ignore parts with just a space
         }
 
-        -- Start a loop to teleport parts continuously while the toggle is on
+        -- Function to clean button names (removes leading/trailing spaces)
+        local function cleanName(name)
+            return string.gsub(name, "^%s*(.-)%s*$", "%1")
+        end
+
+        -- Continuously check the ButtonsFolder while the toggle is active
         task.spawn(function()
             while _G.buybuttons do
                 if not buttons then
                     warn("[ERROR] ButtonsFolder is missing!")
                     return
                 end
-                
-                -- Check if ButtonsFolder is empty
+
+                -- If folder is empty, teleport instantly without waiting
                 if #buttons:GetChildren() == 0 then
                     if purchases then
                         print("ButtonsFolder is empty! Teleporting to Rebirth6 part.")
@@ -123,10 +128,30 @@ w1:Toggle(
                         end
                     end
                 end
-                task.wait(0.2) -- Avoid lag, update every 0.2 seconds
+
+                -- Wait a short time before checking again
+                task.wait(0.02) 
             end
         end)
     end
+)
+
+w1:Toggle(
+    "Auto Collect Money",
+    "frz",
+    false,
+    function(toggled)  
+
+end
+)
+
+w1:Toggle(
+    "Disable Button Collisons",
+    "frz",
+    false,
+    function(toggled)  
+
+end
 )
 
 w1:Slider(
