@@ -190,39 +190,36 @@ w1:Toggle(
         _G.noclip = toggled
         print("NoClip:", _G.noclip)
 
-        local buttonsFolder = game.Workspace:FindFirstChild("ButtonsFolder") -- Change this to your model's location
+        local buttonsFolder = game.Workspace:FindFirstChild("ButtonsFolder")
+        
+        if not buttonsFolder then
+            warn("[ERROR] ButtonsFolder not found!")
+            return
+        end
 
+        -- Function to update collision state
+        local function updateCollisions(state)
+            for _, button in ipairs(buttonsFolder:GetChildren()) do
+                for _, part in ipairs(button:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = state
+                    end
+                end
+            end
+            print("Collision set to:", state)
+        end
+
+        -- Continuous loop for NoClip mode
         task.spawn(function()
             while _G.noclip do
-                if buttonsFolder then
-                    for _, button in ipairs(buttonsFolder:GetChildren()) do
-                        if button:IsA("Model") or button:IsA("Part") then
-                            for _, part in ipairs(button:GetDescendants()) do
-                                if part:IsA("BasePart") then
-                                    part.CanCollide = false -- NoClip ON
-                                end
-                            end
-                        end
-                    end
-                end
-                task.wait(0.2) -- Prevent lag
+                updateCollisions(false) -- Disable collisions
+                task.wait(0.5) -- Adjust if needed
             end
-
-            -- Restore collision when NoClip is disabled
-            if buttonsFolder then
-                for _, button in ipairs(buttonsFolder:GetChildren()) do
-                    if button:IsA("Model") or button:IsA("Part") then
-                        for _, part in ipairs(button:GetDescendants()) do
-                            if part:IsA("BasePart") then
-                                part.CanCollide = true -- NoClip OFF
-                            end
-                        end
-                    end
-                end
-            end
+            updateCollisions(true) -- Re-enable collisions when toggled off
         end)
     end
 )
+
 
 
 w1:Button(
