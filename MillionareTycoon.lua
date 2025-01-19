@@ -11,7 +11,7 @@ local w1 = library:Window("💸Millionare Empire Tycoon") -- Text
 -- ) -- Text, Callback
 
 w1:Toggle(
-    "Money",
+    "INF Money",
     "frz",
     false,
     function(toggled)      
@@ -75,7 +75,7 @@ w1:Toggle(
             ["Upgrade Bitcoin Miner [X5 Cash]"] = true,
             ["Golden Server [BOOSTS ALL MINERS]"] = true,
             ["Golden DOGE [TRIPLES ALL DOGE MINERS]"] = true,
-            ["Double Doge Income"] = true,
+            ["Double Doge Income "] = true,
             ["Golden Crystal (INSANE WORKERS BOOST)"] = true,
             ["Tip Godly Banker (DOUBLES DROPPERS)"] = true,
             ["X2 Upgrader"] = true,
@@ -116,8 +116,6 @@ w1:Toggle(
         end)
     end
 )
-
-
 
 w1:Slider(
     "WalkSpeed",
