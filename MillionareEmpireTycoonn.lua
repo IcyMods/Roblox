@@ -150,48 +150,51 @@ w1:Toggle(
     local tycoonName = reference.Name -- Gets "Tycoon 1", "Tycoon 2", etc.
     local tycoon = game.Workspace.Tycoons:FindFirstChild(tycoonName)
 
-    while _G.autoCollect do
-        local giver = tycoon:FindFirstChild("StarterParts").Collector.Givers.Giver
-        giver.Transparency = 1
-        giver.CanCollide = false
+    local giver = tycoon:FindFirstChild("StarterParts").Collector.Givers.Giver
 
-        giver.CFrame = character.CFrame
-        task.wait(0.6)
+    local newGiver = giver:Clone()
+    newGiver.Parent = tycoon:FindFirstChild("StarterParts").Collector.Givers
+    newGiver.Transparency = 1
+    newGiver.CanCollide = false
+
+    while _G.autoCollect do
+        newGiver.CFrame = character.CFrame
+        task.wait(0.3)
     end
 end
 )
 
 w1:Toggle(
-    "Disable Button Collisions",
+    "Disable Button Collisons",
     "frz",
     false,
     function(toggled)
         _G.noclip = toggled
         print("NoClip:", _G.noclip)
 
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+
         task.spawn(function()
             while _G.noclip do
-                for _, button in ipairs(buttons:GetChildren()) do
-                    for _, part in ipairs(button:GetChildren()) do
-                        if part:IsA("BasePart") then
-                            part.CanCollide = false -- NoClip ON
-                        end
+                for _, part in ipairs(character:GetChildren()) do
+                    if part:IsA("BasePart") and part.CanCollide then
+                        part.CanCollide = false -- NoClip ON
                     end
                 end
-                task.wait(0.2) -- Prevent lag
+                task.wait() -- Run every frame
             end
 
             -- Restore collision when NoClip is disabled
-            for _, button in ipairs(buttons:GetChildren()) do
-                for _, part in ipairs(button:GetChildren()) do
-                    if part:IsA("BasePart") then
-                        part.CanCollide = true -- NoClip OFF
-                    end
+            for _, part in ipairs(character:GetChildren()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = true -- NoClip OFF
                 end
             end
         end)
     end
 )
+
 
 
 w1:Button(
