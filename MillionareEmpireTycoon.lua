@@ -146,11 +146,45 @@ end
 )
 
 w1:Toggle(
-    "Disable Button Collisons",
+    "Disable Button Collisions",
     "frz",
     false,
-    function(toggled)  
+    function(toggled)
+        _G.noclip = toggled
+        print("NoClip:", _G.noclip)
 
+        task.spawn(function()
+            while _G.noclip do
+                for _, button in ipairs(buttons:GetChildren()) do
+                    for _, part in ipairs(button:GetChildren()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = false -- NoClip ON
+                        end
+                    end
+                end
+                task.wait(0.2) -- Prevent lag
+            end
+
+            -- Restore collision when NoClip is disabled
+            for _, button in ipairs(buttons:GetChildren()) do
+                for _, part in ipairs(button:GetChildren()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = true -- NoClip OFF
+                    end
+                end
+            end
+        end)
+    end
+)
+
+
+w1:Button(
+    "Disable UI offer popups",
+    function()
+    game.Player.LocalPlayer.PlayerGui.Screen.Floor12Offer:Destroy()
+    game.Player.LocalPlayer.PlayerGui.Screen.Floor3Offer:Destroy()
+    game.Player.LocalPlayer.PlayerGui.Screen.Floor6Offer:Destroy()
+    game.Player.LocalPlayer.PlayerGui.Screen.Floor9Offer:Destroy()
 end
 )
 
