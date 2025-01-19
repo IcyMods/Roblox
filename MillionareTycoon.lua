@@ -17,7 +17,7 @@ w1:Toggle(
     function(toggled)      
         _G.moneyhack = toggled
         while _G.moneyhack do
-            game:GetService("ReplicatedStorage"):WaitForChild("fewjnfejwb3"):FireServer(100000000000)
+            game:GetService("ReplicatedStorage"):WaitForChild("fewjnfejwb3"):FireServer(10000000000000)
             task.wait(0.0001)
         end
     end
@@ -50,27 +50,27 @@ w1:Toggle(
 
         -- List of buttons to ignore
         local ignoreList = {
-            "💸 Insane Upgrader - Super fast cash!",
-            "Millionaire Maker - $1M/SECOND!",
-            "Super OP Gear [Destroy Enemies]",
-            "😲 TIP BANKER - HUGE CASH!",
-            "Double Floors Income [INSANE VALUE]",
-            "⚡Boost Workers! [Fast Cash]",
-            "Upgrade Bitcoin Miner [X5 Cash]",
-            "Golden Server [BOOSTS ALL MINERS]",
-            "Golden DOGE [TRIPLES ALL DOGE MINERS]",
-            "Double Doge Income",
-            "Golden Crystal (INSANE WORKERS BOOST)",
-            "Tip Godly Banker (DOUBLES DROPPERS)",
-            "X2 Upgrader",
-            ""
+            ["💸 Insane Upgrader - Super fast cash!"] = true,
+            ["Millionaire Maker - $1M/SECOND!"] = true,
+            ["Super OP Gear [Destroy Enemies]"] = true,
+            ["😲 TIP BANKER - HUGE CASH!"] = true,
+            ["Double Floors Income [INSANE VALUE]"] = true,
+            ["⚡Boost Workers! [Fast Cash]"] = true,
+            ["Upgrade Bitcoin Miner [X5 Cash]"] = true,
+            ["Golden Server [BOOSTS ALL MINERS]"] = true,
+            ["Golden DOGE [TRIPLES ALL DOGE MINERS]"] = true,
+            ["Double Doge Income"] = true,
+            ["Golden Crystal (INSANE WORKERS BOOST)"] = true,
+            ["Tip Godly Banker (DOUBLES DROPPERS)"] = true,
+            ["X2 Upgrader"] = true,
+            [""] = true  -- Empty name as a safety check
         }
 
         for _, button in ipairs(buttons:GetChildren()) do
             print("Checking button:", button.Name)
 
             -- Check if button should be ignored
-            if table.find(ignoreList, button.Name) then
+            if ignoreList[button.Name] then
                 print("Ignoring and destroying:", button.Name)
                 button:Destroy()
             else
@@ -98,7 +98,6 @@ w1:Toggle(
         end
     end
 )
-
 
 
 w1:Slider(
