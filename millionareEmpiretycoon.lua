@@ -169,19 +169,11 @@ w1:Toggle(
         end
         print("Giver found:", giver.Name)
 
-        -- Clone the Giver and modify properties
-        local clonedGiver = giver:Clone()
-        clonedGiver.Parent = tycoon.StarterParts.Collector.Givers
-        clonedGiver.Transparency = 1
-        clonedGiver.CanCollide = false
-        print("Cloned Giver added to Givers folder with Transparency and CanCollide set")
-
         -- Auto collect loop
         task.spawn(function()
             while _G.autoCollect do
-                clonedGiver.CFrame = humanoidRootPart.CFrame
-                print("Moving clonedGiver to:", humanoidRootPart.CFrame) -- Print the position
-                task.wait(0.3) -- Adjust timing if needed
+                giver.CFrame = humanoidRootPart.CFrame
+                task.wait(0.01) -- Adjust timing if needed
             end
             print("Auto collect stopped.")
         end)
@@ -222,9 +214,9 @@ w1:Toggle(
             buttonsFolder.Name = "ButtonsFolder"
             buttonsFolder.Parent = tycoon
             print("ButtonsFolder created in tycoon:", tycoonName)
-        end      
+        end       
 
-        -- Function to update collision state
+        -- Function to update collision state for both buttons and character parts
         local function updateCollisions(state)
             for _, button in ipairs(buttonsFolder:GetChildren()) do
                 if button:IsA("Model") then
@@ -242,6 +234,16 @@ w1:Toggle(
                     button.CanCollide = state
                 end
             end
+
+            -- Update character parts to disable/enable collision
+            if character then
+                for _, part in ipairs(character:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = state
+                    end
+                end
+            end
+
             print("Collision set to:", state)
         end
 
@@ -253,9 +255,6 @@ w1:Toggle(
         end
     end
 )
-
-
-
 
 w1:Button(
     "Disable UI offer popups",
