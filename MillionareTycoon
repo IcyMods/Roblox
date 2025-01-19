@@ -24,7 +24,7 @@ w1:Toggle(
 ) -- Text, Flag, Enabled, Callback, Flag Location (Optional)
 
 w1:Toggle(
-    "Money",
+    "Buy all buttons",
     "frz",
     false,
     function(toggled)      
@@ -41,7 +41,7 @@ w1:Toggle(
         else
             while _G.buybuttons do
                 button.PrimaryPart.CFrame = character.CFrame
-                task.wait(0.08)
+                task.wait(1)
             end
         end
     end
@@ -52,7 +52,7 @@ w1:Slider(
     "WalkSpeed",
     "WS",
     16,
-    300,
+    100,
     function(value)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
     end
@@ -62,7 +62,7 @@ w1:Slider(
     "JumpPower",
     "JP",
     50,
-    300,
+    250,
     function(value)
         game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
     end,
@@ -89,4 +89,4 @@ w1:Button(
     end
 ) -- Text, Callback
 
-w1:Label("") -- Text
+w1:Label("made by vortex") -- Text
