@@ -17,7 +17,7 @@ w1:Toggle(
     function(toggled)      
         _G.moneyhack = toggled
         while _G.moneyhack do
-            game:GetService("ReplicatedStorage"):WaitForChild("fewjnfejwb3"):FireServer(1000000000)
+            game:GetService("ReplicatedStorage"):WaitForChild("fewjnfejwb3"):FireServer(100000000000)
             task.wait(0.0001)
         end
     end
@@ -51,7 +51,19 @@ w1:Toggle(
         -- List of buttons to ignore
         local ignoreList = {
             "💸 Insane Upgrader - Super fast cash!",
-            "Millionaire Maker - $1M/SECOND!"
+            "Millionaire Maker - $1M/SECOND!",
+            "Super OP Gear [Destroy Enemies]",
+            "😲 TIP BANKER - HUGE CASH!",
+            "Double Floors Income [INSANE VALUE]",
+            "⚡Boost Workers! [Fast Cash]",
+            "Upgrade Bitcoin Miner [X5 Cash]",
+            "Golden Server [BOOSTS ALL MINERS]",
+            "Golden DOGE [TRIPLES ALL DOGE MINERS]",
+            "Double Doge Income",
+            "Golden Crystal (INSANE WORKERS BOOST)",
+            "Tip Godly Banker (DOUBLES DROPPERS)",
+            "X2 Upgrader",
+            ""
         }
 
         for _, button in ipairs(buttons:GetChildren()) do
