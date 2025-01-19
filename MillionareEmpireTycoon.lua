@@ -141,7 +141,7 @@ w1:Toggle(
     false,
     function(toggled)  
     
-    _G.autoCollect = true
+    _G.autoCollect = toggled
     
     local player = game.Players.LocalPlayer
     local character = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
