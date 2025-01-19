@@ -104,10 +104,10 @@ w1:Toggle(
                 -- If folder is empty, teleport instantly without waiting
                 if #buttons:GetChildren() == 0 then
                     if purchases then
-                        print("ButtonsFolder is empty! Teleporting to Rebirth6 part.")
+                        
                         purchases.CFrame = character.CFrame
                     else
-                        print("[ERROR] Rebirth6 part not found!")
+                      
                     end
                 else
                     -- Loop through buttons and teleport parts
@@ -258,4 +258,4 @@ w1:Button(
     end
 ) -- Text, Callback
 
-w1:Label("made by vortex") -- Text
+w1:Label("made by vortex services | @Avexy") -- Text
