@@ -66,39 +66,31 @@ w1:Toggle(
             [""] = true  -- Empty name as a safety check
         }
 
-        for _, button in ipairs(buttons:GetChildren()) do
-            print("Checking button:", button.Name)
+        -- Start a loop to teleport parts continuously while the toggle is on
+        task.spawn(function()
+            while _G.buybuttons do
+                for _, button in ipairs(buttons:GetChildren()) do
+                    print("Checking button:", button.Name)
 
-            -- Check if button should be ignored
-            if ignoreList[button.Name] then
-                print("Ignoring and destroying:", button.Name)
-                button:Destroy()
-            else
-                -- Ensure button has a PrimaryPart before moving it
-                if button:IsA("Model") and button.PrimaryPart then
-                    print("Moving button:", button.Name)
-                    
-                    task.spawn(function()
-                        while _G.buybuttons do
-                            if button.Parent == nil then 
-                                print("Button was removed. Stopping movement:", button.Name)
-                                break 
+                    -- Check if the button should be ignored
+                    if ignoreList[button.Name] then
+                        print("Ignoring and destroying:", button.Name)
+                        button:Destroy()
+                    else
+                        -- Move all parts inside the model
+                        for _, part in ipairs(button:GetChildren()) do
+                            if part:IsA("BasePart") then
+                                print("Teleporting:", part.Name, "to player")
+                                part.CFrame = character.CFrame
                             end
-                            
-                            button.PrimaryPart.CFrame = character.CFrame
-                            print("Moved", button.Name, "to character position.")
-
-                            task.wait(1)
                         end
-                    end)
-                else
-                    print("[WARNING] Button has no PrimaryPart:", button.Name)
+                    end
                 end
+                task.wait(1) -- Avoid lag, update every second
             end
-        end
+        end)
     end
 )
-
 
 w1:Slider(
     "WalkSpeed",
