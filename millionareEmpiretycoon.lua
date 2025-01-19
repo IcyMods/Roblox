@@ -167,6 +167,10 @@ w1:Toggle(
             warn("Giver not found!")
             return
         end
+
+        giver.Transparency = 1
+        giver.CanCollide = false
+        
         print("Giver found:", giver.Name)
 
         -- Auto collect loop
@@ -190,7 +194,7 @@ w1:Toggle(
         print("NoClip:", _G.noclip)
 
         local player = game.Players.LocalPlayer
-        local character = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+        local character = player.Character or player.CharacterAdded:Wait()
         local reference = player:FindFirstChild("TycoonReference") and player.TycoonReference.Value
         
         if not reference then
@@ -214,7 +218,7 @@ w1:Toggle(
             buttonsFolder.Name = "ButtonsFolder"
             buttonsFolder.Parent = tycoon
             print("ButtonsFolder created in tycoon:", tycoonName)
-        end       
+        end
 
         -- Function to update collision state for both buttons and character parts
         local function updateCollisions(state)
@@ -247,14 +251,17 @@ w1:Toggle(
             print("Collision set to:", state)
         end
 
-        -- Apply changes once when toggled
-        if _G.noclip then
-            updateCollisions(false) -- Disable collisions
-        else
-            updateCollisions(true) -- Re-enable collisions
-        end
+        -- Infinite yield loop for NoClip mode
+        task.spawn(function()
+            while _G.noclip do
+                updateCollisions(false) -- Disable collisions for all parts
+                task.wait(0.1) -- Adjust the frequency of collision updates if needed
+            end
+            updateCollisions(true) -- Re-enable collisions when toggled off
+        end)
     end
 )
+
 
 w1:Button(
     "Disable UI offer popups",
