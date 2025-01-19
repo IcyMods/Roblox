@@ -64,6 +64,11 @@ w1:Toggle(
         print("Found ButtonsFolder:", buttons, "for", tycoonName)
         print("Found Player's Character Root:", character)
 
+            -- Function to clean button names
+        local function cleanName(name)
+            return string.gsub(name, "^%s*(.-)%s*$", "%1") -- Trim spaces
+        end
+
         -- List of buttons to ignore
         local ignoreList = {
             ["💸 Insane Upgrader - Super fast cash!"] = true,
@@ -75,7 +80,7 @@ w1:Toggle(
             ["Upgrade Bitcoin Miner [X5 Cash]"] = true,
             ["Golden Server [BOOSTS ALL MINERS]"] = true,
             ["Golden DOGE [TRIPLES ALL DOGE MINERS]"] = true,
-            ["Double Doge Income "] = true,
+            ["Double Doge Income"] = true, -- Removed extra space
             ["Golden Crystal (INSANE WORKERS BOOST)"] = true,
             ["Tip Godly Banker (DOUBLES DROPPERS)"] = true,
             ["X2 Upgrader"] = true,
@@ -86,6 +91,11 @@ w1:Toggle(
         -- Start a loop to teleport parts continuously while the toggle is on
         task.spawn(function()
             while _G.buybuttons do
+                if not buttons then
+                    warn("[ERROR] ButtonsFolder is missing!")
+                    return
+                end
+                
                 -- Check if ButtonsFolder is empty
                 if #buttons:GetChildren() == 0 then
                     if purchases then
@@ -97,8 +107,10 @@ w1:Toggle(
                 else
                     -- Loop through buttons and teleport parts
                     for _, button in ipairs(buttons:GetChildren()) do
-                        if ignoreList[button.Name] then
-                            print("Ignoring and destroying:", button.Name)
+                        local cleanedName = cleanName(button.Name) -- Trim spaces
+                        
+                        if ignoreList[cleanedName] then
+                            print("Ignoring and destroying:", cleanedName)
                             button:Destroy()
                         else
                             -- Move all parts inside the model
