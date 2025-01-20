@@ -635,31 +635,6 @@ if isPremium then
         TextLabel.Text = "Current Sword: " .. currentSword.Name
         TextLabel.Font = Enum.Font.FredokaOne
 
-        -- Function to update the sword text
-        local function updateSwordText()
-            -- Check if there's a current sword
-            if currentSword then
-                TextLabel.Text = "Current Sword: " .. currentSword.Name
-            else
-                TextLabel.Text = "Current Sword: None"
-            end
-        end
-
-                -- Listen for when the character's tool changes
-        player.CharacterAdded:Connect(function(character)
-            character:WaitForChild("Humanoid") -- Wait until the humanoid is available
-            currentSword = character:FindFirstChildWhichIsA("Tool")  -- Get the new tool
-            updateSwordText()  -- Update text when the sword changes
-        end)
-
-        -- Listen for when the sword changes during gameplay
-        player.Character.Humanoid:GetPropertyChangedSignal("EquippedTool"):Connect(function()
-            currentSword = player.Character:FindFirstChildWhichIsA("Tool")
-            updateSwordText()  -- Update the text when the sword is equipped or unequipped
-        end)
-
-        updateSwordText()
-        
         -- Make frame draggable
         local dragging = false
         local dragStart = nil
