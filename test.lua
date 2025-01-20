@@ -63,7 +63,7 @@ w1:Toggle(
 
 w1:Toggle(
     "Buy all buttons",
-    "buttons",
+    "frz",
     false,
     function(toggled)      
         _G.buybuttons = toggled
@@ -115,7 +115,8 @@ w1:Toggle(
             task.wait(5)
             textlabel:Destroy()
         end
-            
+        
+        
 
         if not buttons then
             warn("[ERROR] Buttons folder is missing in:", tycoonName)
@@ -129,6 +130,11 @@ w1:Toggle(
 
         -- print("Found ButtonsFolder:", buttons, "for", tycoonName)
         -- print("Found Player's Character Root:", character)
+
+            -- Function to clean button names
+        local function cleanName(name)
+            return string.gsub(name, "^%s*(.-)%s*$", "%1") -- Trim spaces
+        end
 
         -- List of buttons to ignore
         local ignoreList = {
@@ -149,9 +155,9 @@ w1:Toggle(
             [" "] = true -- Ignore parts with just a space
         }
 
-        -- Function to clean button names
+        -- Function to clean button names (removes leading/trailing spaces)
         local function cleanName(name)
-            return string.gsub(name, "^%s*(.-)%s*$", "%1") -- Trim spaces
+            return string.gsub(name, "^%s*(.-)%s*$", "%1")
         end
 
         -- Continuously check the ButtonsFolder while the toggle is active
@@ -184,7 +190,6 @@ w1:Toggle(
                                 if part:IsA("BasePart") then
 
                                     part.Transparency = 1
-                                    part.Head.BillboardGui.Enabled = false -- new
 
                                     part.CFrame = character.CFrame
                                 end
@@ -196,7 +201,7 @@ w1:Toggle(
                 if isPremium then
                     task.wait(0.001)
                 else
-                    task.wait(0.5)
+                    task.wait(1)
                 end
                
             end
@@ -632,9 +637,34 @@ if isPremium then
         TextLabel.Position = UDim2.new(0.498, 0, 0.102, 0)
         TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
         TextLabel.TextScaled = true
-        TextLabel.Text = "Current Sword: " .. currentSword.Name
+        TextLabel.Text = "Current Sword: " .. (currentSword and currentSword.Name or "None")
         TextLabel.Font = Enum.Font.FredokaOne
 
+        -- Function to update the sword text
+        local function updateSwordText()
+            -- Check if there's a current sword
+            if currentSword then
+                TextLabel.Text = "Current Sword: " .. currentSword.Name
+            else
+                TextLabel.Text = "Current Sword: None"
+            end
+        end
+
+                -- Listen for when the character's tool changes
+        player.CharacterAdded:Connect(function(character)
+            character:WaitForChild("Humanoid") -- Wait until the humanoid is available
+            currentSword = character:FindFirstChildWhichIsA("Tool")  -- Get the new tool
+            updateSwordText()  -- Update text when the sword changes
+        end)
+
+        -- Listen for when the sword changes during gameplay
+        player.Character.Humanoid:GetPropertyChangedSignal("EquippedTool"):Connect(function()
+            currentSword = player.Character:FindFirstChildWhichIsA("Tool")
+            updateSwordText()  -- Update the text when the sword is equipped or unequipped
+        end)
+
+        updateSwordText()
+        
         -- Make frame draggable
         local dragging = false
         local dragStart = nil
@@ -672,16 +702,25 @@ if isPremium then
     end)
 end
 
+local function findUIPopups()
+    game.Players.LocalPlayer.PlayerGui.Screen.Floor12Offer:Destroy()
+    game.Players.LocalPlayer.PlayerGui.Screen.Floor3Offer:Destroy()
+    game.Players.LocalPlayer.PlayerGui.Screen.Floor6Offer:Destroy()
+    game.Players.LocalPlayer.PlayerGui.Screen.Floor9Offer:Destroy()
+    game.Players.LocalPlayer.PlayerGui.Screen.NewShop:Destroy()
+end
+
 w1:Button(
     "Disable UI offer popups",
     function()
-        game.Players.LocalPlayer.PlayerGui.Screen.Floor12Offer:Destroy()
-        game.Players.LocalPlayer.PlayerGui.Screen.Floor3Offer:Destroy()
-        game.Players.LocalPlayer.PlayerGui.Screen.Floor6Offer:Destroy()
-        game.Players.LocalPlayer.PlayerGui.Screen.Floor9Offer:Destroy()
-        game.Players.LocalPlayer.PlayerGui.Screen.NewShop:Destroy()
+        local popups = findUIPopups()  -- Call the function once and store the result
+
+        if popups then
+            return  -- Exit if popups are found
+        end
     end
 )
+
 
 w1:Slider(
     "WalkSpeed",
@@ -711,6 +750,9 @@ w1:Button(
         for i, v in pairs(game.CoreGui:GetChildren()) do
             if v:FindFirstChild("Top") then
             v:Destroy()
+            if v:FindFirstChild("SwordFrame") then
+                v:Destroy()
+            end
         end
     end
 end
