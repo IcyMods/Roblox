@@ -53,14 +53,30 @@ local function glideToTarget(targetPart)
     -- Create BodyVelocity instance to apply constant velocity
     if not bodyVelocity then
         bodyVelocity = Instance.new("BodyVelocity")
-        bodyVelocity.MaxForce = Vector3.new(100000, 4000, 100000)  -- High force for fast movement
+        bodyVelocity.MaxForce = Vector3.new(100000, 5000, 100000)  -- High force for horizontal, lower force for vertical
         bodyVelocity.P = 80000  -- Powerful force for faster movement
         bodyVelocity.Parent = rootPart
     end
 
-    -- Set velocity towards the target
-    bodyVelocity.Velocity = (targetPart.Position - rootPart.Position).unit * 1000  -- Adjust speed (1000 for fast glide)
+    -- Calculate the direction to the target while forcing the Y position to match the target
+    local direction = (targetPart.Position - rootPart.Position)
+    direction = Vector3.new(direction.X, 0, direction.Z).unit  -- Ignore the vertical component for horizontal movement
+
+    -- Apply velocity towards the target with the set speed
+    bodyVelocity.Velocity = direction * 1000  -- Adjust speed (1000 for fast glide)
+
+    -- Set the Y position of the character to match the target's Y position
+    if math.abs(rootPart.Position.Y - targetPart.Position.Y) > 2 then  -- Only adjust if not already close to target height
+        rootPart.Position = Vector3.new(rootPart.Position.X, targetPart.Position.Y, rootPart.Position.Z)
+    end
+
+    -- Stop the gliding when close to the target
+    if (rootPart.Position - targetPart.Position).Magnitude < 5 then  -- When near the target
+        bodyVelocity.Velocity = Vector3.new(0, 0, 0)  -- Stop movement
+        print("Reached target!")
+    end
 end
+
 
 -- Function to stop gliding and remove BodyVelocity
 local function stopGliding()
