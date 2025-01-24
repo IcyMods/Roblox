@@ -50,7 +50,7 @@ local function glideToTarget(targetPart)
     -- Ensure the HumanoidRootPart isn't anchored
     rootPart.Anchored = false
 
-    -- Create BodyVelocity instance to apply constant velocity
+    -- Create BodyVelocity instance if it doesn't exist yet
     if not bodyVelocity then
         bodyVelocity = Instance.new("BodyVelocity")
         bodyVelocity.MaxForce = Vector3.new(100000, 5000, 100000)  -- High force for horizontal, lower force for vertical
@@ -65,10 +65,8 @@ local function glideToTarget(targetPart)
     -- Apply velocity towards the target with the set speed
     bodyVelocity.Velocity = direction * 1000  -- Adjust speed (1000 for fast glide)
 
-    -- Set the Y position of the character to match the target's Y position
-    if math.abs(rootPart.Position.Y - targetPart.Position.Y) > 2 then  -- Only adjust if not already close to target height
-        rootPart.Position = Vector3.new(rootPart.Position.X, targetPart.Position.Y, rootPart.Position.Z)
-    end
+    -- Set the Y position of the character to match the target's Y position using CFrame
+    rootPart.CFrame = CFrame.new(rootPart.Position.X, targetPart.Position.Y, rootPart.Position.Z) * rootPart.CFrame:toObjectSpace(rootPart.CFrame)
 
     -- Stop the gliding when close to the target
     if (rootPart.Position - targetPart.Position).Magnitude < 5 then  -- When near the target
@@ -77,12 +75,11 @@ local function glideToTarget(targetPart)
     end
 end
 
-
--- Function to stop gliding and remove BodyVelocity
-local function stopGliding()
+-- Reset function to handle toggle and character reset
+local function resetAutoFarm()
     if bodyVelocity then
-        bodyVelocity:Destroy()  -- Remove BodyVelocity when gliding is off
-        bodyVelocity = nil
+        bodyVelocity:Destroy()  -- Clean up the BodyVelocity when turning off auto farm
+        bodyVelocity = nil  -- Ensure it's removed
     end
 end
 
@@ -116,12 +113,17 @@ local Toggle = Tab:CreateToggle({
     Callback = function(Value)
         _G.autoFarm = Value
         if _G.autoFarm then
-            glideThroughStages()  -- Start the gliding when toggle is on
+            glideThroughStages()  -- Start gliding through stages
         else
-            stopGliding()  -- Stop the gliding when toggle is off
+            resetAutoFarm()  -- Reset if auto farm is off
         end
     end,
 })
 
-    
+-- Handle character death or reset
+game.Players.LocalPlayer.CharacterAdded:Connect(function(character)
+    -- Reset the glide and body velocity when character respawns
+    resetAutoFarm()
+end)
+
 end
