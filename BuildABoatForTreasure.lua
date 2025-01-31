@@ -21,7 +21,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- when the first key is expired then replace the second key to the first row
 local keys = {
-    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738284420 }, -- get current date x by 2 - FEB 8TH
+    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738284720 }, -- get current date x by 2 - FEB 8TH
     { key = "FFN6B-9JWTT-P79VX-98Q7T", expires = 1740276000 }, -- get current date x by 2 - FEB 22TH
 }
 
@@ -84,22 +84,23 @@ if validKey and expirationTime then
     -- Only proceed if we have a valid key and expiration time
     task.spawn(function()
         while true do
-            local currentTime = os.time()
+            local currentTime = os.time() -- Get the current Unix time
+            -- Debugging output to check if the current time and expiration time are correct
+            print("[KeySystem] Current time:", currentTime, "Expiration time:", expirationTime)
 
             if currentTime >= expirationTime then
-                --print("[KeySystem] First key expired! Destroying UI...")
+                print("[KeySystem] First key expired! Destroying UI...")
                 Window:Destroy() -- Destroy the Rayfield window
                 break
             end
 
-            task.wait(1) -- Check every second
+            task.wait(1) -- Check ever  y second
         end
     end)
 else
     warn("[KeySystem] No valid key found or expiration time is invalid!")
 end
 
--- lua is most easiest programming language out their
 
 local Tab = Window:CreateTab("Auto Farm", 17349147244)
 
