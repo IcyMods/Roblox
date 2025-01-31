@@ -21,7 +21,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- when the first key is expired then replace the second key to the first row
 local keys = {   
-    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738285500 }, -- get current date x by 2 - FEB 8TH
+    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738285920 }, -- get current date x by 2 - FEB 8TH
     { key = "FFN6B-9JWTT-P79VX-98Q7T", expires = 1740276000 }, -- get current date x by 2 - FEB 22TH
 }
 
@@ -244,7 +244,7 @@ local function startAutoFarm()
                         humanoidRootPart.CFrame = CFrame.new(forwardPosition)  -- Update CFrame
 
                         task.wait(1)
-                         
+                        
                         moveToTarget(endChest.CFrame, true)
                         humanoidRootPart.Anchored = true  -- Anchor to prevent any unintended movement
 
@@ -381,18 +381,25 @@ end
 -- Create the label (initially with placeholder text)
 local Label = SettingsTab:CreateLabel("Loading...", 4483362458, Color3.fromRGB(255, 255, 255), false)
 
--- Create or update the label based on key status
 if validKey then
-    local timeLeft = expirationTime - os.time()  -- Calculate time left
-    local formattedTime = formatTime(timeLeft)
-
-    -- Update the label text showing time left for the valid key
-
+    -- Start a loop to update the label every second
     while true do
-        Label:Set("Time Left: " .. formattedTime, 4483362458, Color3.fromRGB(255, 255, 255), false)
-        task.wait(1)
-    end
+        local timeLeft = expirationTime - os.time()  -- Calculate time left
+        local formattedTime = formatTime(timeLeft)  -- Format the time left
 
+        -- Update the label text showing time left for the valid key
+        Label:Set("Time Left: " .. formattedTime, 4483362458, Color3.fromRGB(255, 255, 255), false)
+        
+        -- Wait 1 second before updating again
+        task.wait(1)
+
+        -- Exit the loop if the key has expired
+        if timeLeft <= 0 then
+            print("[KeySystem] Key expired! Destroying UI...")
+            Window:Destroy()  -- Destroy the Rayfield window
+            break
+        end
+    end
 else
     warn("[KeySystem] No valid key found!")
 
