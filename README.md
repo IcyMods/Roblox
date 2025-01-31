@@ -1,15 +1,13 @@
 # Roblox Scripts
 these scripts are made by me, these are all the listed games
 
-Spelling Bee - coming soon
+Impossible Squid Game! Glass Bridge 2
 
-Roblox Squid game - all of the games
+[⭐NEW] Ultimate Resort Tycoon 🌴☀️
 
-Phantom forces
+💸Millionaire Empire Tycoon
 
-Hide and Seek
-
-and more to come...
+Build A Boat For Treasure
 
 # information 
 When using my scripts / exploits be sure to use @Avexy when using if not then i put my credits in the script
