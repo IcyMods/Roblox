@@ -21,7 +21,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- when the first key is expired then replace the second key to the first row
 local keys = {   
-    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738286400 }, -- get current date x by 2 - FEB 8TH
+    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738286820 }, -- get current date x by 2 - FEB 8TH
     { key = "FFN6B-9JWTT-P79VX-98Q7T", expires = 1740276000 }, -- get current date x by 2 - FEB 22TH
 }
 
@@ -93,7 +93,7 @@ if validKey and expirationTime then
 
             if currentTime >= expirationTime then
                 print("[KeySystem] First key expired! Destroying UI...")
-                Window:Destroy() -- Destroy the Rayfield window
+                Rayfield:Destroy() -- Destroy the Rayfield window
                 break
             end
 
