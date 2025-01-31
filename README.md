@@ -9,5 +9,7 @@ Impossible Squid Game! Glass Bridge 2
 
 Build A Boat For Treasure
 
+and more to come...
+
 # information 
-When using my scripts / exploits be sure to use @Avexy when using if not then i put my credits in the script
+When using my scripts / exploits make be sure to use "@Avexy" when uploading to youtube, tiktok, any type of social media or if not then i put my credits in the script
