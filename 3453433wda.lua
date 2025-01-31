@@ -21,7 +21,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- when the first key is expired then replace the second key to the first row
 local keys = {   
-    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738285920 }, -- get current date x by 2 - FEB 8TH
+    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738286100 }, -- get current date x by 2 - FEB 8TH
     { key = "FFN6B-9JWTT-P79VX-98Q7T", expires = 1740276000 }, -- get current date x by 2 - FEB 22TH
 }
 
@@ -30,6 +30,7 @@ local function getValidKey(keys)
     if keys then
         local currentTime = os.time()
 
+        -- Iterate through keys and find the first valid one
         for _, data in ipairs(keys) do
             -- If current time is less than the expiration time, the key is still valid
             if currentTime < data.expires then
@@ -37,14 +38,16 @@ local function getValidKey(keys)
             end
         end
     end
-    return nil, nil
+    return nil, nil  -- No valid key found
 end
 
 -- Get valid key and its expiration time
 local validKey, expirationTime = getValidKey(keys)
 
 if validKey then
-    --print("[KeySystem] Using valid key:", validKey)
+    print("[KeySystem] Using valid key:", validKey)
+    print("[KeySystem] Current time:", os.time())
+    print("[KeySystem] Expiration time:", expirationTime)
 else
     warn("[KeySystem] No valid key found!")
 end
