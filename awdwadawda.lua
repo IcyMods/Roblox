@@ -20,8 +20,8 @@ _G.autoCollectGold = false
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- when the first key is expired then replace the second key to the first row
-local keys = {
-    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738284960 }, -- get current date x by 2 - FEB 8TH
+local keys = {   
+    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738285500 }, -- get current date x by 2 - FEB 8TH
     { key = "FFN6B-9JWTT-P79VX-98Q7T", expires = 1740276000 }, -- get current date x by 2 - FEB 22TH
 }
 
@@ -387,7 +387,12 @@ if validKey then
     local formattedTime = formatTime(timeLeft)
 
     -- Update the label text showing time left for the valid key
-    Label:Set("Time Left: " .. formattedTime, 4483362458, Color3.fromRGB(255, 255, 255), false)
+
+    while true do
+        Label:Set("Time Left: " .. formattedTime, 4483362458, Color3.fromRGB(255, 255, 255), false)
+        task.wait(1)
+    end
+
 else
     warn("[KeySystem] No valid key found!")
 
