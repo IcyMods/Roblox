@@ -366,6 +366,31 @@ player.CharacterAdded:Connect(function()
     end
 end)
 
+
+-- Function to format the time remaining
+local function formatTime(seconds)
+    local days = math.floor(seconds / 86400)
+    local hours = math.floor((seconds % 86400) / 3600)
+    local minutes = math.floor((seconds % 3600) / 60)
+    local secs = seconds % 60
+
+    return string.format("%d days, %02d hours, %02d minutes, %02d seconds", days, hours, minutes, secs)
+end
+
+-- Create the appropriate label based on key status
+if validKey then
+    local timeLeft = expirationTime - os.time()  -- Calculate time left
+    local formattedTime = formatTime(timeLeft)
+    
+    -- Create label showing time left for the valid key
+    local Label = SettingsTab:CreateLabel("Time Left: " .. formattedTime, 4034150637, Color3.fromRGB(255, 255, 255), false)
+else
+    warn("[KeySystem] No valid key found!")
+    
+    -- Create label showing that no valid key is available
+    local Label = SettingsTab:CreateLabel("No valid key available", 4034150637, Color3.fromRGB(255, 255, 255), false)
+end
+
 else
     -- if the script was executed from a different game it will print to this
     print("Wrong game place teleporting to correct game place, ID: " .. ID .. " is named to: " .. GameName)
@@ -429,28 +454,4 @@ else
     if game.PlaceId ~= ID then
         TextLabel.Text = "Error: couldn't teleport, please join Build A Boat For Treasure. GameID: 537413528"
     end
-end
-
--- Function to format the time remaining
-local function formatTime(seconds)
-    local days = math.floor(seconds / 86400)
-    local hours = math.floor((seconds % 86400) / 3600)
-    local minutes = math.floor((seconds % 3600) / 60)
-    local secs = seconds % 60
-
-    return string.format("%d days, %02d hours, %02d minutes, %02d seconds", days, hours, minutes, secs)
-end
-
--- Create the appropriate label based on key status
-if validKey then
-    local timeLeft = expirationTime - os.time()  -- Calculate time left
-    local formattedTime = formatTime(timeLeft)
-    
-    -- Create label showing time left for the valid key
-    local Label = SettingsTab:CreateLabel("Time Left: " .. formattedTime, 4034150637, Color3.fromRGB(255, 255, 255), false)
-else
-    warn("[KeySystem] No valid key found!")
-    
-    -- Create label showing that no valid key is available
-    local Label = SettingsTab:CreateLabel("No valid key available", 4034150637, Color3.fromRGB(255, 255, 255), false)
 end
