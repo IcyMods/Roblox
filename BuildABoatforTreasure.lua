@@ -21,7 +21,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- when the first key is expired then replace the second key to the first row
 local keys = {
-    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1739066400 }, -- get current date x by 2 - FEB 8TH
+    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1555555 }, -- get current date x by 2 - FEB 8TH
     { key = "FFN6B-9JWTT-P79VX-98Q7T", expires = 1740276000 }, -- get current date x by 2 - FEB 22TH
 }
 
@@ -44,7 +44,7 @@ end
 local validKey, expirationTime = getValidKey(keys)
 
 if validKey then
-    print("[KeySystem] Using valid key:", validKey)
+    --print("[KeySystem] Using valid key:", validKey)
 else
     warn("[KeySystem] No valid key found!")
 end
@@ -377,19 +377,23 @@ local function formatTime(seconds)
     return string.format("%d days, %02d hours, %02d minutes, %02d seconds", days, hours, minutes, secs)
 end
 
--- Create the appropriate label based on key status
+-- Create the label (initially with placeholder text)
+local Label = SettingsTab:CreateLabel("Loading...", 4483362458, Color3.fromRGB(255, 255, 255), false)
+
+-- Create or update the label based on key status
 if validKey then
     local timeLeft = expirationTime - os.time()  -- Calculate time left
     local formattedTime = formatTime(timeLeft)
-    
-    -- Create label showing time left for the valid key
-    local Label = SettingsTab:CreateLabel("Time Left: " .. formattedTime, 4034150637, Color3.fromRGB(255, 255, 255), false)
+
+    -- Update the label text showing time left for the valid key
+    Label:Set("Time Left: " .. formattedTime, 4483362458, Color3.fromRGB(255, 255, 255), false)
 else
     warn("[KeySystem] No valid key found!")
-    
-    -- Create label showing that no valid key is available
-    local Label = SettingsTab:CreateLabel("No valid key available", 4034150637, Color3.fromRGB(255, 255, 255), false)
+
+    -- Update the label text showing that no valid key is available
+    Label:Set("No valid key available", 4483362458, Color3.fromRGB(255, 255, 255), false)
 end
+
 
 else
     -- if the script was executed from a different game it will print to this
