@@ -1,5 +1,5 @@
 # Roblox Scripts
-these scripts are made by me, these are all the listed games
+these scripts are made by me from programming experience, these are all the listed games that i made scripts on:
 
 Impossible Squid Game! Glass Bridge 2
 
