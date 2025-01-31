@@ -21,7 +21,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- when the first key is expired then replace the second key to the first row
 local keys = {   
-    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738286820 }, -- get current date x by 2 - FEB 8TH
+    { key = "UT3EO-840R6-I73JD-8XST6", expires = 1738287120 }, -- get current date x by 2 - FEB 8TH
     { key = "FFN6B-9JWTT-P79VX-98Q7T", expires = 1740276000 }, -- get current date x by 2 - FEB 22TH
 }
 
@@ -45,9 +45,9 @@ end
 local validKey, expirationTime = getValidKey(keys)
 
 if validKey then
-    print("[KeySystem] Using valid key:", validKey)
-    print("[KeySystem] Current time:", os.time())
-    print("[KeySystem] Expiration time:", expirationTime)
+    -- print("[KeySystem] Using valid key:", validKey)
+    -- print("[KeySystem] Current time:", os.time())
+    -- print("[KeySystem] Expiration time:", expirationTime)
 else
     warn("[KeySystem] No valid key found!")
 end
@@ -93,11 +93,14 @@ if validKey and expirationTime then
 
             if currentTime >= expirationTime then
                 print("[KeySystem] First key expired! Destroying UI...")
+                task.wait(2)
                 Rayfield:Destroy() -- Destroy the Rayfield window
+                task.wait(1.5)
+                game.Players.LocalPlayer:Kick("time limit reached please wait until the dev posts a updated key.")
                 break
             end
 
-            task.wait(1) -- Check ever  y second
+            task.wait(1) -- Check every second
         end
     end)
 else
@@ -204,6 +207,7 @@ local function moveToTarget(targetCFrame, isChest)
     bodyVelocity:Destroy()
 end
 
+-- i have to fix this
 local function startAutoFarm()
     -- Main loop for Auto Farm
     while _G.autoFarm do
@@ -276,6 +280,7 @@ end
 
 local Section = Tab:CreateSection("Auto Farm to get gold")
 
+-- i have to fix this
 local Toggle = Tab:CreateToggle({
     Name = "Auto Farm",
     CurrentValue = false,
@@ -297,6 +302,8 @@ local Toggle = Tab:CreateToggle({
 
 local Section = Tab:CreateSection("Auto Collect gold in Auto Farm but you cannot go to chest.")
 
+
+-- i have to fix this
 local Toggle = Tab:CreateToggle({
     Name = "Auto Collect Gold",
     CurrentValue = false,
@@ -391,14 +398,14 @@ if validKey then
         local formattedTime = formatTime(timeLeft)  -- Format the time left
 
         -- Update the label text showing time left for the valid key
-        Label:Set("Time Left: " .. formattedTime, 4483362458, Color3.fromRGB(255, 255, 255), false)
+        Label:Set("Time Left:" .. formattedTime, 4483362458, Color3.fromRGB(255, 255, 255), false)
         
         -- Wait 1 second before updating again
         task.wait(1)
 
         -- Exit the loop if the key has expired
         if timeLeft <= 0 then
-            print("[KeySystem] Key expired! Destroying UI...")
+            --print("[KeySystem] Key expired! Destroying UI...")
             Window:Destroy()  -- Destroy the Rayfield window
             break
         end
