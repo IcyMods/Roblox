@@ -30,14 +30,14 @@ local keys = {
 
 }
 
-local premiumKey = "XNFBK-8WC79-YZ9BF-RH9NY" -- Infinite premium access
+local premiumKey = { key = "XNFBK-8WC79-YZ9BF-RH9NY", expires = 999999999999 } -- Insanely high expiration
 
 -- Function to get a valid key
 local function getValidKey()
     local currentTime = os.time()
 
     if isPremium then
-        return premiumKey -- Always give premium users the infinite key
+        return premiumKey.key, premiumKey.expires -- Give premium users the "infinite" key
     else
         -- Find the first valid basic key
         for _, data in ipairs(keys) do
@@ -51,7 +51,7 @@ local function getValidKey()
 end
 
 -- Get valid key and its expiration time
-local validKey, expirationTime = getValidKey(keys, isPremium)
+local validKey, expirationTime = getValidKey()
 
 if validKey then
      print("[KeySystem] Using valid key:", validKey)
