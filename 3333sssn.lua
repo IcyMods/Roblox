@@ -51,12 +51,12 @@ local function getValidKey()
 end
 
 -- Get valid key and its expiration time
-local validKey, expirationTime = getValidKey()
+local validKey, expirationTime = getValidKey(keys, isPremium)
 
 if validKey then
-    -- print("[KeySystem] Using valid key:", validKey)
-    -- print("[KeySystem] Current time:", os.time())
-    -- print("[KeySystem] Expiration time:", expirationTime)
+     print("[KeySystem] Using valid key:", validKey)
+     print("[KeySystem] Current time:", os.time())
+     print("[KeySystem] Expiration time:", expirationTime)
 else
     warn("[KeySystem] No valid key found!")
 end
