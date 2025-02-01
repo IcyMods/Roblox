@@ -9,6 +9,8 @@ Impossible Squid Game! Glass Bridge 2
 
 Build A Boat For Treasure
 
+Hide and Seek Extreme
+
 and more to come...
 
 # information 
