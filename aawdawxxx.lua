@@ -7,7 +7,7 @@ local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Loco-
 -- PREMIUM OWNERS THAT BOUGHT PREMIUM 👑
 local Ownership = {
     -- 👑 --
-    "oxyzpz",  -- Owner of the script
+    "",  -- Owner of the script
     "RobloxMikey46", -- Admin
     "", -- Admin
 
@@ -752,7 +752,7 @@ local Toggle = Section1:Toggle({
             end
 
             if isPremium then
-                task.wait(0.20)
+                task.wait(0.08)
             else
                 task.wait(0.50)
             end
