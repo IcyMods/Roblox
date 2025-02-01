@@ -51,7 +51,7 @@ local function getValidKey()
 end
 
 -- Get valid key and its expiration time
-local validKey, expirationTime = getValidKey()
+local validKey, expirationTime = getValidKey(keys)
 
 if validKey then
      print("[KeySystem] Using valid key:", validKey)
@@ -74,7 +74,7 @@ if isPremium then
         end,
     
         KeySystem = true,
-        Key = { validKey }, -- This will call the function to validate the key
+        Key = validKey, -- This will call the function to validate the key
         MaxAttempts = 5,
         DiscordLink = "https://discord.gg/HVqTMP2UgX",
         ToggledRelativeYOffset = 0
@@ -90,7 +90,7 @@ else
         end,
     
         KeySystem = true,
-        Key = { validKey }, -- This will call the function to validate the key
+        Key = validKey, -- This will call the function to validate the key
         MaxAttempts = 5,
         DiscordLink = "https://discord.gg/HVqTMP2UgX",
         ToggledRelativeYOffset = 0
