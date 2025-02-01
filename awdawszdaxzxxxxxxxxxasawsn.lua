@@ -199,7 +199,7 @@ local CreditMessage = Section2:Label({
 	Name = "credits to @Avexy for programming these features",
 })
 
-local Keybind = Section:Keybind({
+local Keybind = Section2:Keybind({
     Name = "Toggle keybind",
     Default = Enum.KeyCode.RightShift,  -- Default key
     Callback = function()
