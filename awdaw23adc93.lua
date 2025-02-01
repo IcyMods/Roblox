@@ -868,25 +868,31 @@ if validKey then
     -- Start a loop to update the label every second
     while true do
         local timeLeft = expirationTime - os.time()  -- Calculate time left
-        local formattedTime = formatTime(timeLeft)  -- Format the time left
 
-        -- Update the label text showing time left for the valid key
-        timeLabel:SetName("Time Left: " .. formattedTime)
-        
+        -- Check if the user is premium
+        if isPremium then
+            -- Premium users have no expiration
+            timeLabel:SetName("Premium Access: No Expiration")
+        else
+            -- Format the time left
+            local formattedTime = formatTime(timeLeft)
+
+            -- Update the label text showing time left for the valid key
+            timeLabel:SetName("Time Left: " .. formattedTime)
+
+            -- Exit if key expired
+            if timeLeft <= 0 then
+                --print("[KeySystem] Key expired! Destroying UI...")
+                Library:Destroy()  -- Destroy the Rayfield window
+                break
+            end
+        end
+
         -- Wait 1 second before updating again
         task.wait(1)
-
-        -- Exit the loop if the key has expired
-        if timeLeft <= 0 then
-            --print("[KeySystem] Key expired! Destroying UI...")
-            Library:Destroy()  -- Destroy the Rayfield window
-            break
-        end
     end
 else
     warn("[KeySystem] No valid key found!")
-
-    -- Update the label text showing that no valid key is available
     timeLabel:SetName("No valid key available")
 end
 
