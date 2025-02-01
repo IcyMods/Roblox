@@ -864,6 +864,16 @@ local timeLabel = Section2:Label({
     Name = "Loading...",
 })
 
+-- Function to format the time remaining
+local function formatTime(seconds)
+    local days = math.floor(seconds / 86400)
+    local hours = math.floor((seconds % 86400) / 3600)
+    local minutes = math.floor((seconds % 3600) / 60)
+    local secs = seconds % 60
+
+    return string.format("%d days, %02d hours, %02d minutes, %02d seconds", days, hours, minutes, secs)
+end
+
 if validKey then
     -- Start a loop to update the label every second
     while true do
