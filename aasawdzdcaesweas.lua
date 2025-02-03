@@ -66,8 +66,18 @@ local Toggle = Tab:CreateToggle({
             local animation = player.PlayerGui:WaitForChild("StaminaGui"):WaitForChild("StaminaScript"):WaitForChild("Animation")
             print("Animation retrieved: " .. tostring(animation)) -- Debugging the animation object
 
-            -- Ensure animation is valid
-            if animation and animation:IsA("AnimationTrack") then
+            -- Ensure animation is a valid Animation object
+            if animation and animation:IsA("Animation") then
+                -- Get the Animator and load the animation as an AnimationTrack
+                local animator = humanoid:FindFirstChildOfClass("Animator")
+                if not animator then
+                    animator = Instance.new("Animator")
+                    animator.Parent = humanoid
+                end
+
+                local animationTrack = animator:LoadAnimation(animation)
+                print("AnimationTrack loaded: " .. tostring(animationTrack)) -- Debugging the loaded animation track
+
                 -- Function to listen for animation playing
                 local function onAnimationPlay()
                     print("Animation is now playing") -- Debugging when animation starts
@@ -80,15 +90,15 @@ local Toggle = Tab:CreateToggle({
                 end
 
                 -- Listen for animation state changes
-                animation.Played:Connect(onAnimationPlay)
-                animation.Stopped:Connect(onAnimationStop)
+                animationTrack.Stopped:Connect(onAnimationStop)
+                animationTrack.Played:Connect(onAnimationPlay)
 
                 -- Start Speed Loop
                 task.spawn(function()
                     print("Speed loop started") -- Debugging when the speed loop begins
                     while _G.stamina do
                         -- Check if animation is playing
-                        if animation.IsPlaying then
+                        if animationTrack.IsPlaying then
                             print("Animation is playing: Setting WalkSpeed to 22") -- Debugging when animation is playing
                             humanoid.WalkSpeed = 22
                         else
@@ -100,8 +110,11 @@ local Toggle = Tab:CreateToggle({
                     humanoid.WalkSpeed = 17 -- Reset on toggle off
                     print("Speed loop ended, WalkSpeed reset to 17") -- Debugging when speed loop ends
                 end)
+
+                -- Play the animation
+                animationTrack:Play()
             else
-                print("Animation is not valid or not an AnimationTrack") -- Debugging invalid animation
+                print("Animation is not valid or not an Animation object") -- Debugging invalid animation
             end
         else
             print("Humanoid not found") -- Debugging when humanoid isn't found
