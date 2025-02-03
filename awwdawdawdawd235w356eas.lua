@@ -1,3 +1,51 @@
+
+local UILib = loadstring(game:HttpGet('https://raw.githubusercontent.com/inceldom/kinx/main/ui'))()
+
+local win = UILib:Window("NBT HUB",Color3.fromRGB(44, 120, 224), Enum.KeyCode.RightControl)
+
+-- Sections
+
+-- Main
+
+local MainSection = win:Tab("Main")
+
+-- chat
+game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("vortex on top", "All")
+
+
+-- args
+function getNil(name,class) for _,v in next, getnilinstances() do if v.ClassName==class and v.Name==name then return v;end end end
+
+
+-- works | NORMAL KICK
+local args = {
+    [1] = "Kick",
+    [2] = "Normal",
+    [3] = workspace:WaitForChild("SoccerBall"),
+    [4] = 33.32201232910156,
+    [5] = Vector3.new(45.43458557128906, 82.79999542236328, 54.29861068725586),
+    [6] = Vector3.new(173.35629272460938, -97.66685485839844, -404.6978454589844),
+    [7] = Vector3.new(206.15670776367188, -130.66685485839844, -365.4982604980469)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
+
+-- works | TRICKSHOT
+local args = {
+    [1] = "Kick",
+    [2] = "Trickshot",
+    [3] = workspace:WaitForChild("SoccerBall"),
+    [4] = 33.32201232910156,
+    [5] = Vector3.new(45.43458557128906, 82.79999542236328, 54.29861068725586),
+    [6] = Vector3.new(173.35629272460938, -97.66685485839844, -404.6978454589844),
+    [7] = Vector3.new(206.15670776367188, -130.66685485839844, -365.4982604980469)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
+
+
+-- here
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
@@ -43,6 +91,16 @@ local Toggle = Tab:CreateToggle({
     Callback = function(Value)
         _G.stamina = Value
         print("INF Stamina toggled: " .. tostring(Value)) -- Debugging toggle state
+
+        local backScroll = game.Players.LocalPlayer.PlayerGui.StaminaGui.BackScroll
+
+        -- destroy
+        local Scroll = game.Players.LocalPlayer.PlayerGui.StaminaGui.Scroll
+
+        -- set the background for backscroll
+        backScroll.BackgroundColor3 = Color3.fromRGB(1, 198, 239)
+
+        Scroll:Destroy()
 
         -- Ensure backScroll is defined
         if not backScroll then
