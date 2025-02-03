@@ -132,11 +132,11 @@ local infTricks = Tab:CreateToggle({
     CurrentValue = false,
     Flag = "Toggle2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
-        _.G.infTricks = Value
+        _G.infTricks = Value
 
         local UserInputService = game:GetService("UserInputService")
     
-        while _.G.infTricks do
+        while _G.infTricks do
             UserInputService.InputBegan:Connect(function()
                 if input.UserInputType == Enum.UserInputType.Q then
                     local args = {
