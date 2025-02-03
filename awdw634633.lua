@@ -144,18 +144,26 @@ local Toggle = Tab:CreateToggle({
             inputConnection = UserInputService.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.Q then
 
-                    -- calculate the players distance then fires it at a vector 3
+                    local player = game.Players.LocalPlayer
+                    local character = player.Character or player.CharacterAdded:Wait()
+                    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+                    local lookVector = humanoidRootPart.CFrame.LookVector -- This is the direction your character is facing
+                    
+                    -- Fire the soccer ball in the direction your character is looking
+                    local distance = 100 -- You can set the distance or calculate it based on your preference
+                    local targetPosition = humanoidRootPart.Position + (lookVector * distance) -- Position in the direction your character is looking
+                    
                     local args = {
                         [1] = "Kick",
                         [2] = "Trickshot",
                         [3] = workspace:WaitForChild("SoccerBall"),
-                        [4] = 33.32201232910156,
-                        [5] = Vector3.new(45.43458557128906, 82.79999542236328, 54.29861068725586),
-                        [6] = Vector3.new(173.35629272460938, -97.66685485839844, -404.6978454589844),
-                        [7] = Vector3.new(206.15670776367188, -130.66685485839844, -365.4982604980469)
+                        [4] = math.random(0, 1), -- The force or speed value
+                        [5] = humanoidRootPart.Position, -- Start position (Soccer Ball position)
+                        [6] = targetPosition, -- The target position in the direction the player is facing
+                        [7] = targetPosition -- You can modify this as needed
                     }
-
-                    game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
+                    
+                    game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))                    
                 end
             end)
         else
@@ -171,18 +179,17 @@ local Toggle = Tab:CreateToggle({
 local Button = Tab:CreateButton({
     Name = "Fling ball (Normal)",
     Callback = function()
+        local args = {
+            [1] = "Kick",
+            [2] = "Normal",
+            [3] = workspace:WaitForChild("SoccerBall"),
+            [4] = 100.32201232910156,
+            [5] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230)),
+            [6] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230)),
+            [7] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230))
+        }
 
-    local args = {
-        [1] = "Kick",
-        [2] = "Normal",
-        [3] = workspace:WaitForChild("SoccerBall"),
-        [4] = 33.32201232910156,
-        [5] = Vector3.new(45.43458557128906, 82.79999542236328, 54.29861068725586),
-        [6] = Vector3.new(173.35629272460938, -97.66685485839844, -404.6978454589844),
-        [7] = Vector3.new(206.15670776367188, -130.66685485839844, -365.4982604980469)
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
+        game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
     end,
 })
 
@@ -191,7 +198,7 @@ local Button = Tab:CreateButton({
     Callback = function()
         local args = {
             [1] = "Kick",
-            [2] = "Normal",
+            [2] = "Trickshot",
             [3] = workspace:WaitForChild("SoccerBall"),
             [4] = 100.32201232910156,
             [5] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230)),
