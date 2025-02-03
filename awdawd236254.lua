@@ -227,11 +227,13 @@ local Button = Tab:CreateButton({
 local Button = Tab:CreateButton({
     Name = "TP to Ball",
     Callback = function()
-    local player = game.Players.LocalPlayer
-    local character = player.Character.HumanoidRootPart
-    character.Position = game.Workspace.SoccerBall.Position
+        local player = game.Players.LocalPlayer
+        local character = player.Character.HumanoidRootPart
+        -- Set character's CFrame to soccer ball's CFrame
+        character.CFrame = game.Workspace.SoccerBall.CFrame
     end,
 })
+
 
 local Button = Tab:CreateButton({
     Name = "Goal",
