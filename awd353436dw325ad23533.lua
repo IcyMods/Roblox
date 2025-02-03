@@ -175,7 +175,7 @@ local Button = Tab:CreateButton({
 
 
 local Button = Tab:CreateButton({
-    Name = "TP Ball to you",
+    Name = "Bring Ball to you",
     Callback = function()
         local player = game.Players.LocalPlayer
         local character = player.Character.HumanoidRootPart
@@ -184,13 +184,23 @@ local Button = Tab:CreateButton({
             [1] = "Kick",
             [2] = "Normal",
             [3] = workspace:WaitForChild("SoccerBall"),
-            [4] = 15.0,
+            [4] = 30.0,
             [5] = character.Position,  -- Directly use the character's position (no need for Vector3.new)
             [6] = character.Position + Vector3.new(0, 15, 0),
             [7] = character.Position
         }
         
         game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
+    end,
+})
+
+local Button = Tab:CreateButton({
+    Name = "TP Ball to you",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character.HumanoidRootPart
+        local ball = game.Workspace:WaitForChild("SoccerBall")
+        ball.CFrame = character.CFrame
     end,
 })
 
