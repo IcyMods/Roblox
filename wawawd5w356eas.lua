@@ -1,13 +1,4 @@
 
-local UILib = loadstring(game:HttpGet('https://raw.githubusercontent.com/inceldom/kinx/main/ui'))()
-
-local win = UILib:Window("NBT HUB",Color3.fromRGB(44, 120, 224), Enum.KeyCode.RightControl)
-
--- Sections
-
--- Main
-
-local MainSection = win:Tab("Main")
 
 -- chat
 game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("vortex on top", "All")
