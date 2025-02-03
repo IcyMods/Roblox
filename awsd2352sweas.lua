@@ -57,61 +57,33 @@ local Toggle = Tab:CreateToggle({
     
         -- Get Player
         local player = game.Players.LocalPlayer
-        local character = player.Character or player.CharacterAdded:Wait()
-        local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+        local playerGui = player.PlayerGui
+        local staminaGui = playerGui:WaitForChild("StaminaGui")
+        local staminaScript = staminaGui:WaitForChild("StaminaScript")
+        local animation = staminaScript:WaitForChild("Animation")
+        
+        -- Debugging: Animation reference
+        print("Animation retrieved: " .. tostring(animation)) 
+        
+        -- Check if the animation exists
+        if animation then
+            -- Play the animation directly
+            animation:Play()
+            print("Animation played successfully")
 
-        -- Ensure Humanoid Exists
-        if humanoid then
-            -- Get animation from PlayerGui
-            local animation = player.PlayerGui:WaitForChild("StaminaGui"):WaitForChild("StaminaScript"):WaitForChild("Animation")
-            print("Animation retrieved: " .. tostring(animation)) -- Debugging the animation object
-
-            -- Ensure the animation is valid
-            if animation and animation:IsA("Animation") then
-                -- Load and play the animation directly
-                local animationTrack = humanoid:LoadAnimation(animation)
-                print("AnimationTrack loaded: " .. tostring(animationTrack)) -- Debugging the loaded animation track
-
-                -- Function to listen for animation playing
-                local function onAnimationPlay()
-                    print("Animation is now playing") -- Debugging when animation starts
-                    humanoid.WalkSpeed = 22
+            -- Start Speed Loop based on toggle state
+            task.spawn(function()
+                print("Speed loop started") -- Debugging when the speed loop begins
+                while _G.stamina do
+                    -- Adjust speed based on the toggle
+                    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 22
+                    task.wait(0.01)
                 end
-
-                local function onAnimationStop()
-                    print("Animation stopped") -- Debugging when animation stops
-                    humanoid.WalkSpeed = 17
-                end
-
-                -- Listen for animation state changes
-                animationTrack.Stopped:Connect(onAnimationStop)
-                animationTrack.Played:Connect(onAnimationPlay)
-
-                -- Start Speed Loop
-                task.spawn(function()
-                    print("Speed loop started") -- Debugging when the speed loop begins
-                    while _G.stamina do
-                        -- Check if animation is playing
-                        if animationTrack.IsPlaying then
-                            print("Animation is playing: Setting WalkSpeed to 22") -- Debugging when animation is playing
-                            humanoid.WalkSpeed = 22
-                        else
-                            print("Animation is not playing: Setting WalkSpeed to 17") -- Debugging when animation is not playing
-                            humanoid.WalkSpeed = 17
-                        end
-                        task.wait(0.01)
-                    end
-                    humanoid.WalkSpeed = 17 -- Reset on toggle off
-                    print("Speed loop ended, WalkSpeed reset to 17") -- Debugging when speed loop ends
-                end)
-
-                -- Play the animation
-                animationTrack:Play()
-            else
-                print("Animation is not valid or not an Animation object") -- Debugging invalid animation
-            end
+                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 17 -- Reset WalkSpeed when toggle is off
+                print("Speed loop ended, WalkSpeed reset to 17") -- Debugging when speed loop ends
+            end)
         else
-            print("Humanoid not found") -- Debugging when humanoid isn't found
+            print("Animation not found") -- Debugging when animation isn't found
         end
     end,
 })
