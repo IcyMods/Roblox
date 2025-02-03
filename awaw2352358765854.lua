@@ -75,6 +75,8 @@ Toggle = Tab:CreateToggle({
         local staminaScript = staminaGui:WaitForChild("StaminaScript")
         local animation = staminaScript:WaitForChild("Animation")
 
+        local backScroll = staminaGui.BackScroll
+
         -- Set the animation ID
         animation.AnimationId = "rbxassetid://472916446"
         
@@ -127,18 +129,20 @@ Toggle = Tab:CreateToggle({
     end,
 })
 
-local infTricks = Tab:CreateToggle({
+local Toggle = Tab:CreateToggle({
     Name = "INF Trickshot",
     CurrentValue = false,
-    Flag = "Toggle2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Flag = "Toggle2",
     Callback = function(Value)
         _G.infTricks = Value
 
         local UserInputService = game:GetService("UserInputService")
-    
-        while _G.infTricks do
-            UserInputService.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.Q then
+        
+        -- Only connect the InputBegan event once
+        local inputConnection
+        if _G.infTricks then
+            inputConnection = UserInputService.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.Q then
                     local args = {
                         [1] = "Kick",
                         [2] = "Trickshot",
@@ -148,14 +152,19 @@ local infTricks = Tab:CreateToggle({
                         [6] = Vector3.new(173.35629272460938, -97.66685485839844, -404.6978454589844),
                         [7] = Vector3.new(206.15670776367188, -130.66685485839844, -365.4982604980469)
                     }
-                    
+
                     game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
                 end
             end)
-            task.wait(0.5)
+        else
+            -- Disconnect when toggled off
+            if inputConnection then
+                inputConnection:Disconnect()
+            end
         end
     end,
- })
+})
+
 
 local Button = Tab:CreateButton({
     Name = "Fling ball (Normal)",
