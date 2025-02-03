@@ -42,8 +42,33 @@ local Toggle = Tab:CreateToggle({
     Flag = "Toggle1", 
     Callback = function(Value)
         _G.stamina = Value
-        print("INF Stamina toggled: " .. tostring(Value)) -- Debugging the toggle state
-    
+        print("INF Stamina toggled: " .. tostring(Value)) -- Debugging toggle state
+
+        -- Ensure backScroll is defined
+        if not backScroll then
+            print("backScroll not defined!")
+            return
+        end
+
+        -- Create Text Label
+        local newTextLabel = Instance.new("TextLabel")
+        newTextLabel.Parent = backScroll
+        newTextLabel.BackgroundTransparency = 1
+        newTextLabel.Font = Enum.Font.FredokaOne
+        newTextLabel.Text = "Infinite Speed Activated!"
+        newTextLabel.Size = UDim2.new(1, 0, 1, 0)
+        newTextLabel.TextScaled = true
+        newTextLabel.ZIndex = 10
+
+        -- Check if the stamina toggle is on, then show the label
+        if _G.stamina then
+            newTextLabel.Visible = true
+            print("Text label shown") -- Debugging if the text label is shown
+        else
+            newTextLabel.Visible = false
+            print("Text label hidden") -- Debugging if the text label is hidden
+        end
+
         -- Get Player
         local player = game.Players.LocalPlayer
         local playerGui = player.PlayerGui
@@ -58,7 +83,7 @@ local Toggle = Tab:CreateToggle({
         local character = player.Character or player.CharacterAdded:Wait()
         local humanoid = character:WaitForChild("Humanoid")
         
-        -- Debugging the animation retrieval
+        -- Debugging animation retrieval
         print("Animation retrieved: " .. tostring(animation))
         
         if animation and humanoid then
@@ -70,16 +95,6 @@ local Toggle = Tab:CreateToggle({
             if _G.stamina then
                 if not animationTrack.IsPlaying then
                     animationTrack:Play()
-                     -- Create Text Label
-                    local newTextLabel = Instance.new("TextLabel")
-                    newTextLabel.Parent = backScroll
-                    newTextLabel.BackgroundTransparency = 1
-                    newTextLabel.Font = Enum.Font.FredokaOne
-                    newTextLabel.Text = "Infinite Speed Activated!"
-                    newTextLabel.Size = UDim2.new(1, 0, 1, 0)
-                    newTextLabel.TextScaled = true
-                    newTextLabel.ZIndex = 10
-                    newTextLabel.Visible = _G.stamina -- Show only when toggled on
                     print("Animation played successfully")
                 else
                     print("Animation is already playing")
