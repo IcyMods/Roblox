@@ -58,12 +58,6 @@ local Window = Rayfield:CreateWindow({
 
 local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
 
-
--- destroy
-local Scroll = game.Players.LocalPlayer.PlayerGui.StaminaGui:FindFirstChild("Scroll")
-
-Scroll:Destroy()
-
 local animationTrack -- Declare this outside of the callback to keep track of the animation
 
 Toggle = Tab:CreateToggle({
@@ -226,3 +220,10 @@ local Button = Tab:CreateButton({
     -- The function that takes place when the button is pressed
     end,
 })
+
+-- destroy
+local Scroll = game.Players.LocalPlayer.PlayerGui.StaminaGui:WaitForChild("Scroll")
+
+if Scroll then
+    Scroll:Destroy()
+end
