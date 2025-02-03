@@ -137,7 +137,7 @@ local infTricks = Tab:CreateToggle({
         local UserInputService = game:GetService("UserInputService")
     
         while _G.infTricks do
-            UserInputService.InputBegan:Connect(function()
+            UserInputService.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.Q then
                     local args = {
                         [1] = "Kick",
@@ -152,7 +152,7 @@ local infTricks = Tab:CreateToggle({
                     game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
                 end
             end)
-            task.wait(0.01)
+            task.wait(0.5)
         end
     end,
  })
