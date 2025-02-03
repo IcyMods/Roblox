@@ -39,7 +39,7 @@ local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
 local Toggle = Tab:CreateToggle({
     Name = "INF Stamina",
     CurrentValue = false,
-    Flag = "Toggle5", 
+    Flag = "Toggle1", 
     Callback = function(Value)
         _G.stamina = Value
         print("INF Stamina toggled: " .. tostring(Value)) -- Debugging the toggle state
@@ -66,16 +66,10 @@ local Toggle = Tab:CreateToggle({
             local animation = player.PlayerGui:WaitForChild("StaminaGui"):WaitForChild("StaminaScript"):WaitForChild("Animation")
             print("Animation retrieved: " .. tostring(animation)) -- Debugging the animation object
 
-            -- Ensure animation is a valid Animation object
+            -- Ensure the animation is valid
             if animation and animation:IsA("Animation") then
-                -- Get the Animator and load the animation as an AnimationTrack
-                local animator = humanoid:FindFirstChildOfClass("Animator")
-                if not animator then
-                    animator = Instance.new("Animator")
-                    animator.Parent = humanoid
-                end
-
-                local animationTrack = animator:LoadAnimation(animation)
+                -- Load and play the animation directly
+                local animationTrack = humanoid:LoadAnimation(animation)
                 print("AnimationTrack loaded: " .. tostring(animationTrack)) -- Debugging the loaded animation track
 
                 -- Function to listen for animation playing
