@@ -39,7 +39,7 @@ local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
 local Toggle = Tab:CreateToggle({
     Name = "INF Stamina",
     CurrentValue = false,
-    Flag = "Toggle1", 
+    Flag = "Toggle5", 
     Callback = function(Value)
         _G.stamina = Value
         print("INF Stamina toggled: " .. tostring(Value)) -- Debugging the toggle state
