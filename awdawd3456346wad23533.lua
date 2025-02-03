@@ -61,19 +61,31 @@ local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
 local animationTrack -- Declare this outside of the callback to keep track of the animation
 
 local Scroll = game.Players.LocalPlayer.PlayerGui.StaminaGui:WaitForChild("Scroll")
+local Holdspace = game.Players.LocalPlayer.PlayerGui.StaminaGui.BackScroll:WaitForChild("Space")
+
+local staminaText = game.Players.LocalPlayer.PlayerGui.StaminaGui.BackScroll:WaitForChild("Stamina")
 
 local Toggle = Tab:CreateToggle({
-    Name = "INF Trickshot",
+    Name = "INF Stamina",
     CurrentValue = false,
     Flag = "Toggle2",
     Callback = function(Value)
         _G.infStam = Value
         
+        Holdspace:Destroy()
+        
+        if staminaText then
+            staminaText.Text = "INF Stamina Activated!"
+        end
+        
         -- Run the loop only when the toggle is on
         if _G.infStam then
             while _G.infStam do
-                Scroll.Size = UDim2.new(0.3, 0, 0.05, 0)
-                task.wait(0.1) -- Add a small delay to avoid freezing
+                if Scroll then
+                    Scroll.Size = UDim2.new(0.3, 0, 0.05, 0)
+                end
+
+                task.wait(0.001) -- Add a small delay to avoid freezing
             end
         else
             Scroll.Size = UDim2.new(0.3, 0, 0.05, 0) -- Set it to default when toggle is off
