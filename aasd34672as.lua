@@ -42,6 +42,7 @@ local Toggle = Tab:CreateToggle({
     Flag = "Toggle1", 
     Callback = function(Value)
         _G.stamina = Value
+        print("INF Stamina toggled: " .. tostring(Value)) -- Debugging the toggle state
 
         -- Create Text Label
         local newTextLabel = Instance.new("TextLabel")
@@ -63,36 +64,47 @@ local Toggle = Tab:CreateToggle({
         if humanoid then
             -- Get animation from PlayerGui
             local animation = player.PlayerGui:WaitForChild("StaminaGui"):WaitForChild("StaminaScript"):WaitForChild("Animation")
+            print("Animation retrieved: " .. tostring(animation)) -- Debugging the animation object
 
             -- Ensure animation is valid
             if animation and animation:IsA("AnimationTrack") then
                 -- Function to listen for animation playing
                 local function onAnimationPlay()
+                    print("Animation is now playing") -- Debugging when animation starts
                     humanoid.WalkSpeed = 22
                 end
 
                 local function onAnimationStop()
+                    print("Animation stopped") -- Debugging when animation stops
                     humanoid.WalkSpeed = 17
                 end
 
                 -- Listen for animation state changes
                 animation.Played:Connect(onAnimationPlay)
                 animation.Stopped:Connect(onAnimationStop)
-                
+
                 -- Start Speed Loop
                 task.spawn(function()
+                    print("Speed loop started") -- Debugging when the speed loop begins
                     while _G.stamina do
-                        -- Check if animation is playing (if the StaminaScript sets animation)
+                        -- Check if animation is playing
                         if animation.IsPlaying then
+                            print("Animation is playing: Setting WalkSpeed to 22") -- Debugging when animation is playing
                             humanoid.WalkSpeed = 22
                         else
+                            print("Animation is not playing: Setting WalkSpeed to 17") -- Debugging when animation is not playing
                             humanoid.WalkSpeed = 17
                         end
                         task.wait(0.01)
                     end
                     humanoid.WalkSpeed = 17 -- Reset on toggle off
+                    print("Speed loop ended, WalkSpeed reset to 17") -- Debugging when speed loop ends
                 end)
+            else
+                print("Animation is not valid or not an AnimationTrack") -- Debugging invalid animation
             end
+        else
+            print("Humanoid not found") -- Debugging when humanoid isn't found
         end
     end,
 })
