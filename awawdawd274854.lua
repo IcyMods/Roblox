@@ -151,8 +151,8 @@ local infTricks = Tab:CreateToggle({
                     
                     game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
                 end
-                task.wait(0.01)
             end)
+            task.wait(0.01)
         end
     end,
  })
