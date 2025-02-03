@@ -60,74 +60,27 @@ local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
 
 local animationTrack -- Declare this outside of the callback to keep track of the animation
 
-Toggle = Tab:CreateToggle({
-    Name = "INF Stamina",
+local Scroll = game.Players.LocalPlayer.PlayerGui.StaminaGui:WaitForChild("Scroll")
+
+local Toggle = Tab:CreateToggle({
+    Name = "INF Trickshot",
     CurrentValue = false,
-    Flag = "Toggle1", 
+    Flag = "Toggle2",
     Callback = function(Value)
-        _G.stamina = Value
-        print("INF Stamina toggled: " .. tostring(Value))
+        _G.infStam = Value
         
-        -- Get Player
-        local player = game.Players.LocalPlayer
-        local playerGui = player.PlayerGui
-        local staminaGui = playerGui:WaitForChild("StaminaGui")
-        local staminaScript = staminaGui:WaitForChild("StaminaScript")
-        local animation = staminaScript:WaitForChild("Animation")
-
-        local backScroll = staminaGui.BackScroll
-
-        -- Set the animation ID
-        animation.AnimationId = "rbxassetid://472916446"
-        
-        -- Get the character and humanoid
-        local character = player.Character or player.CharacterAdded:Wait()
-        local humanoid = character:WaitForChild("Humanoid")
-
-        -- Load the animation into the humanoid
-        if animationTrack then
-            animationTrack:Stop()  -- Stop the previous animation if it's playing
-        end
-        
-        -- Load the animation into the humanoid and play it
-        animationTrack = humanoid:LoadAnimation(animation)
-        
-        if _G.stamina then
-            print("Animation loaded successfully")
-            animationTrack:Play()
+        -- Run the loop only when the toggle is on
+        if _G.infStam then
+            while _G.infStam do
+                Scroll.Size = UDim2.new(0.3, 0, 0.05, 0)
+                task.wait(0.1) -- Add a small delay to avoid freezing
+            end
         else
-            print("Animation stopped")
-            animationTrack:Stop()  -- Stop the animation when toggled off
-        end
-
-        -- Create or hide text label based on the toggle state
-        local newTextLabel = Instance.new("TextLabel")
-        newTextLabel.Parent = backScroll
-        newTextLabel.BackgroundTransparency = 1
-        newTextLabel.Font = Enum.Font.FredokaOne
-        newTextLabel.Text = "Infinite Speed Activated!"
-        newTextLabel.Size = UDim2.new(1, 0, 1, 0)
-        newTextLabel.TextScaled = true
-        newTextLabel.ZIndex = 10
-        newTextLabel.Visible = _G.stamina  -- Show only when toggled on
-
-        -- Speed Loop
-        local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            task.spawn(function()
-                while _G.stamina do
-                    if animationTrack.IsPlaying then
-                        humanoid.WalkSpeed = 22
-                    else
-                        humanoid.WalkSpeed = 17
-                    end
-                    task.wait(0.01)
-                end
-                humanoid.WalkSpeed = 17  -- Reset speed when toggled off
-            end)
+            Scroll.Size = UDim2.new(0.3, 0, 0.05, 0) -- Set it to default when toggle is off
         end
     end,
 })
+
 
 local Toggle = Tab:CreateToggle({
     Name = "INF Trickshot",
@@ -255,13 +208,3 @@ local Button = Tab:CreateButton({
     -- The function that takes place when the button is pressed
     end,
 })
-
--- destroy
-local Scroll = game.Players.LocalPlayer.PlayerGui.StaminaGui:WaitForChild("Scroll")
-
-if Scroll then
-    while wait() do
-        Scroll.Size = UDim2.new(1, 0, 1, 0)
-       task.wait(0.01)
-    end
-end
