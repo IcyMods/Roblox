@@ -60,7 +60,7 @@ local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
 
 
 -- destroy
-local Scroll = game.Players.LocalPlayer.PlayerGui.StaminaGui.Scroll
+local Scroll = game.Players.LocalPlayer.PlayerGui.StaminaGui:FindFirstChild("Scroll")
 
 Scroll:Destroy()
 
