@@ -61,19 +61,30 @@ local Toggle = Tab:CreateToggle({
         local staminaGui = playerGui:WaitForChild("StaminaGui")
         local staminaScript = staminaGui:WaitForChild("StaminaScript")
         local animation = staminaScript:WaitForChild("Animation")
+
+        -- Set the animation ID (if needed)
+        animation.AnimationId = "rbxassetid://472916446"
+
+        -- Ensure the character and humanoid exist
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
         
-        -- Debugging: Animation reference
-        print("Animation retrieved: " .. tostring(animation)) 
+        -- Debugging the animation retrieval
+        print("Animation retrieved: " .. tostring(animation))
         
-        -- Ensure the animation exists and is ready to load and play
-        if animation then
-            -- Load the animation
-            local loadedAnimation = animation:LoadAnimation()
+        if animation and humanoid then
+            -- Load and play the animation
+            local animationTrack = humanoid:LoadAnimation(animation)
             print("Animation loaded successfully")
 
-            -- Play the loaded animation
-            loadedAnimation:Play()
-            print("Animation played successfully")
+            -- Start playing the animation when the toggle is on
+            if _G.stamina then
+                animationTrack:Play()
+                print("Animation played successfully")
+            else
+                animationTrack:Stop() -- Stop the animation if the toggle is off
+                print("Animation stopped")
+            end
 
             -- Start Speed Loop based on toggle state
             task.spawn(function()
@@ -87,8 +98,7 @@ local Toggle = Tab:CreateToggle({
                 print("Speed loop ended, WalkSpeed reset to 17") -- Debugging when speed loop ends
             end)
         else
-            print("Animation not found") -- Debugging when animation isn't found
+            print("Animation or Humanoid not found") -- Debugging if animation or humanoid isn't found
         end
     end,
 })
-
