@@ -41,7 +41,7 @@ local Toggle = Tab:CreateToggle({
     CurrentValue = false,
     Flag = "Toggle1", 
     Callback = function(Value)
-        _G.stamina = Value -- Set global variable
+        _G.stamina = Value
 
         -- Create Text Label
         local newTextLabel = Instance.new("TextLabel")
@@ -56,22 +56,43 @@ local Toggle = Tab:CreateToggle({
     
         -- Get Player
         local player = game.Players.LocalPlayer
-        local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-    
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+
         -- Ensure Humanoid Exists
         if humanoid then
-            -- Start Speed Loop
-            task.spawn(function()
-                while _G.stamina do
-                    if animation:IsPlaying() then
-                        humanoid.WalkSpeed = 22
-                    else
-                        humanoid.WalkSpeed = 17
-                    end
-                    task.wait(0.01)
+            -- Get animation from PlayerGui
+            local animation = player.PlayerGui:WaitForChild("StaminaGui"):WaitForChild("StaminaScript"):WaitForChild("Animation")
+
+            -- Ensure animation is valid
+            if animation and animation:IsA("AnimationTrack") then
+                -- Function to listen for animation playing
+                local function onAnimationPlay()
+                    humanoid.WalkSpeed = 22
                 end
-                humanoid.WalkSpeed = 17 -- Reset on toggle off
-            end)
+
+                local function onAnimationStop()
+                    humanoid.WalkSpeed = 17
+                end
+
+                -- Listen for animation state changes
+                animation.Played:Connect(onAnimationPlay)
+                animation.Stopped:Connect(onAnimationStop)
+                
+                -- Start Speed Loop
+                task.spawn(function()
+                    while _G.stamina do
+                        -- Check if animation is playing (if the StaminaScript sets animation)
+                        if animation.IsPlaying then
+                            humanoid.WalkSpeed = 22
+                        else
+                            humanoid.WalkSpeed = 17
+                        end
+                        task.wait(0.01)
+                    end
+                    humanoid.WalkSpeed = 17 -- Reset on toggle off
+                end)
+            end
         end
     end,
 })
