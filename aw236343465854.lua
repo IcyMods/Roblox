@@ -143,6 +143,8 @@ local Toggle = Tab:CreateToggle({
         if _G.infTricks then
             inputConnection = UserInputService.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.Q then
+
+                    -- calculate the players distance then fires it at a vector 3
                     local args = {
                         [1] = "Kick",
                         [2] = "Trickshot",
@@ -227,7 +229,7 @@ local Button = Tab:CreateButton({
     Callback = function()
     local player = game.Players.LocalPlayer
     local character = player.Character.HumanoidRootPart
-    character.CFrame = CFrame.new(game.Workspace.SoccerBall.CFrame)
+    character.Position = game.Workspace.SoccerBall.Position
     end,
 })
 
