@@ -1,7 +1,7 @@
 
 
 -- chat
-game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("vortex on top", "All")
+--game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("vortex on top", "All")
 
 
 -- works | TRICKSHOT
@@ -133,36 +133,35 @@ Toggle = Tab:CreateToggle({
     end,
 })
 
-local Toggle = Tab:CreateButton({
+local infTricks = Tab:CreateToggle({
     Name = "INF Trickshot",
     CurrentValue = false,
-    Flag = "Toggle1", 
+    Flag = "Toggle2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
+        _.G.infTricks = Value
 
-    _.G.infTricks = Value
-
-    local UserInputService = game:GetService("UserInputService")
-
-    while _.G.infTricks do
-        UserInputService.InputBegan:Connect(function()
-            if input.UserInputType == Enum.UserInputType.Q then
-                local args = {
-                    [1] = "Kick",
-                    [2] = "Trickshot",
-                    [3] = workspace:WaitForChild("SoccerBall"),
-                    [4] = 33.32201232910156,
-                    [5] = Vector3.new(45.43458557128906, 82.79999542236328, 54.29861068725586),
-                    [6] = Vector3.new(173.35629272460938, -97.66685485839844, -404.6978454589844),
-                    [7] = Vector3.new(206.15670776367188, -130.66685485839844, -365.4982604980469)
-                }
-                
-                game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
-            end
-            task.wait(0.01)
-        end)
-    end
+        local UserInputService = game:GetService("UserInputService")
+    
+        while _.G.infTricks do
+            UserInputService.InputBegan:Connect(function()
+                if input.UserInputType == Enum.UserInputType.Q then
+                    local args = {
+                        [1] = "Kick",
+                        [2] = "Trickshot",
+                        [3] = workspace:WaitForChild("SoccerBall"),
+                        [4] = 33.32201232910156,
+                        [5] = Vector3.new(45.43458557128906, 82.79999542236328, 54.29861068725586),
+                        [6] = Vector3.new(173.35629272460938, -97.66685485839844, -404.6978454589844),
+                        [7] = Vector3.new(206.15670776367188, -130.66685485839844, -365.4982604980469)
+                    }
+                    
+                    game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
+                end
+                task.wait(0.01)
+            end)
+        end
     end,
-})
+ })
 
 local Button = Tab:CreateButton({
     Name = "Fling ball (Normal)",
