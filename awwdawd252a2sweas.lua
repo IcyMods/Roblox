@@ -43,17 +43,6 @@ local Toggle = Tab:CreateToggle({
     Callback = function(Value)
         _G.stamina = Value
         print("INF Stamina toggled: " .. tostring(Value)) -- Debugging the toggle state
-
-        -- Create Text Label
-        local newTextLabel = Instance.new("TextLabel")
-        newTextLabel.Parent = backScroll
-        newTextLabel.BackgroundTransparency = 1
-        newTextLabel.Font = Enum.Font.FredokaOne
-        newTextLabel.Text = "Infinite Speed Activated!"
-        newTextLabel.Size = UDim2.new(1, 0, 1, 0)
-        newTextLabel.TextScaled = true
-        newTextLabel.ZIndex = 10
-        newTextLabel.Visible = _G.stamina -- Show only when toggled on
     
         -- Get Player
         local player = game.Players.LocalPlayer
@@ -81,6 +70,16 @@ local Toggle = Tab:CreateToggle({
             if _G.stamina then
                 if not animationTrack.IsPlaying then
                     animationTrack:Play()
+                     -- Create Text Label
+                    local newTextLabel = Instance.new("TextLabel")
+                    newTextLabel.Parent = backScroll
+                    newTextLabel.BackgroundTransparency = 1
+                    newTextLabel.Font = Enum.Font.FredokaOne
+                    newTextLabel.Text = "Infinite Speed Activated!"
+                    newTextLabel.Size = UDim2.new(1, 0, 1, 0)
+                    newTextLabel.TextScaled = true
+                    newTextLabel.ZIndex = 10
+                    newTextLabel.Visible = _G.stamina -- Show only when toggled on
                     print("Animation played successfully")
                 else
                     print("Animation is already playing")
