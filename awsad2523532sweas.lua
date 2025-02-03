@@ -79,11 +79,17 @@ local Toggle = Tab:CreateToggle({
 
             -- Start playing the animation when the toggle is on
             if _G.stamina then
-                animationTrack:Play()
-                print("Animation played successfully")
+                if not animationTrack.IsPlaying then
+                    animationTrack:Play()
+                    print("Animation played successfully")
+                else
+                    print("Animation is already playing")
+                end
             else
-                animationTrack:Stop() -- Stop the animation if the toggle is off
-                print("Animation stopped")
+                if animationTrack.IsPlaying then
+                    animationTrack:Stop() -- Stop the animation if the toggle is off
+                    print("Animation stopped")
+                end
             end
 
             -- Start Speed Loop based on toggle state
