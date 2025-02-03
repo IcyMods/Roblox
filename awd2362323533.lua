@@ -150,14 +150,14 @@ local Toggle = Tab:CreateToggle({
                     local lookVector = humanoidRootPart.CFrame.LookVector -- This is the direction your character is facing
                     
                     -- Fire the soccer ball in the direction your character is looking
-                    local distance = 100 -- You can set the distance or calculate it based on your preference
+                    local distance = 45 -- You can set the distance or calculate it based on your preference
                     local targetPosition = humanoidRootPart.Position + (lookVector * distance) -- Position in the direction your character is looking
                     
                     local args = {
                         [1] = "Kick",
                         [2] = "Trickshot",
                         [3] = workspace:WaitForChild("SoccerBall"),
-                        [4] = math.random(0, 1), -- The force or speed value
+                        [4] = math.random(1, distance), -- The force or speed value
                         [5] = humanoidRootPart.Position, -- Start position (Soccer Ball position)
                         [6] = targetPosition, -- The target position in the direction the player is facing
                         [7] = targetPosition -- You can modify this as needed
@@ -183,7 +183,7 @@ local Button = Tab:CreateButton({
             [1] = "Kick",
             [2] = "Normal",
             [3] = workspace:WaitForChild("SoccerBall"),
-            [4] = 100.32201232910156,
+            [4] = 100.0,
             [5] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230)),
             [6] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230)),
             [7] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230))
@@ -200,7 +200,7 @@ local Button = Tab:CreateButton({
             [1] = "Kick",
             [2] = "Trickshot",
             [3] = workspace:WaitForChild("SoccerBall"),
-            [4] = 100.32201232910156,
+            [4] = 100.0,
             [5] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230)),
             [6] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230)),
             [7] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230))
@@ -221,9 +221,9 @@ local Button = Tab:CreateButton({
             [1] = "Kick",
             [2] = "Normal",
             [3] = workspace:WaitForChild("SoccerBall"),
-            [4] = 1.0,
+            [4] = 15.0,
             [5] = character.Position,  -- Directly use the character's position (no need for Vector3.new)
-            [6] = character.Position + Vector3.new(0, 5, 0),
+            [6] = character.Position + Vector3.new(0, 10, 0),
             [7] = character.Position
         }
         
@@ -260,5 +260,8 @@ local Button = Tab:CreateButton({
 local Scroll = game.Players.LocalPlayer.PlayerGui.StaminaGui:WaitForChild("Scroll")
 
 if Scroll then
-    Scroll:Destroy()
+    while wait() do
+        Scroll.Size = UDim2.new(1, 0, 1, 0)
+       task.wait(0.01)
+    end
 end
