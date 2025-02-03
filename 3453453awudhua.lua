@@ -189,20 +189,20 @@ local Button = Tab:CreateButton({
 local Button = Tab:CreateButton({
     Name = "Fling ball (Trickshot)",
     Callback = function()
+        local args = {
+            [1] = "Kick",
+            [2] = "Normal",
+            [3] = workspace:WaitForChild("SoccerBall"),
+            [4] = 100.32201232910156,
+            [5] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230)),
+            [6] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230)),
+            [7] = Vector3.new(math.random(1, 230), math.random(1, 230), math.random(1, 230))
+        }
 
-    local args = {
-        [1] = "Kick",
-        [2] = "Normal",
-        [3] = workspace:WaitForChild("SoccerBall"),
-        [4] = 33.32201232910156,
-        [5] = Vector3.new(45.43458557128906, 82.79999542236328, 54.29861068725586),
-        [6] = Vector3.new(173.35629272460938, -97.66685485839844, -404.6978454589844),
-        [7] = Vector3.new(206.15670776367188, -130.66685485839844, -365.4982604980469)
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
+        game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
     end,
 })
+
 
 local Button = Tab:CreateButton({
     Name = "TP Ball to you",
@@ -214,9 +214,9 @@ local Button = Tab:CreateButton({
             [1] = "Kick",
             [2] = "Normal",
             [3] = workspace:WaitForChild("SoccerBall"),
-            [4] = 5.0,
+            [4] = 1.0,
             [5] = character.Position,  -- Directly use the character's position (no need for Vector3.new)
-            [6] = character.Position,
+            [6] = character.Position + Vector3.new(0, 5, 0),
             [7] = character.Position
         }
         
