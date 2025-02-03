@@ -65,10 +65,14 @@ local Toggle = Tab:CreateToggle({
         -- Debugging: Animation reference
         print("Animation retrieved: " .. tostring(animation)) 
         
-        -- Check if the animation exists
+        -- Ensure the animation exists and is ready to load and play
         if animation then
-            -- Play the animation directly
-            animation:Play()
+            -- Load the animation
+            local loadedAnimation = animation:LoadAnimation()
+            print("Animation loaded successfully")
+
+            -- Play the loaded animation
+            loadedAnimation:Play()
             print("Animation played successfully")
 
             -- Start Speed Loop based on toggle state
@@ -87,3 +91,4 @@ local Toggle = Tab:CreateToggle({
         end
     end,
 })
+
