@@ -184,7 +184,7 @@ local Button = Tab:CreateButton({
             [1] = "Kick",
             [2] = "Normal",
             [3] = workspace:WaitForChild("SoccerBall"),
-            [4] = 30.0,
+            [4] = 100.0,
             [5] = character.Position,  -- Directly use the character's position (no need for Vector3.new)
             [6] = character.Position + Vector3.new(0, 15, 0),
             [7] = character.Position
@@ -272,13 +272,23 @@ local Button = Tab:CreateButton({
             return
         end
 
+
+        local character = player.Character.HumanoidRootPart
+        local ball = game.Workspace:WaitForChild("SoccerBall")
+
+        if ball then
+            ball.CFrame = character.CFrame
+        end
+
+        task.wait(0.0001)
+
         local args = {
             [1] = "Kick",
             [2] = "Trickshot",
             [3] = workspace:WaitForChild("SoccerBall"),
-            [4] = 30.0, -- Adjust power if needed
+            [4] = 1.0, -- Adjust power if needed
             [5] = character.HumanoidRootPart.Position,
-            [6] = targetGoal, -- Slightly above the goal to make it look like a shot
+            [6] = targetGoal + Vector3.new(0, 0, 5), -- Slightly above the goal to make it look like a shot
             [7] = targetGoal
         }
 
