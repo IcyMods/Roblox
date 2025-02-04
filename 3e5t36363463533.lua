@@ -249,7 +249,11 @@ if not goalBlue or not goalRed then
 end
 
 local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
+
+local function getCharacter()
+    local character = player.Character or player.CharacterAdded:Wait()
+    return character and character:FindFirstChild("HumanoidRootPart")
+end
 
 local Button = Tab:CreateButton({
     Name = "Goal",
@@ -272,22 +276,29 @@ local Button = Tab:CreateButton({
             return
         end
 
+        local character = getCharacter()
+        if not character then
+            warn("HumanoidRootPart not found!")
+            return
+        end
 
-        local character = player.Character.HumanoidRootPart
-        local ball = game.Workspace:WaitForChild("SoccerBall")
+        local ball = game.Workspace:FindFirstChild("SoccerBall")
 
         if ball then
             ball.CFrame = character.CFrame
+        else
+            warn("SoccerBall not found!")
+            return
         end
 
-        task.wait(0.0001)
+        task.wait(0.1) -- Slight delay for ball repositioning
 
         local args = {
             [1] = "Kick",
             [2] = "Trickshot",
-            [3] = workspace:WaitForChild("SoccerBall"),
+            [3] = ball,
             [4] = 1.0, -- Adjust power if needed
-            [5] = character.HumanoidRootPart.Position,
+            [5] = character.Position,
             [6] = targetGoal + Vector3.new(0, 0, 5), -- Slightly above the goal to make it look like a shot
             [7] = targetGoal
         }
