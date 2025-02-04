@@ -69,6 +69,7 @@ local Toggle = Tab:CreateToggle({
                 task.wait(0.001) -- Add a small delay to avoid freezing
             end
         else
+            staminaText.Text = "Stamina"
             Scroll.Size = UDim2.new(0.3, 0, 0.05, 0) -- Set it to default when toggle is off
         end
     end,
@@ -103,7 +104,7 @@ local Toggle = Tab:CreateToggle({
                         [1] = "Kick",
                         [2] = "Trickshot",
                         [3] = workspace:WaitForChild("SoccerBall"),
-                        [4] = math.random(10, distance), -- The force or speed value
+                        [4] = math.random(1, distance), -- The force or speed value
                         [5] = humanoidRootPart.Position, -- Start position (Soccer Ball position)
                         [6] = targetPosition, -- The target position in the direction the player is facing
                         [7] = targetPosition -- You can modify this as needed
@@ -167,9 +168,9 @@ local Button = Tab:CreateButton({
             [1] = "Kick",
             [2] = "Normal",
             [3] = workspace:WaitForChild("SoccerBall"),
-            [4] = 100.0,
+            [4] = 20.0,
             [5] = character.Position,  -- Directly use the character's position (no need for Vector3.new)
-            [6] = character.Position + Vector3.new(0, 15, 0),
+            [6] = character.Position + Vector3.new(0, 18, 0),
             [7] = character.Position
         }
         
@@ -282,7 +283,7 @@ local Button = Tab:CreateButton({
             [3] = ball,
             [4] = 1.0, -- Adjust power if needed
             [5] = character.Position,
-            [6] = targetGoal + Vector3.new(0, 0, 5), -- Slightly above the goal to make it look like a shot
+            [6] = targetGoal + Vector3.new(0, 0, 6), -- Slightly above the goal to make it look like a shot
             [7] = targetGoal
         }
 
