@@ -3,23 +3,6 @@
 -- chat
 --game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("vortex on top", "All")
 
-
--- works | TRICKSHOT
-local args = {
-    [1] = "Kick",
-    [2] = "Trickshot",
-    [3] = workspace:WaitForChild("SoccerBall"),
-    [4] = 33.32201232910156,
-    [5] = Vector3.new(45.43458557128906, 82.79999542236328, 54.29861068725586),
-    [6] = Vector3.new(173.35629272460938, -97.66685485839844, -404.6978454589844),
-    [7] = Vector3.new(206.15670776367188, -130.66685485839844, -365.4982604980469)
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
-
-
--- here
-
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
