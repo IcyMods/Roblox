@@ -113,14 +113,14 @@ local Toggle = Tab:CreateToggle({
                     local lookVector = humanoidRootPart.CFrame.LookVector -- This is the direction your character is facing
                     
                     -- Fire the soccer ball in the direction your character is looking
-                    local distance = 45 -- You can set the distance or calculate it based on your preference
+                    local distance = 100 -- You can set the distance or calculate it based on your preference
                     local targetPosition = humanoidRootPart.Position + (lookVector * distance) -- Position in the direction your character is looking
                     
                     local args = {
                         [1] = "Kick",
                         [2] = "Trickshot",
                         [3] = workspace:WaitForChild("SoccerBall"),
-                        [4] = math.random(1, distance), -- The force or speed value
+                        [4] = math.random(10, distance), -- The force or speed value
                         [5] = humanoidRootPart.Position, -- Start position (Soccer Ball position)
                         [6] = targetPosition, -- The target position in the direction the player is facing
                         [7] = targetPosition -- You can modify this as needed
@@ -175,7 +175,7 @@ local Button = Tab:CreateButton({
 
 
 local Button = Tab:CreateButton({
-    Name = "Bring Ball to you",
+    Name = "Bring Ball to you (more legit)",
     Callback = function()
         local player = game.Players.LocalPlayer
         local character = player.Character.HumanoidRootPart
@@ -200,7 +200,10 @@ local Button = Tab:CreateButton({
         local player = game.Players.LocalPlayer
         local character = player.Character.HumanoidRootPart
         local ball = game.Workspace:WaitForChild("SoccerBall")
-        ball.CFrame = character.CFrame
+
+        if ball then
+            ball.CFrame = character.CFrame
+        end
     end,
 })
 
@@ -215,12 +218,74 @@ local Button = Tab:CreateButton({
 })
 
 
+local teams = {
+    team1 = "Brazil",
+    team2 = "USA"
+}
+
+local mapHolder = game.Workspace:WaitForChild("MapHolder")
+
+-- Find the current active map
+local currentMap
+for _, map in ipairs(mapHolder:GetChildren()) do
+    if map:IsA("Model") then
+        currentMap = map
+        break
+    end
+end
+
+if not currentMap then
+    warn("No map found!")
+    return
+end
+
+-- Get goal positions
+local goalBlue = currentMap:FindFirstChild("BlueGoal")
+local goalRed = currentMap:FindFirstChild("RedGoal")
+
+if not goalBlue or not goalRed then
+    warn("Goals not found in the map!")
+    return
+end
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
 local Button = Tab:CreateButton({
     Name = "Goal",
     Callback = function()
-    -- The function that takes place when the button is pressed
+        local team = player.Team and player.Team.Name or nil
+        if not team then
+            warn("Player is not on a team!")
+            return
+        end
+
+        local targetGoal
+        if team == teams.team1 then
+            -- If the player is on Brazil, aim for USA's goal (Blue Goal)
+            targetGoal = goalBlue.Position
+        elseif team == teams.team2 then
+            -- If the player is on USA, aim for Brazil's goal (Red Goal)
+            targetGoal = goalRed.Position
+        else
+            warn("Player is not on a valid team!")
+            return
+        end
+
+        local args = {
+            [1] = "Kick",
+            [2] = "Trickshot",
+            [3] = workspace:WaitForChild("SoccerBall"),
+            [4] = 30.0, -- Adjust power if needed
+            [5] = character.HumanoidRootPart.Position,
+            [6] = targetGoal, -- Slightly above the goal to make it look like a shot
+            [7] = targetGoal
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
     end,
 })
+
 
 local Button = Tab:CreateButton({
     Name = "Pass ball to teammates",
