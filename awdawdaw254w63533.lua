@@ -169,9 +169,9 @@ local Button = Tab:CreateButton({
             [2] = "Normal",
             [3] = workspace:WaitForChild("SoccerBall"),
             [4] = 20.0,
-            [5] = character.Position,  -- Directly use the character's position (no need for Vector3.new)
-            [6] = character.Position + Vector3.new(0, 18, 0),
-            [7] = character.Position
+            [5] = character.CFrame,  -- Directly use the character's position (no need for Vector3.new)
+            [6] = character.CFrame + Vector3.new(0, 18, 0),
+            [7] = character.CFrame
         }
         
         game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
@@ -239,6 +239,22 @@ local function getCharacter()
     return character and character:FindFirstChild("HumanoidRootPart")
 end
 
+local function getRandomTeammate()
+    local teammates = {}
+
+    for _, plr in ipairs(game.Players:GetPlayers()) do
+        if plr ~= player and plr.Team == player.Team and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            table.insert(teammates, plr.Character.HumanoidRootPart)
+        end
+    end
+
+    if #teammates > 0 then
+        return teammates[math.random(1, #teammates)]
+    else
+        return nil
+    end
+end
+
 local Button = Tab:CreateButton({
     Name = "Goal",
     Callback = function()
@@ -249,6 +265,7 @@ local Button = Tab:CreateButton({
         end
 
         local targetGoal
+
         if team == teams.team1 then
             -- If the player is on Brazil, aim for USA's goal (Blue Goal)
             targetGoal = goalBlue.Position
@@ -269,7 +286,7 @@ local Button = Tab:CreateButton({
         local ball = game.Workspace:FindFirstChild("SoccerBall")
 
         if ball then
-            ball.CFrame = character.CFrame - Vector3.new(0, 13, 0)
+            ball.CFrame = character.CFrame - Vector3.new(0, 5, 0)
         else
             warn("SoccerBall not found!")
             return
@@ -281,9 +298,9 @@ local Button = Tab:CreateButton({
             [1] = "Kick",
             [2] = "Trickshot",
             [3] = ball,
-            [4] = 1.0, -- Adjust power if needed
+            [4] = 1, -- Adjust power if needed
             [5] = character.Position,
-            [6] = targetGoal + Vector3.new(0, 0, 6), -- Slightly above the goal to make it look like a shot
+            [6] = targetGoal,
             [7] = targetGoal
         }
 
@@ -291,10 +308,41 @@ local Button = Tab:CreateButton({
     end,
 })
 
-
 local Button = Tab:CreateButton({
-    Name = "Pass ball to teammates",
+    Name = "Pass ball to a random teammate", 
     Callback = function()
-    -- The function that takes place when the button is pressed
+        local teammate = getRandomTeammate()
+
+        if not teammate then
+            warn("No teammates found to pass to!")
+            return
+        end
+
+        local character = getCharacter()
+        if not character then
+            warn("HumanoidRootPart not found!")
+            return
+        end
+
+        local ball = game.Workspace:FindFirstChild("SoccerBall")
+        if not ball then
+            warn("SoccerBall not found!")
+            return
+        end
+
+        ball.CFrame = character.CFrame - Vector3.new(0, 5, 0) -- Move ball near player before passing
+        task.wait(0.1) -- Delay for repositioning
+
+        local args = {
+            [1] = "Kick",
+            [2] = "Normal", -- Adjust kick type if needed
+            [3] = ball,
+            [4] = 1, -- Adjust power if needed
+            [5] = character.CFrame,
+            [6] = teammate.CFrame + Vector3.new(0, 2, 0), -- Pass slightly above to avoid ground collision
+            [7] = teammate.CFrame
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("MasterKey"):FireServer(unpack(args))
     end,
 })
