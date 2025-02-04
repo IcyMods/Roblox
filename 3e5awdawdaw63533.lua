@@ -268,7 +268,7 @@ local Button = Tab:CreateButton({
         local ball = game.Workspace:FindFirstChild("SoccerBall")
 
         if ball then
-            ball.CFrame = character.CFrame
+            ball.CFrame = character.CFrame - Vector3.new(0, 13, 0)
         else
             warn("SoccerBall not found!")
             return
