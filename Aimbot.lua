@@ -9,7 +9,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 
--- Opitional Configuration
+-- Optional Configuration
 _G.AimAssistEnabled = true
 _G.Smoothness = 1 -- Set to 1 for instant lock-on, lower values for smoother aiming
 _G.FOV = 100 -- Field of View for aim assist
