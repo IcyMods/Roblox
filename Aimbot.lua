@@ -1,4 +1,4 @@
--- works for most games not all if FPS games have a customized character then it wont work. |  ROBLOX
+-- works for most games not all... if FPS games have a customized character then it wont work. |  ROBLOX
 
 -- Services
 local UIS = game:GetService("UserInputService")
