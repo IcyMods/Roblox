@@ -14,7 +14,7 @@ _G.AimAssistEnabled = true
 _G.Smoothness = 1 -- Set to 1 for instant lock-on, lower values for smoother aiming
 _G.FOV = 100 -- Field of View for aim assist
 _G.Distance = 1200 -- Maximum distance to target
-_G.AimPart = "Head" -- Change to "HumanoidRootPart" or "Torso" if needed
+_G.AimPart = "Head" -- Change to "HumanoidRootPart" or "Torso"
 
 -- Function to get the closest player
 local function GetClosestPlayer()
@@ -47,8 +47,7 @@ local function AimAt(target)
 		local aimPosition = target.Character[_G.AimPart].Position
 		local direction = (aimPosition - Camera.CFrame.Position).unit
 		local newCFrame = CFrame.new(Camera.CFrame.Position, Camera.CFrame.Position + direction)
-
-		-- Instant lock-on with optional smoothing
+		
 		Camera.CFrame = Camera.CFrame:Lerp(newCFrame, _G.Smoothness)
 	end
 end
