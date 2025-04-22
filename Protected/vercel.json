@@ -1,15 +1,9 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "api/script.js",
-      "use": "@vercel/node"
-    }
+    { "src": "Protected/apiscript.js", "use": "@vercel/node" }
   ],
   "routes": [
-    {
-      "src": "/api/script",
-      "dest": "api/script.js"
-    }
+    { "src": "/api/script", "dest": "Protected/apiscript.js" }
   ]
 }
