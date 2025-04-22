@@ -10,7 +10,7 @@ export default function handler(req, res) {
   }
 
   // Load your Lua script from the file and send it as a response
-  const filePath = path.join(process.cwd(), 'script.lua');
+  const filePath = path.join(process.cwd(), 'Protected_1.lua');
   const script = fs.readFileSync(filePath, 'utf8');
 
   res.setHeader("Content-Type", "text/plain");
