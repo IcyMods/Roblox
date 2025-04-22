@@ -1,9 +1,0 @@
-{
-  "version": 2,
-  "builds": [
-    { "src": "Protected/apiscript.js", "use": "@vercel/node" }
-  ],
-  "routes": [
-    { "src": "/api/script", "dest": "Protected/apiscript.js" }
-  ]
-}
