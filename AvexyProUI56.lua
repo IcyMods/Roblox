@@ -3,6 +3,8 @@
 
 -- Instances:
 
+-- Avexy's gui source code for ui library, not finished.
+
 local AvexyPro1 = Instance.new("ScreenGui")
 local AvexyFrame = Instance.new("Frame")
 local Exit = Instance.new("TextButton")
