@@ -355,29 +355,29 @@ local function DragUI(gui)
 
 		-- Create the tween to smoothly update the position
 		local tween = TweenService:Create(gui, dragTweenInfo, {Position = newPos})
-		tween:Play()  -- Play the animation
+		tween:Play()  
 	end
 
 	-- Listen for when the user clicks on the GUI
 	gui.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
 			dragging = true
-			dragStart = input.Position  -- Record where the drag started
-			startPos = gui.Position  -- Record the starting position of the GUI
+			dragStart = input.Position  
+			startPos = gui.Position
 		end
 	end)
 
 	-- Listen for when the user moves the mouse while dragging
 	UserInputService.InputChanged:Connect(function(input)
 		if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-			update(input)  -- Update position of the UI smoothly while dragging
+			update(input) 
 		end
 	end)
 
 	-- Listen for when the user releases the mouse button
 	gui.InputEnded:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			dragging = false  -- Stop dragging when the mouse button is released
+			dragging = false 
 		end
 	end)
 end
@@ -389,7 +389,7 @@ local AvexyPro = {}
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
-local userId = player.UserId -- Get the player's UserId
+local userId = player.UserId 
 local thumbType = Enum.ThumbnailType.HeadShot
 local thumbSize = Enum.ThumbnailSize.Size420x420
 local content, isReady = Players:GetUserThumbnailAsync(userId, thumbType, thumbSize)
@@ -438,7 +438,7 @@ function AvexyPro:CreateWindow(Name)
 	PlayerName.Parent = AvexyFrame
 
 	if isReady then
-		Profile.Image = content -- Set the profile picture
+		Profile.Image = content
 	end
 	
 	Profile.BackgroundTransparency = 1
@@ -798,18 +798,18 @@ function AvexyPro:CreateWindow(Name)
 		}
 
 		function TabObject:CreateButton(options)
-			local newButton = Instance.new("TextButton") -- Create a new button instance
+			local newButton = Instance.new("TextButton") 
 			newButton.Name = "Button"
-			newButton.Parent = self.Instance -- Correctly parent it to the tab
+			newButton.Parent = self.Instance
 			newButton.AnchorPoint = Vector2.new(0.5, 0.5)
 			newButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			newButton.BorderSizePixel = 0
-			newButton.Position = UDim2.new(0.5, 0, 0.1, 0) -- Center it in the tab
-			newButton.Size = UDim2.new(0.8, 0, 0.1, 0) -- Proper button size
+			newButton.Position = UDim2.new(0.5, 0, 0.1, 0) 
+			newButton.Size = UDim2.new(0.8, 0, 0.1, 0)
 			newButton.Visible = true
 			newButton.AutoButtonColor = false
 			newButton.Font = Enum.Font.FredokaOne
-			newButton.Text = options.Name or "Button" -- Set the button name
+			newButton.Text = options.Name or "Button" 
 			newButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 			newButton.TextSize = 20
 			newButton.BackgroundTransparency = 0.1
