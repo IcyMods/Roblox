@@ -1,4 +1,4 @@
-[[
+--[[
 
 key system for avexy's roblox scripts ( faster, stable and secured )
 
