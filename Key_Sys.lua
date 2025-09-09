@@ -2,7 +2,7 @@
 
 key system for avexy's roblox scripts ( faster, stable and secured )
 
-This key system has Runtime updates when we add a new feature or a fix any issues, it will update the key system from here then it will update across all of Avexy's roblox scripts, this is very easy and fast instead of our old one where we had to update it for each individual script which was very slow and not great tbh.
+This key system has runtime updates | when we add a new feature or a fix any issues it will update the key system from here then it will update across all of Avexy's roblox scripts, this is very easy and fast instead of our old one where we had to update it for each individual script which was very slow and not great tbh.
 
 ]]
 
