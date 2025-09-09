@@ -1,4 +1,4 @@
-[[
+--[[
 
 This is the loader for every script on this github and no you cannot load these scripts freely cause you would need to load the key system first since we have a bypass check.
 
